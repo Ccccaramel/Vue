@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>循环语句</title>
+    <script src="D:/GitHub/Vue/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        v-for
+        
+     -->
+    <div id="div1">
+        <ol>
+            <li v-for="site in sites">
+                {{site.name}}
+            </li>
+        </ol>
+    </div>
+    <script>
+        new Vue({
+            el: '#div1',
+            data: {
+                sites: [
+                    { name: 'a' },
+                    { name: 'b' },
+                    { name: 'c' },
+                    { name: 'd' }
+                ]
+            }
+        })
+    </script>
+    <div id="div2">
+        <ul>
+            <li v-for="value in object">{{value}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#div2',
+            data: {
+                object: {
+                    name: 'vue',
+                    url: 'https://cn.vuejs.org/index.html',
+                    discation: '渐进式框架'
+                }
+            }
+        })
+    </script>
+    <div id="div3">
+        <ul>
+            <li v-for="(value,key) in object">{{key}}:{{value}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#div3',
+            data: {
+                object: {
+                    name: 'vue',
+                    url: 'https://cn.vuejs.org/index.html',
+                    discation: '渐进式框架'
+                }
+            }
+        })
+    </script>
+    <div id="div4">
+        <ul>
+            <li v-for="(value,key,index) in object">{{index}}.{{key}}:{{value}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: '#div4',
+            data: {
+                object: {
+                    name: 'vue',
+                    url: 'https://cn.vuejs.org/index.html',
+                    discation: '渐进式框架'
+                }
+            }
+        })
+    </script>
+    <div id="div5">
+        <ol>
+            <li v-for="n in 10">{{n}}</li>
+        </ol>
+    </div>
+    <script>
+        new Vue({
+            el:'#div5'
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>模板语法</title>
+    <script src="D:/GitHub/Vue/vue.js"></script>
+    <!-- <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script> -->
+</head>
+
+<body>
+    <h3>文本插值</h3>
+    <div id="div1">
+        <p>{{message1}}</p>
+        <p>{{message2}}</p>
+        <p>{{message3()}}</p>
+    </div>
+    <div id="div2">
+        <p>message4:{{message4}}</p>
+        <p>message5:{{message5}}</p>
+        <p>message6:{{message6}}</p>
+    </div>
+    <script>
+        new Vue({
+            el: '#div1',
+            data: {
+                message1: 'hi Vue.js',
+                message2: 'hello Vue.js'
+            },
+            methods: {
+                message3: function () {
+                    return this.message1 + ',' + this.message2;
+                }
+            }
+        });
+        var data = { message4: "m4", message5: "m5", message6: "m6" }
+        var vm = new Vue({
+            el: '#div2',
+            data: data
+        });
+        document.write(vm.$data === data)
+        document.write("<br>")
+        document.write(vm.$el === document.getElementById('div2'))
+    </script>
+    <h3>使用 v-html 指令输出 html 代码</h3>
+    <div id="div3">
+        <div v-html="message7"></div>
+    </div>
+    <script>
+        new Vue({
+            el: '#div3',
+            data: {
+                message7: '<h4>v-html.</h4>'
+            }
+        });
+    </script>
+    <h3>试用 v-bind 指令设置属性的值</h3>
+    <div id="div4">
+        <label for="label1">修改颜色</label>
+        <input type="checkbox" v-model="use" id="label1">
+        <div v-bind:class="{'class1':use}">v-bind:class 指令</div>
+        <!-- true:使用该样式,false:不使用该样式 -->
+    </div>
+    <style>
+        .class1 {
+            background: #444;
+            color: #eee;
+        }
+    </style>
+    <script>
+        new Vue({
+            el: '#div4',
+            data: {
+                use: true
+            }
+        });
+    </script>
+    <h3>Vue 提供了完全的 JavaScript 表达式支持</h3>
+    <div id="div5">
+        {{5+5}}<br>
+        {{ok1?'YES':'NO'}}<br>
+        {{message8.split('').reverse().join('')}}
+        <!-- join() 方法用于把数组中的所有元素转换一个字符串 -->
+        <!-- 可选参数,指定使用的分隔符,如果省略该参数则使用逗号作为分隔符 -->
+        <div v-bind:id="'list-'+id">支持 JS 表达式</div>
+    </div>
+    <script>
+        new Vue({
+            el: '#div5',
+            data: {
+                ok1: true,
+                message8: 'VUE',
+                id: 3
+            }
+        });
+    </script>
+    <h3>指令</h3>
+    <div id="div6">
+        <p v-if="visible1">指令是带有 v- 前缀的特殊属性</p>
+    </div>
+    <script>
+        new Vue({
+            el: '#div6',
+            data: {
+                visible1: false
+            }
+        })
+    </script>
+    <h3>参数</h3>
+    <div id="div7">
+        <pre>
+            <a v-bind:href="url1">点击跳转</a>
+        </pre>
+    </div>
+    <script>
+        new Vue({
+            el: '#div7',
+            data: {
+                url1: 'http://www.github.com/Ccccaramel'
+            }
+        })
+    </script>
+    <h3> v-on 指令</h3>
+    <div id="div8">
+        <button v-on:click="button1" value="按钮">按钮</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#div8',
+            data: {
+                bValue1: "123"
+            },
+            methods: {
+                button1: function (event) {
+                    alert(event.value)
+                }
+            }
+        })
+    </script>
+    <h3>过滤器</h3>
+    <div id="div9" v-bind:class="message9 | capitalize1 | capitalize2">
+        {{message9|capitalize1}}<br>
+        <!-- 用 | 分隔,第一个是表达式,第二个是过滤器,过滤器可有多个 -->
+        <!-- 过滤器函数接受表达式的值作为第一个参数 -->
+        <!-- 即将 message9 作为过滤器 capitalize1 的参数 -->
+        {{message10|capitalize3('text',message11)}}
+        <!-- message10 是过滤器的第一个参数,'text'是第二个, message11 是第三个 -->
+    </div>
+    <style>
+        .class2 {
+            background: #f80303;
+        }
+
+        .class3 {
+            background: rgb(102, 255, 102);
+        }
+    </style>
+    <script>
+        new Vue({
+            el: '#div9',
+            data: {
+                message9: '3',
+                message10: 'message10',
+                message11: 'message11'
+            },
+            filters: {
+                capitalize1: function (value1) {
+                    if (value1 / 2 === 1) {
+                        return '奇数'
+                    } else {
+                        return '偶数'
+                    }
+                },
+                capitalize2: function (value1) {
+                    if (value1 === '奇数') {
+                        return 'class2'
+                    } else {
+                        return 'class3'
+                    }
+                },
+                capitalize3: function (value1, value2, value3) {
+                    return 'capitalize3:' + value1.toString() + '-' + value2.toString() + '-' + value3.toString()
+                }
+            }
+        })
+    </script>
+    <h3>缩写</h3>
+    <div id="div10">
+        <a v-bind:href="url">link1</a>
+        <a :href="url">link2</a>
+        <br>
+        <button v-on:click="fun2" value="1">button1</button><br>
+        <button @click="fun2" value="2">button2</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#div10',
+            data: {
+                url: 'https://www.baidu.com'
+            },
+            methods:{
+                fun2:function(event){
+                    alert("success!"+event.target.attributes.value.value)
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

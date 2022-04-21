@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>样式绑定</title>
+    <script src="D:/GitHub/Vue/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        v-bind
+     -->
+    <h3>使用 v-bind 设置样式属性</h3>
+    <div id="div1">
+        <div v-bind:class="{'class1':isActive1,'class2':isActive1}"></div>
+        <!-- class1 指样式选择器的名称,isActive1 表示是否启用该样式 -->
+    </div>
+    <style>
+        .class1 {
+            background: rgb(99, 240, 141);
+            width: 300px;
+            height: 300px;
+        }
+
+        .class2 {
+            background: rgb(217, 231, 92);
+        }
+
+        /* class2 覆盖了 class1 的背景色样式 */
+    </style>
+    <script>
+        new Vue({
+            el: '#div1',
+            data: {
+                isActive1: true
+            }
+        })
+    </script>
+    <h3>v-bind 绑定对象</h3>
+    <div id="div2">
+        <div v-bind:class="active3"></div>
+    </div>
+    <style>
+        .class3 {
+            width: 300px;
+            height: 300px;
+        }
+
+        .class4 {
+            background: rgb(233, 56, 56);
+        }
+    </style>
+    <script>
+        new Vue({
+            el: '#div2',
+            data: {
+                active3: {
+                    class3: true,
+                    'class4': true
+                }
+            }
+        })
+    </script>
+    <h3>绑定返回对象的计算属性</h3>
+    <div id="div3">
+        <div v-bind:class="active4"></div>
+    </div>
+    <style>
+        .class5{
+            width: 300px;
+            height: 300px;
+        }
+        .class6{
+            background: rgb(123, 241, 94);
+        }
+        .class7{
+            background: rgb(94, 145, 241);
+        }
+    </style>
+    <script>
+        new Vue({
+            el:'#div3',
+            data:{
+                value1:true,
+                error1:{
+                    value2:true,
+                    type:'fatal'
+                }
+                
+            },
+            computed:{
+                active4:function(){
+                    return {
+                        class5:true,
+                        class6:this.value1 && !this.error1.value2,
+                        class7:this.error1.value2 && this.error1.type==='fatal'
+                    }
+                }
+            }
+        })
+    </script>
+    <h3>把数组传递给 v-bind:class</h3>
+    <div id="div4">
+        <div v-bind:class="[class8,value2?class9:class10]"></div>
+    </div>
+    <style>
+        .class8{
+            width:300px;
+            height: 300px;
+            background: green;
+        }
+        .class9{
+            background: red;
+        }
+        .class10{
+            background: rgb(194, 243, 114);
+        }
+    </style>
+    <script>
+        new Vue({
+            el:'#div4',
+            data:{
+                value2:false,
+                class8:'class8',
+                class9:'class9',
+                class10:'class10'
+            }
+        })
+    </script>
+    <div id="div5">
+        <div v-bind:style="{color:color1,fontSize:fontSize1+'px'}">v-bind:style 设置样式</div>
+        <div v-bind:style="[style1,style2]">使用数组将多个样式对象应用到一个元素上</div>
+    </div>
+    <script>
+        new Vue({
+            el:'#div5',
+            data:{
+                color1:'#66ccff',
+                fontsize1:30,
+                style1:{
+                    color:"blue",
+                    fontSize:'30px'
+                },
+                style2:{
+                    'font-weight':'bold'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+    <script src="D:/GitHub/Vue/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        props
+          prop 是单向绑定的
+     -->
+    <p>
+        组件可以扩展 HTML 元素,封装可重用的代码
+    </p>
+    <div id="div1">
+        <h3>自定义组件</h3>
+        <ding></ding>
+        <dong></dong>
+    </div>
+    <script>
+        Vue.component('ding', {
+            template: '<h5>全局组件</h5>'
+        })
+        var child = {
+            template: '<h5>自定义组件</h5>'
+        }
+        new Vue({
+            el: '#div1',
+            components: {
+                'dong': child
+            }
+        })
+    </script>
+    <!-- ********** -->
+    <h3>prop 是子组件用来接受父组件传递过来的数据的一个自定义属性</h3>
+    <div id="div2">
+        <child1 message="hello!"></child1>
+        <!-- chaild 自定义组件, message 是自定义属性 -->
+    </div>
+    <script>
+        // 注册一个全局组件 child1
+        Vue.component('child1', {
+            props: ['message'],
+            template: '<span>{{message}}</span>'
+        })
+        new Vue({
+            el: "#div2"
+        })
+    </script>
+    <!-- ********** -->
+    <h3>动态 prop</h3>
+    <div id="div3">
+        <div>
+            <input v-model="parentMsg">
+            <br>
+            <child2 v-bind:message="parentMsg"></child2>
+        </div>
+    </div>
+    <script>
+        // 注册一个全局组件 child2
+        Vue.component('child2', {
+            props: ['message'],
+            template: '<span>{{message}}</span>'
+        })
+        new Vue({
+            el: '#div3',
+            data: {
+                parentMsg: '父组件内容'
+            }
+        })
+    </script>
+    <!-- ********** -->
+    <h3>动态 prop</h3>
+    <div id="div4">
+        <ol>
+            <todo-item v-for="item in sites" v-bind:todo="item"></todo-item>
+            <!-- todo 绑定 item -->
+        </ol>
+    </div>
+    <script>
+        // 注册一个全局组件 todo-item
+        Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{todo.text}}</li>'
+        })
+        new Vue({
+            el: '#div4',
+            data: {
+                sites: [
+                    { text: 'C' },
+                    { text: 'C++' },
+                    { text: 'Java' }
+                ]
+            }
+        })
+    </script>
+    <!-- ********** -->
+    <h3>prop 验证</h3>
+    <h4>组件可以为 props 指定验证要求</h4>
+    <h4>你可以为 props 中的值提供一个带有验证需求的对象,而不是一个字符串数组</h4>
+    <h4>组件可以为 props 指定验证要求</h4>
+    <h4>不要使用以 prop 开头的命名方式</h4>
+    <div id="div5">
+        <xxx :pa="11" :pb="12e10" :pc="'123'" :pe="{a:'a',b:'b'}" :pf="'warning'"></xxx>
+    </div>
+    <script>
+        Vue.component('xxx', {
+            props: {
+                pa: Number,
+                pb: [String, Number],
+                pc: {
+                    type: String,
+                    required: false
+                },
+                pd: {
+                    type: Number,
+                    default: 100
+                },
+                pe: {
+                    type: Object,
+                    default: function () {
+                        return { parentMessage: 'hi' }
+                    }
+                },
+                pf: {
+                    validator: function (value) {
+                        return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                    }
+                }
+            },
+            template: '<div>' +
+                '<p>pa:{{pa}}</p>' +
+                '<p>pb:{{pb}}</p>' +
+                '<p>pc:{{pc}}</p>' +
+                '<p>pd:{{pd}}</p>' +
+                '<p>pe:{{pe}}</p>' +
+                '<p>pf:{{pf}}</p>' +
+                '</div>'
+        })
+        new Vue({
+            el:'#div5'
+        });
+    </script>
+    <hr>
+</body>
+
+</html>

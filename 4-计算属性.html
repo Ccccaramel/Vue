@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>计算属性</title>
+        <script src="D:/GitHub/Vue/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            computed
+              get
+              set
+            处理一些复杂逻辑
+         -->
+        <div id="div1">
+            {{message1.split('').reverse().join('')}}
+        </div>
+        <script>
+            new Vue({
+                el:'#div1',
+                data:{
+                    message1:'ABC'
+                }
+            })
+        </script>
+        <div id="div2">
+            <p>原始字符串:{{message2}}</p>
+            <p>计算后反转字符串:{{message3}}</p>
+        </div>
+        <script>
+            var vm = new Vue({
+                el:'#div2',
+                data:{
+                    message2:"abcd"
+                },
+                computed:{
+                    message3:function(){
+                        return this.message2.split('').reverse().join('')
+                    }
+                }
+                /**
+                 * 将 message3 声明为计算属性
+                 * 提供的函数将作用属性 vm.message3 的 getter
+                 * vm.message3 依赖于 vm.message2,在 vm.message2 发生改变时 vm.message3 也会更新
+                 **/
+            })
+        </script>
+        <!-- 
+            computed 与 methods
+            两者效果是一样的
+            但是 computed 是基于它的依赖缓存,只有相关依赖发生改变时才会重新取值
+            而 methods 在重新渲染的时候函数总会重新调用执行
+            computed 新能更好,但如果不希望缓存也可使用 methods 属性
+         -->
+        <div id="div3">
+            <p>{{message4}}</p>
+        </div>
+        <script>
+            var vm1=new Vue({
+                el:'#div3',
+                data:{
+                    name:'baidu',
+                    url:'https://www.baidu.com'
+                },
+                computed:{
+                    message4:{
+                        get:function(){ // getter,为表达式赋值
+                            console.log('get:'+this.name+' '+this.url)
+                            return this.name+' '+this.url
+                        },
+                        set:function(newValue){ // setter,额外提供,后执行
+                            console.log('newValue:'+newValue)
+                            var names=newValue.split(' ')
+                            // name 和 url 被重新赋值
+                            this.name=names[0]
+                            this.url=names[names.length-1]
+                        }
+                    }
+                }
+            })
+            document.write('<h3>调用set前</h3>');
+            document.write('name:'+vm1.name);
+            document.write('<br>');
+            document.write('url:'+vm1.url);
+            vm1.message4='github https://www.github.com' // 重新赋值,先调用调用 set ,于是name 和 url 被重新赋值,再调用 get ,于是 baidu 被替换为 github
+            document.write('<h3>调用set后</h3>');
+            document.write('name:'+vm1.name);
+            document.write('<br>');
+            document.write('url:'+vm1.url);
+        </script>
+    </body>
+</html>

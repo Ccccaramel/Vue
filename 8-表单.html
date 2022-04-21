@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+    <script src="D:/GitHub/Vue/vue.js"></script>
+</head>
+
+<body>
+    <!-- 
+        v-model
+        使用 v-model 指令在表单控件元素上创建双向数据绑定
+     -->
+    <div id="div1">
+        <input v-model="message1" placeholder="请编辑">
+        <p>消息是:{{message1}}</p>
+        <p>textarea:元素</p>
+        <p style="white-space: pre;">{{message2}}</p>
+        <textarea v-model="message2" placeholder="文本输入"></textarea>
+    </div>
+    <script>
+        new Vue({
+            el: '#div1',
+            data: {
+                message1: 'message1',
+                message2: 'message2'
+            }
+        })
+    </script>
+    <div id="div2">
+        <input type="checkbox" id="checkbox1" v-model="checked1">
+        <label for="checkobx">{{checked1}}</label>
+        <input type="checkbox" id="chekbox2" value="A" v-model="checkedNames1">
+        <label for="checkobx2">A</label>
+        <input type="checkbox" id="chekbox3" value="B" v-model="checkedNames1">
+        <label for="checkobx3">B</label>
+        <input type="checkbox" id="chekbox4" value="C" v-model="checkedNames1">
+        <label for="checkobx4">C</label>
+        <br>
+        <span>你的选择:{{checkedNames1}}</span>
+        <hr>
+        <input type="radio" id="a" value="a" v-model="checkedNames2">
+        <label for="a">a</label>
+        <input type="radio" id="b" value="b" v-model="checkedNames2">
+        <label for="b">b</label>
+        <br>
+        <span>你的选择:{{checkedNames2}}</span>
+    </div>
+    <script>
+        new Vue({
+            el: '#div2',
+            data: {
+                checked1: false,
+                checkedNames1: [],
+                checkedNames2: []
+            }
+        })
+    </script>
+    <div id="div3">
+        <select v-model="select1" name="fruit">
+            <option value="">选择一项</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <div id="div4">你的选择:{{select1}}</div>
+    </div>
+    <script>
+        new Vue({
+            el: '#div3',
+            data: {
+                select1: ''
+            }
+        })
+    </script>
+    <!-- 
+        修饰符
+        .lazy
+          默认情况下, v-model 在 input 事件中同步输入框的值与数据
+          但你可以添加一个修饰符 lazy 从而转变为在 change 事件中同步
+        .number
+          自动将用户的输入值转为 Number 类型(如果原值的转换结果为 NaN 则返回原值)
+        .trim
+          自动过滤用户输入的首尾空格
+     -->
+    <h3>修饰符</h3>
+    <div id="div5">
+        <input v-model.lazy="msg1"><br>
+        <span>msg1(输入框失去焦点后更新,下同):{{msg1}}</span><br>
+        <input v-model.number="msg2" type="number"><br>
+        <span>msg2(转为 Number 类型,):{{msg2}}</span><br>
+        <input v-model.trim="msg3"><br>
+        <span>msg3(过滤首尾空格):{{msg3}}</span>
+    </div>
+    <script>
+        new Vue({
+            el: '#div5',
+            data: {
+                msg1: '',
+                msg2: 0,
+                msg3: ''
+            }
+        })
+    </script>
+</body>
+
+</html>

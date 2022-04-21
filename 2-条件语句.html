@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>条件语句</title>
+        <script src="D:/GitHub/Vue/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            v-if
+            v-else-if
+            v-else
+         -->
+        <h3>v-if</h3>
+        <div id="div1">
+            <p v-if="ok">123</p>
+            <p v-if="ok">123
+                <p>v-if 指令根据表达式的值来决定是否插入元素</p>
+            </p>
+            <p v-show="show">使用 v-show 指令来根据条件展示元素</p>
+        </div>
+        <script>
+            new Vue({
+                el:'#div1',
+                data:{
+                    ok:false, // 仅对本层有效,对里层无效
+                    show:true
+                }
+            })
+        </script>
+        <h3>v-else</h3>
+        <div id="div2">
+            <div v-if="Math.random()>0.5">
+                Math.random()&gt;0.5
+            </div>
+            <div v-else>
+                Math.random()&lt;0.5
+            </div>
+        </div>
+        <script>
+            new Vue({
+                el:'#div2'
+            })
+        </script>
+        <div id="div3">
+            <div v-if="value1=='A'">
+                A
+            </div>
+            <div v-else-if="value1=='B'">
+                B
+            </div>
+            <div v-else>
+                C
+            </div>
+        </div>
+        <script>
+            new Vue({
+                el:'#div3',
+                data:{
+                    value1:'B'
+                }
+            })
+        </script>
+    </body>
+</html>

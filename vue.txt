@@ -1,0 +1,144 @@
+首先需要安装 node.js
+  记得查看是否有配置全局变量
+  查看 node 版本
+    node -v
+  node 自带 npm
+  查看 npm 版本
+    npm -v
+  升级 npm
+    npm install -g npm
+    (若报错 permission denied,使用sudo npm install -g npm)
+  
+配置环境
+  按需选择合适的空目录
+  cmd 进入该目录命令行界面
+  安装最新稳定版 
+    npm install vue -g
+    -g:全局配置
+  安装 vue-cli 脚手架构建工具
+    vue-cli 2.x 版本
+      npm install --global vue-cli
+    vue-cli 3.x 或更高版本
+      npm install -g @vue/cli
+  如何卸载?
+    vue-cli 2.x 版本
+      npm uninstall -g vue-cli
+    vue-cli 3.x 或更高版本
+      npm uninstall -g vue/cli
+  查看 vue 版本
+    vue -V
+  安装 webpack
+    npm install --global webpack
+    npm install --global webpack-cli
+  查看 webpack 版本
+    webpack -v
+
+创建 vue 项目
+    vue-cli 2.x 版本
+      vue init webpack [新项目名称]
+    vue-cli 3.x 或更高版本
+      vue create [新项目名称]
+  创建过程中有一个选择:Use ESLint to lint your code? (Y/n),在这一步我们选择 N
+  其它一直回车即可
+  先进入你的项目下
+    cd [新项目名称]
+  运行项目
+    vue-cli 2.x 版本
+      npm run dev
+    vue-cli 3.x 或更高版本
+      npm run serve
+  优化创建生产构建(按需操作)
+    创建生产构建
+      npm run build
+  为将之前的项目改成 springboot+vue 项目,那么安装 bootstrap 的版本就必须一致
+  以 bootstrap4.1.3 为例,安装时需要指定版本
+    npm install --save bootstrap@4.1.3
+  另外还需安装 jquery popper.js axios ,注意指定版本
+    npm install --save jquery@3.2.1
+    npm install --save popper.js@1.15.0
+    npm install --save axios
+  ******
+  随便粘贴了一个悬浮窗组件,点击无效,弄了半天,以为是自己的问题,最后得出结论:原来是组件与 vue 的问题!
+  不甘心啊,又试了试下拉菜单没问题,唯独悬浮窗有问题,我猜测是文档版本的问题,当时看的是4版本的最新版本
+  换了文档依旧不行,然后有又怀疑是自己的问题,猜测是不是使用这个组件有什么前提条件
+  毕竟我使用 bootstrap 都是导入后两眼一闭 Ctrl+C Ctrl+V 
+  然后一直往上翻,看到了一个熟悉的单词 popper ,这不是我安装过的东西吗?!!!!
+  Ctrl+C Ctrl+V 解决了
+  ******
+  当然你也可以试试 BootstrapVue ,但同样需要 Bootstrap
+    npm install bootstrap-vue bootstrap axios
+  在 main.js 添加如下代码
+    import 'bootstrap/dist/css/bootstrap.css'
+    import 'bootstrap-vue/dist/bootstrap-vue.css'
+  在 HelloWorld.vue 添加 bootstrap 语句
+    <div class="alert alert-primary" role="alert">
+      This is a primary alert—check it out!
+    </div>
+  运行项目查看是否成功
+
+Q:关闭项目
+A:Ctrl+C (连按2次)
+
+命令参数
+　　--save:将保存配置信息到 package.json 默认为 dependencies 节点中(生产)
+　　--dev:将保存配置信息到 devDependencies 节点中(测试)
+　　--save:将保存配置信息到 package.json 的 dependencies 节点中
+　　--save-dev:将保存配置信息到 package.json 的 devDependencies 节点中
+　　dependencies:运行时的依赖,发布后,生产环境下需要用的模块(生产)
+　　devDependencies:开发时的依赖,开发时使用,发布时用不到它(测试)
+
+Q:安装模块
+A:npm install --save-dev [模块]
+  npm install --save-dev [模块]@[版本号]
+  npm install --save [模块]@[版本号]
+
+Q:卸载模块
+A:删除模块,但不删除模块留在 package.json 中的对应信息
+　　npm uninstall [模块]
+  删除模块,同时删除模块留在 package.json 中 dependencies 下的对应信息
+　　npm uninstall [模块] --save
+  删除模块,同时删除模块留在 package.json 中 devDependencies 下的对应信息
+　　npm uninstall [模块] --save-dev 
+
+4.1.3
+
+Router
+  安装路由
+    npm install vue-router@4
+  引入以及注册,打开 main.js
+    
+less-loader
+  npm install --save less less-loader@5
+  
+
+Q:报错:Component name "[自定义 vue 文件]" should always be multi-word  vue/multi-word-component-names
+A:在 vue.config.js 的 defineConfig 中添加 lintOnSave: false
+
+lintOnSave
+  检查代码的工具
+  设置是否在开发环境下每次保存代码时都启用 eslint验证
+  value 值:
+    false:关闭 elsint 检测
+    true:开启每次保存都进行检测,效果与warning一样
+    'warning':开启每次保存都进行检测, lint 报错信息将显示到控制台命令行,编译并不会失败
+    'default':开启每次保存都进行检测, lint 报错信息将显示到浏览器页面上,且编译失败
+    'error':开启每次保存都进行检测, lint 报错信息以及警告信息将显示到浏览器页面上,且编译失败
+
+npm
+  Nodejs下的包管理器
+webpack
+  它主要的用途是通过 CommonJS 的语法把所有浏览器端需要发布的静态资源做相应的准备
+  比如资源的合并和打包
+vue-cli
+  用户生成Vue工程模板
+  帮你快速开始一个 vue 的项目,也就是给你一套 vue 的结构,包含基础的依赖库
+  只需要 npm install 就可以安装
+
+
+Q:如何在浏览器中打开 VSCode 的 html ? 
+A:在 VSCode 中搜索并安装组件 open in browser , Alt+B 即可在默认浏览器中打开
+
+灵活运用 var that = this;
+
+创建 Vue 项目后记得删除 App.vue 里的样式!
+

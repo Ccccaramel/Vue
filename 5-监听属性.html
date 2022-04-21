@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>监听属性</title>
+        <script src="D:/GitHub/Vue/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+            @click
+            watch
+         -->
+        <p>监听属性 watch</p>
+        <div id="div1">
+            <p style="font-size: 25px;">计数器:{{counter1}}</p>
+            <button @click="counter1++" style="font-size: 25px;">click</button>
+        </div>
+        <script>
+            var vm=new Vue({
+                el:'#div1',
+                data:{
+                    counter1:1
+                }
+            });
+            vm.$watch('counter1',function(v1,v2){
+                alert('计数器值的变化:'+v2+'变为'+v1+'!')
+            })
+        </script>
+        <div id="div2">
+            千米:<input type="text" v-model="kilometers">
+            米:<input type="text" v-model="meters">
+        </div>
+        <p id="p1"></p>
+        <script>
+            var vm=new Vue({
+                el:'#div2',
+                data:{
+                    kilometers:0,
+                    meters:0
+                },
+                // methods:{},
+                // computed:{},
+                watch:{
+                    kilometers:function(val){
+                        this.kilometers=val;
+                        this.meters=this.kilometers*1000;
+                    },
+                    meters:function(val){
+                        this.kilometers=val/1000;
+                        this.meters=val;
+                    }
+                }
+            });
+            vm.$watch('kilometers',function(newValue,oldValue){
+                document.getElementById('p1').innerHTML="修改前的值:"+oldValue+",修改后的值:"+newValue
+            })
+        </script>
+    </body>
+</html>

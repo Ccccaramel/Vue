@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+    <script src="D:/GitHub/Vue/vue.js"></script>
+</head>
+
+<body>
+    <h3>父组件是使用 props 传递数据给子组件,但如果子组件要把数据传递回去,就需要使用自定义组件</h3>
+    <h3>我们可以使用 v-on 绑定自定义组件,每个 Vue 实例都实现了事件接口</h3>
+    <h3>&nbsp;&nbsp;1.使用 $on(eventName) 监听事件</h3>
+    <h3>&nbsp;&nbsp;2.使用 $emit(eventName) 触发事件</h3>
+    <div id="div1">
+        <div id="div2">
+            <p>{{total}}</p>
+            <button-counter1 v-on:increment="incrementTotal1"></button-counter1>
+            <button-counter1 v-on:increment="incrementTotal1"></button-counter1>
+            <br>
+            <button-counter2></button-counter2>
+            <button-counter2></button-counter2>
+            <button-counter2></button-counter2>
+        </div>
+    </div>
+    <script>
+        // 注册一个全局组件 button-counter1
+        Vue.component('button-counter1', {
+            template: '<button v-on:click="incrementHandler">{{counter}}</button>',
+            data: function () {
+                return {
+                    counter: 0
+                }
+            },
+            // data 是一个函数
+            //每个实例可以维护一份被返回对象的独立的拷贝,如果是对象则会影响其它实例
+            methods: {
+                incrementHandler: function () {
+                    this.counter += 1
+                    this.$emit('increment')
+                }
+            },
+        })
+        // 
+        var buttonCounter2Data = {
+            count: 0
+        }
+        Vue.component('button-counter2', {
+            data: function () {
+                return buttonCounter2Data;
+            },
+            template: '<button v-on:click="count++">{{count}}</button>'
+        })
+        new Vue({
+            el: '#div2',
+            data: {
+                total: 0
+            },
+            methods: {
+                incrementTotal1: function () {
+                    this.total += 1
+                }
+            }
+        })
+    </script>
+    <h3>自定义组件 v-model</h3>
+    <div id="div3">
+        <xyz v-model="num"></xyz>
+        <p>输入的数字:{{num}}</p>
+    </div>
+    <script>
+        Vue.component('xyz',{
+            template:`<input ref="input" :value="value" @input="$emit('input',$event.target.value)" >`,
+            props:['value']
+        })
+        new Vue({
+            el:'#div3',
+            data:{
+                num:100
+            }
+        })
+    </script>
+    <div id="div4">
+        <base-checkbox v-model="lovingVue"></base-checkbox>
+        <div v-show="lovingVue">
+            不勾选不显示
+        </div>
+    </div>
+    <script>
+        Vue.component('base-checkbox',{
+            model:{
+                prop:'checked',
+                event:'change'
+            },
+            // 声明 props
+            props:{
+                checked:Boolean
+            },
+            template:`<input type="checkbox" v-bind:checked="checked" v-on:change="$emit('change',$event.target.checked)">`
+        })
+        new Vue({
+            el:'#div4',
+            data:{
+                lovingVue:true
+            }
+        })
+    </script>
+</body>
+
+</html>
