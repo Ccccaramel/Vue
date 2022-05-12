@@ -106,7 +106,7 @@ Router
   安装路由
     npm install vue-router@4
   引入以及注册,打开 main.js
-    
+
 less-loader
   npm install --save less less-loader@5
   
