@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+.hyld-bg-01 {
+    --bs-bg-opacity: 1;
+    background-color:rgb(98, 205, 255);
+  }

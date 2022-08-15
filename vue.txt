@@ -5,10 +5,52 @@
   node 自带 npm
   查看 npm 版本
     npm -v
-  升级 npm
+  从外部导入项目升级 npm
     npm install -g npm
     (若报错 permission denied,使用sudo npm install -g npm)
-  
+
+创建 vue 项目
+    vue-cli 2.x 版本
+      执行命令
+        vue init webpack [新项目名称]
+      创建过程中有一个选择:Use ESLint to lint your code? (Y/n),在这一步我们选择 N
+      其它一直回车即可      
+    vue-cli 3.x 或更高版本(https://www.jb51.net/article/248936.htm)
+      执行命令  
+        vue create [新项目名称]
+      选择 Manually select features > Enter
+      选择插件,单击空格选中 Router 和 CSS Pre-processors > Enter
+      ...
+      详细配置如下
+        Vue CLI v5.0.8? Please pick a preset: Manually select features
+        ? Check the features needed for your project: Babel, Router, CSS Pre-processors, Linter
+        ? Choose a version of Vue.js that you want to start the project with 3.x
+        ? Use history mode for router? (Requires proper server setup for index fallback in
+        production) Yes
+        ? Pick a CSS pre-processor (PostCSS, Autoprefixer and CSS Modules are supported by
+        default): Less
+        ? Pick a linter / formatter config: Prettier
+        ? Pick additional lint features: Lint on save
+        ? Where do you prefer placing config for Babel, ESLint, etc.? In dedicated config files
+      把 package.json 里所有 eslint 依赖删除并 npm i
+      导入 bootstrap
+        npm install bootstrap
+        在 main.js 中添加如下语句
+          import "bootstrap/dist/css/bootstrap.min.css";
+          import "bootstrap";
+
+
+  先进入你的项目下
+    cd [新项目名称]
+  运行项目
+    vue-cli 2.x 版本
+      npm run dev
+    vue-cli 3.x 或更高版本
+      npm run serve
+  优化创建生产构建(按需操作)
+    创建生产构建
+      npm run build
+
 配置环境
   按需选择合适的空目录
   cmd 进入该目录命令行界面
@@ -30,33 +72,53 @@
   安装 webpack
     npm install --global webpack
     npm install --global webpack-cli
+    npm install --global webpack-dev-server
   查看 webpack 版本
     webpack -v
 
-创建 vue 项目
-    vue-cli 2.x 版本
-      vue init webpack [新项目名称]
-    vue-cli 3.x 或更高版本
-      vue create [新项目名称]
-  创建过程中有一个选择:Use ESLint to lint your code? (Y/n),在这一步我们选择 N
-  其它一直回车即可
-  先进入你的项目下
-    cd [新项目名称]
-  运行项目
-    vue-cli 2.x 版本
-      npm run dev
-    vue-cli 3.x 或更高版本
-      npm run serve
-  优化创建生产构建(按需操作)
-    创建生产构建
-      npm run build
-  为将之前的项目改成 springboot+vue 项目,那么安装 bootstrap 的版本就必须一致
+bootstrap-vue
+    npm install bootstrap-vue
+  注意官网介绍中提到的是 v4 版本
+    https://bootstrap-vue.org/docs
+  安装
+    npm install vue@2.6.1
+    npm install bootstrap@4.6.1
+    npm install popper.js@1.16.1
+    npm install portal-vue@2.1.7
+  以及
+    npm install axios
+  在 main.js 中配置
+    import BootstrapVue from 'bootstrap-vue'
+    Vue.use(BootstrapVue)
+    import PortalVue from 'portal-vue'
+    Vue.use(PortalVue)
+    import 'bootstrap/dist/css/bootstrap.min.css'
+    import 'bootstrap-vue/dist/bootstrap-vue'
+  使用 vue-cli 3.x 或更高版本
+
+
+为将之前的项目改成 springboot+vue 项目,那么安装 bootstrap 的版本就必须一致
   以 bootstrap4.1.3 为例,安装时需要指定版本
     npm install --save bootstrap@4.1.3
   另外还需安装 jquery popper.js axios ,注意指定版本
     npm install --save jquery@3.2.1
     npm install --save popper.js@1.15.0
     npm install --save axios
+  如果你是新项目就不用考虑版本问题
+    npm install bootstrap
+    npm install jquery
+    npm install popper.js
+    npm install axios
+  在 main.js 中导入
+    import 'bootstrap'
+    import $ from 'jquery'
+  在需要的使用的地方引用,也可以在 App.vue 中引用,全局都可以用
+    <script>
+      import 'bootstrap/dist/css/bootstrap.min.css'
+      import 'bootstrap/dist/js/bootstrap.min.js'
+      import axios from "axios"
+    </script>
+
   ******
   随便粘贴了一个悬浮窗组件,点击无效,弄了半天,以为是自己的问题,最后得出结论:原来是组件与 vue 的问题!
   不甘心啊,又试了试下拉菜单没问题,唯独悬浮窗有问题,我猜测是文档版本的问题,当时看的是4版本的最新版本
@@ -142,3 +204,71 @@ A:在 VSCode 中搜索并安装组件 open in browser , Alt+B 即可在默认浏
 
 创建 Vue 项目后记得删除 App.vue 里的样式!
 
+export default{
+  name: "home",
+  // 数据对象
+  data(){
+    return{
+      msg: "123"
+    };
+  },
+  // 组件,重复利用,记得导入
+  // import Head from "@/components/Head.vue";
+  components: {
+    Head
+  },
+  beforeCreate() {
+  },
+  methods: {
+    add() {}
+  },
+  created() {
+  },
+  // 挂载
+  // 真实 DOM 挂载之前
+  // 使用场景:预处理 data ,不会触发 update 钩子函数
+  beforeMount() {
+    // 重新改变data中的值
+    this.msg = "hello,world";
+  }
+  // 真实DOM挂载之后
+  // 此处可以获取到真实的DOM
+  mounted() {
+    console.log("beforeMount函数执行了----此时可以获取到真实DOM");
+    console.log(document.getElementById("myMsg"));
+  },
+  // 更新
+  // 更新之前
+  beforeUpdate() {
+    console.log("beforeUpdate函数执行了-----此时获取不到更新的真实DOM");
+    console.log(document.querySelectorAll("#myArr>li"));
+  },
+  // 更新之后
+  // 场景：获取更新真实DOM之后
+  updated() {
+    console.log("update函数执行了-----此时可以获取到更新的真实DOM");
+    console.log(document.querySelectorAll("#myArr>li"));
+  }
+}
+
+components是小组件
+containers是容器级组件
+views是页面级组件
+
+<router-view/>
+  在 App.vue 中,指向 router 中 index.js 的 path: "/" 页面 
+
+Q:如何修改 vue3 的 title ?
+A:在 vue.config.js 中添加如下配置
+    chainWebpack(config) {
+      config.plugin('html').tap((args) => { //标题
+        args[0].title = '在吗?';
+        return args;
+      })
+    }
+
+Q:指定端口
+A:在 vue.config.js 中添加如下配置
+    devServer:{
+  	  port: 8091
+    }
