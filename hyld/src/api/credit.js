@@ -8,10 +8,10 @@ export function getTeamMemberScoreboard(params){
     })
 }
 
-export function searchTeamMemberCredit(params){
+export function searchCreditBy(params){
     return request({
         method: 'GET',
-        url: '/credit/searchTeamMemberCredit',
+        url: '/credit/searchCreditBy',
         params: params
     })
 }
@@ -52,6 +52,22 @@ export function getSettlementTimeList(params){
     return request({
         method: 'GET',
         url:'/credit/getSettlementTimeList',
+        params: params
+    })
+}
+
+export function getTeamData(params){
+    return request({
+        method: 'GET',
+        url: '/credit/getTeamData',
+        params: params
+    })
+}
+
+export function getPlayerAllCreditRecord(params){
+    return request({
+        method: 'GET',
+        url: '/credit/getPlayerAllCreditRecord',
         params: params
     })
 }

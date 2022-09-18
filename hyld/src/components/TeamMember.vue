@@ -1,239 +1,256 @@
 <template>
     <div class="tab-pane fade" id="list-teamMember" role="tabpanel" aria-labelledby="list-teamMember-list">
-        <!-- 搜索条件 -->
-        <form class="row g-3 mt-1 mb-3">
-            <div class="col-auto">
-                <select class="form-select" v-model="teamMemberInfo.team">
-                    <option
-                        v-for="team in teamList"
-                        v-bind:key="team.team"
-                        :value="team.team">
-                        {{ team.team.name }}</option>
-                </select>
+        <div v-if="this.teamList.length==0">
+            <div class="alert alert-info" role="alert">
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat-fade /> -->
+                <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" bounce />
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" fade /> -->
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" flip /> -->
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" shake /> -->
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin /> -->
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin spin-reverse /> -->
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin-pulse /> -->
+                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/> -->
+                ~~>_&lt;~~你还没有关联任何战队,请先关联战队,然后为你的战队添加队员吧!
             </div>
-            <div class="col-auto">
-                <input type="text" class="form-control" v-model="teamMemberInfo.scid" placeholder="队员SCID标签">
+            <div class="col-md mb-2">
+                <div class="form-floating text-center" style="height: 640px;">
+                    <img src="../assets/null.jpg" class="rounded" style="height: 640px;" />
+                </div>
             </div>
-            <div class="col-auto">
-                <input type="text" class="form-control" v-model="teamMemberInfo.name" placeholder="队员名称">
-            </div>
-            <div class="col-auto">
-                <select class="form-select" v-model="teamMemberInfo.teamMemberStatusId">
-                    <option
-                        v-for="teamMemberStatus in teamMemberStatusList"
-                        v-bind:key="teamMemberStatus.id"
-                        :value="teamMemberStatus.id">
-                        {{ teamMemberStatus.name }}</option>
-                </select>
-            </div>
-            
-            <div class="col-auto">
-                <button type="button" class="btn btn-dark" @click="refreshSearchForm()">清空</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-dark" @click="searchTeamMemberBtn()">搜索</button>
-            </div>
-            <div class="col-auto">
-                <!-- 添加新队员 -->
-                <div class="container">
-                    <div class="row justify-content-start">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addNewTeamMemberModal">
-                            添加新队员
-                        </button>
-                        <div class="modal fade" id="addNewTeamMemberModal" tabindex="-1" aria-labelledby="addNewTeamMemberModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamMemberInfo.team.name}}</div>
-                                        <h5 class="modal-title" id="addNewTeamMemberModalLabel">添加新队员</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="was-validated" novalidate>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                <input type="text" class="form-control is-invalid" v-model="newTeamMemberInfo.scid" placeholder="newTeamMemberInfo_scid" required>
-                                                <label>队员SCID标签</label>
+        </div>
+        <div v-if="this.teamList.length>0">
+            <!-- 搜索条件 -->
+            <form class="row g-3 mt-1 mb-3">
+                <div class="col-auto">
+                    <select class="form-select" v-model="teamInfo">
+                        <option
+                            v-for="team in teamList"
+                            v-bind:key="team.team"
+                            :value="team.team">
+                            {{ team.team.name }}</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" v-model="teamMemberInfo.scid" placeholder="队员SCID标签">
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" v-model="teamMemberInfo.name" placeholder="队员名称">
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" v-model="teamMemberInfo.teamMemberStatusId">
+                        <option
+                            v-for="teamMemberStatus in teamMemberStatusList"
+                            v-bind:key="teamMemberStatus.id"
+                            :value="teamMemberStatus.id">
+                            {{ teamMemberStatus.name }}</option>
+                    </select>
+                </div>
+                
+                <div class="col-auto">
+                    <button type="button" class="btn btn-dark" @click="refreshSearchForm()">清空</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-dark" @click="searchTeamMemberBtn()">搜索</button>
+                </div>
+                <div class="col-auto">
+                    <!-- 添加新队员 -->
+                    <div class="container">
+                        <div class="row justify-content-start">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addNewTeamMemberModal">
+                                添加新队员
+                            </button>
+                            <div class="modal fade" id="addNewTeamMemberModal" tabindex="-1" aria-labelledby="addNewTeamMemberModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamInfo.name}}</div>
+                                            <h5 class="modal-title" id="addNewTeamMemberModalLabel">添加新队员</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="was-validated" novalidate>
+                                                <div class="col-md mb-2">
+                                                    <div class="form-floating">
+                                                    <input type="text" class="form-control is-invalid" v-model="newTeamMemberInfo.scid" placeholder="newTeamMemberInfo_scid" required>
+                                                    <label>队员SCID标签</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                <input type="text" class="form-control" v-model="newTeamMemberInfo.name" placeholder="newTeamMemberInfo_name" required>
-                                                <label>队员名称</label>
+                                                <div class="col-md mb-2">
+                                                    <div class="form-floating">
+                                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.name" placeholder="newTeamMemberInfo_name" required>
+                                                    <label>队员名称</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                <input step=1 type="datetime-local" class="form-control" v-model="newTeamMemberInfo.time" placeholder="newTeamMemberInfo_time"/>
-                                                <label>加入时间</label>
+                                                <div class="col-md mb-2">
+                                                    <div class="form-floating">
+                                                    <input step=1 type="datetime-local" class="form-control" v-model="newTeamMemberInfo.time" placeholder="newTeamMemberInfo_time"/>
+                                                    <label>加入时间</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <select class="form-select"  v-model="newTeamMemberInfo.joinWay">
-                                                        <option v-for="joinWay in joinWayList" :key="joinWay.id" :value="joinWay.id">{{joinWay.name}}</option>
-                                                    </select>
-                                                    <label>加入方式</label>
+                                                <div class="col-md mb-2">
+                                                    <div class="form-floating">
+                                                        <select class="form-select"  v-model="newTeamMemberInfo.joinWay">
+                                                            <option v-for="joinWay in joinWayList" :key="joinWay.id" :value="joinWay.id">{{joinWay.name}}</option>
+                                                        </select>
+                                                        <label>加入方式</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                <input type="text" class="form-control" v-model="newTeamMemberInfo.note" placeholder="newTeamMemberInfo_note">
-                                                <label>备注</label>
+                                                <div class="col-md mb-2">
+                                                    <div class="form-floating">
+                                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.note" placeholder="newTeamMemberInfo_note">
+                                                    <label>备注</label>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" id="addNewTeamMemberCloseBtn" data-bs-dismiss="modal">取消</button>
-                                        <button type="button" class="btn btn-primary" @click="addNewTeamMember()" :disabled="newTeamMemberInfoBtn">保存</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" id="addNewTeamMemberCloseBtn" data-bs-dismiss="modal">取消</button>
+                                            <button type="button" class="btn btn-primary" @click="addNewTeamMember()" :disabled="newTeamMemberInfoBtn">保存</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
-        <!-- <div class="dropdown-divider"></div> -->
-        <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary ">{{teamMemberInfo.team.name}}</span></h4></caption>
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col" style="width:12%">队员SCID标签</th>
-                    <th scope="col">队员名称</th>
-                    <th scope="col">加入时间</th>
-                    <th scope="col">加入方式</th>
-                    <th scope="col" style="width:10%">状态</th>
-                    <th scope="col">退出时间</th>
-                    <th scope="col">备注</th>
-                    <th scope="col" style="width:25%">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-if="teamMemberList.length==0">
-                    <td colspan="9">
-                        <div class="container">
-                            <div class="row justify-content-center">
-                                <div>
-                                    <div class="alert alert-light" role="alert">
-                                    请修改搜索条件或添加队员!
+            </form>
+            <!-- <div class="dropdown-divider"></div> -->
+            <table class="table text-center table-hover caption-top">
+                <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary ">{{teamInfo.name}}</span></h4></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" style="width:12%">队员SCID标签</th>
+                        <th scope="col">队员名称</th>
+                        <th scope="col">加入时间</th>
+                        <th scope="col" style="width:8%">加入方式</th>
+                        <th scope="col" style="width:10%">状态</th>
+                        <th scope="col">退出时间</th>
+                        <th scope="col">备注</th>
+                        <th scope="col" style="width:25%">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="teamMemberList.length==0">
+                        <td colspan="9">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div>
+                                        <div class="alert alert-light" role="alert">
+                                        请修改搜索条件或添加队员!
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
 
-                <tr v-for="(teamMember, index) in teamMemberList" :key="teamMember.teamMemberId"
-                    :class="Number(teamMember.statusId)==100 ? '':'table-danger'">
-                    <th scope="row">{{ index + 1 }}</th>
-                    <td>{{ teamMember.scid }}</td>
-                    <td>{{ teamMember.name }}</td>
-                    <td>{{ teamMember.joinTime }}</td>
-                    <td>{{ teamMember.joinWay }}</td>
-                    <td>{{ teamMember.status }}</td>
-                    <td>{{ teamMember.leaveTime }}</td>
-                    <td>{{ teamMember.note }}</td>
-                    <td>
-                        <span class="btn badge rounded-pill bg-primary me-2" data-bs-toggle="modal" data-bs-target="#teamMemberAllCreditRecordModal"
-                            @click="getTeamMemberAllCreditRecord(teamMember)">查看战队赛记录</span>
-                        <span class="btn badge rounded-pill bg-success me-2" data-bs-toggle="modal" data-bs-target="#teamMemberAllCreditRecordModal"
-                            @click="updateTeamMemberInfo(teamMember)" v-if="teamMember.statusId==100">编辑队员信息</span>
-                        <span class="btn badge rounded-pill bg-danger" data-bs-toggle="modal" data-bs-target="#kickOutModal"
-                            @click="setTeamMemberId(teamMember)" v-if="teamMember.statusId==100">踢出</span>
-                        <div class="modal fade" id="kickOutModal" tabindex="-1" aria-labelledby="kickOutModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <form>
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <div class="badge rounded-pill bg-primary" style="font-size:larger">{{changeTeamMemberStatusInfo.teamMemberName}}</div><h5 class="modal-title">离队原因</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row g-3 align-items-center mb-2">
-                                                <div class="col-12">
-                                                    <select class="form-select" v-model="leave.teamMemberStatus">
-                                                        <option
-                                                            v-for="teamMemberStatus in teamMemberLeaveTypeList"
-                                                            v-bind:key="teamMemberStatus.id"
-                                                            :value="teamMemberStatus">
-                                                            {{ teamMemberStatus.name }}</option>
-                                                    </select>
-                                                    <div class="form-text">{{leave.teamMemberStatus.note}}</div>
+                    <tr v-for="(teamMember, index) in teamMemberList" :key="teamMember.teamMemberId"
+                        :class="Number(teamMember.statusId)==100 ? '':'table-danger'">
+                        <th scope="row">{{ index + 1 }}</th>
+                        <td>{{ teamMember.scid }}</td>
+                        <td>{{ teamMember.name }}</td>
+                        <td>{{ teamMember.joinTime }}</td>
+                        <td>{{ teamMember.joinWay }}</td>
+                        <td>{{ teamMember.status }}</td>
+                        <td>{{ teamMember.leaveTime }}</td>
+                        <td>{{ teamMember.note }}</td>
+                        <td>
+                            <span class="btn badge rounded-pill bg-primary me-2" data-bs-toggle="modal" data-bs-target="#teamMemberAllCreditRecordModal"
+                                @click="getTeamMemberAllCreditRecord(teamMember)">查看战队赛记录</span>
+                            <span class="btn badge rounded-pill bg-success me-2" data-bs-toggle="modal" data-bs-target="#teamMemberAllCreditRecordModal"
+                                @click="updateTeamMemberInfo(teamMember)" v-if="teamMember.statusId==100">编辑队员信息</span>
+                            <span class="btn badge rounded-pill bg-danger" data-bs-toggle="modal" data-bs-target="#kickOutModal-teamMember"
+                                @click="setTeamMemberId(teamMember)" v-if="teamMember.statusId==100">踢出</span>
+                            <div class="modal fade" id="kickOutModal-teamMember" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form>
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="badge rounded-pill bg-primary" style="font-size:larger">{{changeTeamMemberStatusInfo.teamMemberName}}</div><h5 class="modal-title">离队原因</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row g-3 align-items-center mb-2">
+                                                    <div class="col-12">
+                                                        <select class="form-select" v-model="leave.teamMemberStatus">
+                                                            <option
+                                                                v-for="teamMemberStatus in teamMemberLeaveTypeList"
+                                                                v-bind:key="teamMemberStatus.id"
+                                                                :value="teamMemberStatus">
+                                                                {{ teamMemberStatus.name }}</option>
+                                                        </select>
+                                                        <div class="form-text">{{leave.teamMemberStatus.note}}</div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-floating mb-2">
-                                                <textarea class="form-control" placeholder="Leave a comment here" v-model="changeTeamMemberStatusInfo.note" id="floatingTextarea2"></textarea>
-                                                <label for="floatingTextarea2">备注信息</label>
-                                            </div>
-                                            <div class="form-floating mb-2">
-                                                <input step=1 type="datetime-local" class="form-control" v-model="changeTeamMemberStatusInfo.time"/>
-                                                <label for="floatingTextarea2">离队时间</label>
-                                            </div>
-                                            <hr/>
-                                            <div class="row g-3">
-                                                <div class="col-12">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                                                        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-                                                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                                        </symbol>
-                                                    </svg>
-                                                    <div class="alert alert-danger d-flex" role="alert">
-                                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                                                        <div class="text-start">
-                                                            离队后无法撤销!谨慎操作!<br/>
-                                                            数据将作为历史数据存,仅可查看!<br/>
-                                                            再次加入将以新成员身份需重新录入成员信息!<br/>
+                                                <div class="form-floating mb-2">
+                                                    <textarea class="form-control" placeholder="Leave a comment here" v-model="changeTeamMemberStatusInfo.note" id="floatingTextarea2"></textarea>
+                                                    <label for="floatingTextarea2">备注信息</label>
+                                                </div>
+                                                <div class="form-floating mb-2">
+                                                    <input step=1 type="datetime-local" class="form-control" v-model="changeTeamMemberStatusInfo.time"/>
+                                                    <label for="floatingTextarea2">离队时间</label>
+                                                </div>
+                                                <hr/>
+                                                <div class="row g-3">
+                                                    <div class="col-12">
+                                                        <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/>
+                                                        <div class="alert alert-danger d-flex" role="alert">
+                                                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                                            <div class="text-start">
+                                                                离队后无法撤销!谨慎操作!<br/>
+                                                                数据将作为历史数据存,仅可查看!<br/>
+                                                                再次加入将以新成员身份需重新录入成员信息!<br/>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="leaveTeamModalCloseBtn">关闭</button>
+                                                <button type="button" class="btn btn-primary" @click="changeTeamMemberStatus()">保存</button>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="leaveTeamModalCloseBtn">关闭</button>
-                                            <button type="button" class="btn btn-primary" @click="changeTeamMemberStatus()">保存</button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <Page :commonPage="page"  @commonPageChange="commonPageChange($event)"></Page>
+            <!-- 弹窗 -->
+            <div class="modal fade" id="teamMemberAllCreditRecordModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><span class="badge rounded-pill bg-dark">{{teamMember.name}}</span>的积分记录</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <Page :commonPage="page"  @commonPageChange="commonPageChange($event)"></Page>
-        <!-- 弹窗 -->
-        <div class="modal fade" id="teamMemberAllCreditRecordModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><span class="badge rounded-pill bg-dark">{{teamMember.name}}</span>的积分记录</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col">结算时间</th>
-                                    <th scope="col">积分</th>
-                                    <th scope="col">积分类型</th>
-                                    <th scope="col">备注信息</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="teamMemberCredit in teamMemberCreditList" :key="teamMemberCredit.id">
-                                    <th>{{teamMemberCredit.settlementTimeStr}}</th>
-                                    <td>{{teamMemberCredit.credit}}</td>
-                                    <td>{{teamMemberCredit.creditType.name}}</td>
-                                    <td>{{teamMemberCredit.note}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        <div class="modal-body">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">结算时间</th>
+                                        <th scope="col">积分</th>
+                                        <th scope="col">积分类型</th>
+                                        <th scope="col">备注信息</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="teamMemberCredit in teamMemberCreditList" :key="teamMemberCredit.id">
+                                        <th>{{teamMemberCredit.settlementTimeStr}}</th>
+                                        <td>{{teamMemberCredit.credit}}</td>
+                                        <td>{{teamMemberCredit.creditType.name}}</td>
+                                        <td>{{teamMemberCredit.note}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -245,9 +262,9 @@
 import Page from '@/components/Page.vue';
 
 import {Modal,Toast} from 'bootstrap';
-import { findLeaveType,getTeamStatusType,findJoinWayType,findCreditType,getTeamCompetitionType } from "../api/dictionary";
+import { findLeaveType,getTeamMemberStatusType,findJoinWayType,findCreditType,getTeamCompetitionType } from "../api/dictionary";
 import { getTeamMemberAllCreditRecord } from "../api/credit";
-import { saveTeamInfo,removeTeam,searchTeam } from "../api/userWithTeam";
+import { saveTeamInfo,removeTeam,searchMyTeam } from "../api/userWithTeam";
 import { searchTeamMember,changeTeamMemberStatus,addNewTeamMember,getAllValidTeamMember } from "../api/teamWithPlayer";
 import { getToday } from "../api/common";
 export default {
@@ -281,10 +298,6 @@ export default {
                 name: '',
                 teamMemberStatusId: '',
                 teamId: '',
-                team: {
-                    id: '',
-                    name: '',
-                }
             },
             page: {
                 size: 10,
@@ -292,6 +305,10 @@ export default {
                 totalPage: 0,
             },
             teamList: [],
+            teamInfo: {
+                id: '',
+                name: ''
+            },
             leave:{ // "踢出"弹窗数据绑定
                 teamMemberStatus: {},
                 note: '',
@@ -319,14 +336,14 @@ export default {
                 this.cleanNewTeamMemberInfo();
             }
         );
-        getTeamStatusType().then( // 获取所有"离队原因"的类型
+        getTeamMemberStatusType().then( // 获取所有"离队原因"的类型
             response => {
                 this.teamMemberStatusList = response.data.data;
                 this.teamMemberStatusList.unshift({
                     id: 0,
                     name:'无限制',
                 });
-                this.searchTeam(); // 为什么在这里 searchTeam ? getTeamStatusType 和 searchTeam 确实是相互独立的,独立的话无法确保谁先谁后,并且我只想写一个 refreshSearchForm
+                this.searchMyTeam(); // 为什么在这里 searchMyTeam ? getTeamMemberStatusType 和 searchMyTeam 确实是相互独立的,独立的话无法确保谁先谁后,并且我只想写一个 refreshSearchForm
             }
         );
     },
@@ -338,20 +355,24 @@ export default {
             },
             deep: true
         },
-        'teamMemberInfo.team': {
-            handler(){
+        'teamInfo': {
+            handler() {
+                this.newTeamMemberInfo.teamId = this.teamInfo.id; // 设置【添加新成员】
                 this.searchTeamMemberBtn();
-                this.newTeamMemberInfo.teamId = this.teamMemberInfo.team.id;
+
             },
             deep: true
         },
     },
     methods: {
-        searchTeam() {
-            searchTeam().then(
+        searchMyTeam() {
+            searchMyTeam().then( // 结果为"关联战队信息",包含"关联者信息","战队信息","关联状态信息"等等;而并非是"战队信息"
                 response => {
                     this.teamList = response.data.data.data;
-                    this.refreshSearchForm();
+                    if (this.teamList.length>0) {
+                        this.teamInfo = this.teamList[0].team;
+                        this.refreshSearchForm();
+                    }
                 }
             )
         },
@@ -405,7 +426,7 @@ export default {
             this.teamMemberInfo.scid = '';
             this.teamMemberInfo.name = '';
             this.teamMemberInfo.teamMemberStatusId = this.teamMemberStatusList[0].id;
-            this.teamMemberInfo.team = this.teamList[0].team;
+            this.teamMemberInfo.teamId = this.teamList[0].team.id;
             this.newTeamMemberInfo.teamId = this.teamList[0].team.id;
         },
         searchTeamMemberBtn() {
@@ -413,8 +434,11 @@ export default {
             this.searchTeamMember();
         },
         searchTeamMember() {
-            this.teamMemberInfo.teamId = this.teamMemberInfo.team.id;
-            searchTeamMember(Object.assign({},this.page,this.teamMemberInfo)).then(
+            this.teamMemberInfo.teamId = this.teamInfo.id; // 搜索条件
+            if (this.teamMemberInfo.teamId=='') {
+                return;
+            }
+            searchTeamMember(Object.assign(this.page,this.teamMemberInfo)).then(
                 response => {
                     this.teamMemberList = response.data.data.data;
                     this.page.totalPage = response.data.data.totalPage;

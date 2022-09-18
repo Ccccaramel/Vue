@@ -39,26 +39,15 @@ export default {
     }
   },
   mounted() {
-    console.log("go");
-    // axios.get("localhost:8090/test1")
-    //   .then(function (response) {
-    //     console.log(response);
-    //   }).catch(function (error) {
-    //     console.log(error);
-
-    //   });
   },
   methods: {
     userLogin() {
-      var Ip=returnCitySN['cip']
-      var cityname=returnCitySN['cname']
-      localStorage.setItem('Ip', Ip)
-      console.log(localStorage.getItem('Ip', Ip))
-      localStorage.setItem('cityname', cityname)
-      console.log(localStorage.getItem('cityname', cityname))
+      var ip = returnCitySN['cip'];
+      var cityName = returnCitySN['cname'];
+      console.log('ip:' + ip + ",cityName:" + cityname);
       login(this.userVo).then(
-        response=>{
-          console.log(">>>:"+response.data.msg);
+        response => {
+          
         }
       )
     },

@@ -1,5 +1,4 @@
 export function getToday(){
-    console.log("getToday1");
     var date = new Date();
     var year = date.getFullYear();
     var month = date.getMonth() + 1;

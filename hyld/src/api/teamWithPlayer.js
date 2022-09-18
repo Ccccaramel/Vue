@@ -31,4 +31,3 @@ export function searchTeamMember(params){
         params: params
     })
 }
-

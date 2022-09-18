@@ -6,10 +6,10 @@
                 <input type="text" class="form-control" placeholder="名称" v-model="searchDictionaryInfo.name">
             </div>
             <div class="col-auto">
-                <input type="text" class="form-control" placeholder="类型" v-model="searchDictionaryInfo.type">
+                <input type="text" class="form-control" placeholder="类型名称" v-model="searchDictionaryInfo.typeName">
             </div>
             <div class="col-auto">
-                <input type="text" class="form-control" placeholder="类型名称" v-model="searchDictionaryInfo.typeName">
+                <input type="text" class="form-control" placeholder="类型" v-model="searchDictionaryInfo.type">
             </div>
             <div class="col-auto">
                 <button type="button" class="btn btn-dark" @click="cleanSearchDictionaryBtn()">清空</button>
@@ -45,6 +45,7 @@
                     <td>{{ dictionary.type }}</td>
                     <td>{{ dictionary.note }}</td>
                     <td>
+                        <span class="btn badge rounded-pill bg-danger me-2" @click="deleteDictionary(dictionary.id)">删除</span>
                         <span class="btn badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#dictionaryInfoModal" @click="editDictionary(dictionary)">编辑</span>
                     </td>
                 </tr>
@@ -109,14 +110,14 @@
                 </div>
             </div>
         </div>
-        <Page :commonPage="page"  @commonPageChange="commonPageChange($event)"></Page>
+        <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
 </template>
 <script>
 import Page from '@/components/Page.vue';
 
 import {Modal,Toast} from 'bootstrap';
-import { searchDictionary,saveDictionaryInfo } from "../api/dictionary";
+import { searchDictionary,saveDictionaryInfo,deleteDictionary } from "../api/dictionary";
 export default {
     name: "dictionary",
     components: {
@@ -153,8 +154,7 @@ export default {
     },
     watch: {
         dictionaryInfo: {
-            handler(newVal) {
-                console.log(">>"+JSON.stringify(newVal));
+            handler() {
                 this.checkDictionaryInfo();
             },
             deep: true,
@@ -179,6 +179,7 @@ export default {
             this.searchDictionary();
         },
         addDictionaryBtn() {
+            this.cleanDictionaryInfo();
             this.dictionaryInfo.add = true;
             this.dictionaryInfo.title = '新增字典';
         },
@@ -200,6 +201,26 @@ export default {
                 }
             )
         },
+        deleteDictionary(dictionaryId) {
+            deleteDictionary({
+                dictionaryId: dictionaryId
+            }).then(
+                response => {
+                    if(response.data.code==0){
+                        this.commonResponse.success= false;
+                    }else{
+                        this.commonResponse.success = true;
+                        document.getElementById("closeDictionaryInfoModal").click();
+                        this.searchDictionaryBtn();
+                    }
+                    this.commonResponse.msg= response.data.msg;
+                    this.$emit('commonResponse', this.commonResponse);
+                    var toastLiveExample = document.getElementById('commonToast');
+                    var toast = new Toast(toastLiveExample);
+                    toast.show();
+                }
+            )
+        },
         cleanDictionaryInfo() {
             this.dictionaryInfo = {
                 id: '',
@@ -218,7 +239,7 @@ export default {
                         this.commonResponse.success = true;
                         document.getElementById("closeDictionaryInfoModal").click();
                         this.cleanDictionaryInfo();
-                        this.searchDictionary();
+                        this.searchDictionaryBtn();
                     }
                     this.commonResponse.msg= response.data.msg;
                     this.$emit('commonResponse', this.commonResponse);
@@ -229,9 +250,9 @@ export default {
             )
         },
         checkDictionaryInfo() {
-            if (this.dictionaryInfo.id == ''
+            if (this.dictionaryInfo.id === ''
                 || this.dictionaryInfo.name == ''
-                || this.dictionaryInfo.value == ''
+                || this.dictionaryInfo.value === ''
                 || this.dictionaryInfo.type == ''
                 || this.dictionaryInfo.typeName == '') {
                 this.saveDictionaryInfoBtn = true;
