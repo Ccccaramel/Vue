@@ -7,10 +7,11 @@ import request from '../utils/request'
 // }
 
 
-export function searchMyGameAccount(){
+export function searchMyGameAccount(params){
     return request({
         method: 'get',
         url: '/userWithPlayer/searchMyGameAccount',
+        params: params
     })
 }
 
@@ -22,10 +23,10 @@ export function relievePlayer(params){
     })
 }
 
-export function savePlayerCheckData(params){
+export function saveRelationPlayerInfoCheckData(params){
     return request({
         method: 'post',
-        url: '/userWithPlayer/savePlayerCheckData',
+        url: '/userWithPlayer/saveRelationPlayerInfoCheckData',
         data: params,
     })
 }
@@ -43,5 +44,13 @@ export function playerExamineCheck(params){
         method: 'post',
         url: '/userWithPlayer/playerExamineCheck',
         data:params
+    })
+}
+
+export function saveRelationPlayerInfo(params){
+    return request({
+        method: 'post',
+        url: '/userWithPlayer/saveRelationPlayerInfo',
+        data: params,
     })
 }

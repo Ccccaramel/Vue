@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="list-PlayerExamine" role="tabpanel" aria-labelledby="list-PlayerExamine-list">
+    <div class="tab-pane fade" id="list-playerExamine" role="tabpanel" aria-labelledby="list-playerExamine-list">
         <!-- 搜索条件 -->
         <form class="row g-3 mt-1 mb-3">
             <!-- 在 form 中的 button 其 type 默认为 submit ,所以必须指定类型 button
@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img :src="playerExamineInfo.playerMainPage" class="rounded" style="height: 640px;" />
+                                <img :src="playerExamineInfo.playerMainPageUrl" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                         <div class="alert alert-primary text-center" role="alert">
@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img :src="playerExamineInfo.playerPreparePage" class="rounded" style="height: 640px;" />
+                                <img :src="playerExamineInfo.playerPreparePageUrl" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                         <hr/>
@@ -176,11 +176,6 @@ export default {
             checkStatusListToModal: [],
             relationStatusList: [],
             playerExamineList: [],
-            checkData: {
-                playerMainPageUrl: '',
-                playerPreparePageUrl: '',
-            },
-            playerPreparePageFile: {},
             searchRelationInfo: {
                 userId: '',
                 userName: '',
@@ -254,8 +249,8 @@ export default {
         },
         showPlayerExamineInfo(playerExamine) {
             this.playerExamineInfo.id = playerExamine.id;
-            this.playerExamineInfo.playerMainPage = playerExamine.playerMainPage;
-            this.playerExamineInfo.playerPreparePage = playerExamine.playerPreparePage;
+            this.playerExamineInfo.playerMainPageUrl = playerExamine.playerMainPageUrl;
+            this.playerExamineInfo.playerPreparePageUrl = playerExamine.playerPreparePageUrl;
             this.playerExamineInfo.checkStatus = playerExamine.checkStatus.id;
             this.playerExamineInfo.note = playerExamine.note;
         },

@@ -96,6 +96,7 @@
     </div>
 </template>
 <script>
+import Page from '@/components/Page.vue';
 import {Modal,Toast} from 'bootstrap';
 import { getAllRole, saveRole,saveRolePower,deleteRolePower } from "../api/role";
 import TreeMenuCheckbox from "@/components/TreeMenuCheckbox.vue";
@@ -104,9 +105,15 @@ export default {
     name: "role",
     components: {
         TreeMenuCheckbox,
+        Page,
     },
     data() {
         return {
+            page: {
+                size: 10,
+                currentPage:1, // 偏移量,数据库从0开始
+                totalPage: 0,
+            },
             commonResponse: {
                 success: true,
                 msg: '',

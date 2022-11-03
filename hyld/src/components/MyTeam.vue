@@ -26,85 +26,8 @@
                     <div class="row justify-content-start">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                             data-bs-target="#teamInfoModal" @click="addTeamBtn()">
-                            申请关联新战队
+                            关联我的战队
                         </button>
-                        <div class="modal fade" id="teamInfoModal" tabindex="-1" aria-labelledby="teamInfoModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <div class="d-flex align-items-center">
-                                            <h4 class="modal-title align-items-center">{{teamInfo.teamInfoTitle}}</h4>
-                                            <div class="badge rounded-pill bg-primary" v-if="teamInfo.add" style="font-size:larger">{{teamInfo.teamName}}</div>
-                                        </div>
-
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form class="was-validated" novalidate>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" v-if="teamInfo.add" v-model="teamInfo.teamScid" required>
-                                                    <label>战队SCID</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="teamInfo.teamName" required>
-                                                    <label>战队名称</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <select class="form-select"  v-model="teamInfo.teamType">
-                                                        <option v-for="teamType in teamTypeList" :key="teamType.id" :value="teamType.id">{{teamType.name}}</option>
-                                                    </select>
-                                                    <label>战队类型</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="teamInfo.teamEliminationLine" required>
-                                                    <label>淘汰线</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="teamInfo.teamExcellentLine" required>
-                                                    <label>优等线</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md mb-2">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="teamInfo.teamNote">
-                                                    <label>战队简介</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md mb-2" v-if="teamInfo.add">
-                                                <div class="form-floating">
-                                                    
-                                                    <div class="alert alert-warning d-flex align-items-center" role="alert">
-                                                        <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/>
-                                                        <div>
-                                                            ⭐关联之后你还需要【上传验证】以证明目前你是该战队的队长/拥有者<br/>
-                                                            ⭐你也可以选择不上传,但之后将无法修改该战队信息,仅验证审核通过后的用户可修改<br/>
-                                                            ⭐此外请确保截图清晰完整无遮挡,scid正确(不用加#号)<br/>
-                                                            ⭐由于此平台只有本人一个人在开发+维护+管理,精力有限,无法时刻关注审核请求,若需要快点验证通过请进QQ群(475765701)@群主,我会及时处理
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-warning" @click="cleanTeamRelationInfo()" v-if="teamInfo.add">清空</button>
-                                        <button type="button" class="btn btn-secondary" id="closeTeamInfoModal" data-bs-dismiss="modal">取消</button>
-                                        <button type="button" class="btn btn-primary" @click="saveTeamRelationInfo()" :disabled="teamInfoBtn">保存</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -122,15 +45,20 @@
                     <th scope="col">战队类型</th>
                     <th scope="col">淘汰线</th>
                     <th scope="col">优等线</th>
-                    <th scope="col">战队简介</th>
+                    <th scope="col" style="width: 20%;">战队简介</th>
                     <th scope="col">你的职位</th>
+                    <th scope="col">
+                        <span tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="录入积分时请如实记录,恶意数据将扣除信誉积分甚至封号,如果信誉积分低于100,那么你的战队将无法被他人搜索到">
+                            信誉积分<font-awesome-icon icon="fa-regular fa-circle-question" />
+                        </span>
+                    </th>
                     <th scope="col">验证状态</th>
                     <th scope="col">验证结果备注</th>
-                    <th scope="col">操作</th>
+                    <th scope="col" style="width: 20%;">操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-if="teamList.length==0">
+                <tr v-if="uwtInfoList.length==0">
                     <td colspan="14">
                         <div class="container">
                             <div class="row justify-content-center">
@@ -144,33 +72,123 @@
                     </td>
                 </tr>
 
-                <tr v-for="(team, index) in teamList" :key="team.id"
-                    :class="team.checkStatus.id==1402?'table-success':(team.checkStatus.id==1403?'table-danger':'')">
+                <tr v-for="(uwtInfo, index) in uwtInfoList" :key="uwtInfo.id"
+                    :class="uwtInfo.checkStatus.id==1402?'table-success':(uwtInfo.checkStatus.id==1403?'table-danger':(uwtInfo.checkStatus.id==1401?'table-warning':''))">
                     <th scope="row">{{ index + 1 }}</th>
-                    <td>{{ team.team.scid }}</td>
-                    <td>{{ team.team.name }}</td>
-                    <td>{{ team.team.teamType.name }}</td>
-                    <td>{{ team.team.eliminationLine }}</td>
-                    <td>{{ team.team.excellentLine }}</td>
-                    <td>{{ team.team.note }}</td>
-                    <td>{{ team.playerPositionType.name }}</td>
-                    <td>{{ team.checkStatus.name }}</td>
-                    <td>{{ team.note }}</td>
+                    <td>{{ uwtInfo.team.scid }}</td>
+                    <td>{{ uwtInfo.team.name }}</td>
+                    <td>{{ uwtInfo.team.type.name }}</td>
+                    <td>{{ uwtInfo.team.eliminationLine }}</td>
+                    <td>{{ uwtInfo.team.excellentLine }}</td>
+                    <td>{{ uwtInfo.team.note }}</td>
+                    <td>{{ uwtInfo.playerPositionType.name }}</td>
+                    <td>{{ uwtInfo.playerPositionType.id==1200? uwtInfo.creditScore:'-' }}</td>
+                    <td>{{ uwtInfo.checkStatus.name }}</td>
+                    <td>{{ uwtInfo.note }}</td>
                     <td>
-                        <span class="btn badge rounded-pill bg-success" v-if="team.checkStatus.id!=1402"
-                            data-bs-toggle="modal" data-bs-target="#upTeamVerificationInformationModal" @click="upVerificationInformation(team)">上传验证</span>
-                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="team.checkStatus.id==1402"
-                            data-bs-toggle="modal" data-bs-target="#teamInfoModal" @click="editTeamBtn(team)">编辑</span>
-                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="team.checkStatus.id==1402"
-                            @click="getTeamData(team)">综合数据</span>
-                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="team.checkStatus.id==1402 && team.playerPositionType.id==1200"
-                            data-bs-toggle="modal" data-bs-target="#addViceCaptainModal" @click="viceCaptainManage(team)">副队长管理</span>
-                        <span class="btn badge rounded-pill bg-danger ms-2" v-if="team.relation.id == 701"
-                            @click="relieveTeam(team.id,0)">解除关联</span>
+                        <span class="btn badge rounded-pill bg-success" v-if="uwtInfo.checkStatus.id!=1402 && uwtInfo.playerPositionType.id==1200"
+                            data-bs-toggle="modal" data-bs-target="#upTeamVerificationInformationModal" @click="upVerificationInformation(uwtInfo)">上传验证</span>
+                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="uwtInfo.checkStatus.id==1402 && uwtInfo.playerPositionType.id==1200"
+                            data-bs-toggle="modal" data-bs-target="#teamInfoModal" @click="editTeamBtn(uwtInfo)">编辑</span>
+                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="uwtInfo.checkStatus.id==1402"
+                            @click="getTeamData(uwtInfo)">综合数据</span>
+                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="uwtInfo.checkStatus.id==1402 && uwtInfo.playerPositionType.id==1200"
+                            data-bs-toggle="modal" data-bs-target="#addViceCaptainModal" @click="viceCaptainManage(uwtInfo)">副队长管理</span>
+                        <span class="btn badge rounded-pill bg-primary ms-2" v-if="uwtInfo.checkStatus.id==1402 && uwtInfo.playerPositionType.id==1200"
+                            data-bs-toggle="modal" data-bs-target="#teamTransferModal" @click="teamTransferManage(uwtInfo)">战队转让</span>
+                        <span class="btn badge rounded-pill bg-danger ms-2" v-if="uwtInfo.relation.id == 701"
+                            @click="relieveTeam(uwtInfo.id,0)">解除关联</span>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <!-- 关联新战队 & 编辑战队 -->
+        <div class="modal fade" id="teamInfoModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="modal-title align-items-center">{{teamInfo.teamInfoTitle}}</h4>
+                            <div class="badge rounded-pill bg-primary" v-if="!teamInfo.add" style="font-size:larger">{{teamInfo.teamName}}</div>
+                        </div>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="was-validated" novalidate>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <select class="form-select" v-if="teamInfo.add" v-model="teamInfo.playerPosition">
+                                        <option v-for="playerPosition in playerPositionList" :key="playerPosition.id" :value="playerPosition.id">{{playerPosition.name}}</option>
+                                    </select>
+                                    <label>战队职位</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" v-if="teamInfo.add" v-model="teamInfo.teamScid" required>
+                                    <label>战队SCID</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" v-if="teamInfo.add&&teamInfo.playerPosition==1200" v-model="teamInfo.teamName" required>
+                                    <label>战队名称</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <select class="form-select" v-if="teamInfo.add&&teamInfo.playerPosition==1200" v-model="teamInfo.teamType">
+                                        <option v-for="teamType in teamTypeList" :key="teamType.id" :value="teamType.id">{{teamType.name}}</option>
+                                    </select>
+                                    <label>战队类型</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" v-if="teamInfo.playerPosition==1200" v-model="teamInfo.teamEliminationLine" required>
+                                    <label>淘汰线</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" v-if="teamInfo.playerPosition==1200" v-model="teamInfo.teamExcellentLine" required>
+                                    <label>优等线</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" v-if="teamInfo.playerPosition==1200" v-model="teamInfo.teamNote">
+                                    <label>战队简介</label>
+                                </div>
+                            </div>
+                            <div class="col-md mb-2" v-if="teamInfo.add">
+                                <div class="form-floating">
+                                    
+                                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                        <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/>
+                                        <div>
+                                            ⭐如果你是队长,关联之后你还需要【上传验证】以证明目前你是该战队的队长/拥有者<br/>
+                                            ⭐上传验证信息通过后,你将拥有修改该战队信息,录入战队成员以及积分的权限<br/>
+                                            ⭐此外请确保截图清晰完整无遮挡,scid正确(不用加#号)<br/>
+                                            ⭐由于此平台只有本人一个人在开发+维护+管理,精力有限,无法时刻关注审核请求,若需要快点验证通过请进QQ群(475765701)@群主,我会及时处理
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" @click="cleanTeamRelationInfo()" v-if="teamInfo.add">清空</button>
+                        <button type="button" class="btn btn-secondary" id="closeTeamInfoModal" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" @click="saveTeamRelationInfo()" :disabled="teamInfoBtn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 样例 -->
         <div class="modal fade" id="upTeamVerificationInformationModalExampleModal" aria-hidden="true" tabindex="-1">
             <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -331,6 +349,49 @@
                 </div>
             </div>
         </div>
+        <!-- 战队转让 -->
+        <div class="modal fade" id="teamTransferModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="modal-title align-items-center">战队转让</h4>
+                            <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamTransferInfo.teamName}}</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container text-center">
+                            <div class="row justify-content-center">
+                                <div class="col-3">
+                                    <input class="form-control" type="text" placeholder="用户ID" v-model="teamTransferInfo.newUserId">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-success" @click="teamTransfer()" :disabled="teamTransBtn">转让</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <form class="was-validated" novalidate>
+                            <div class="col-md mb-2">
+                                <div class="form-floating">
+                                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                        <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/>
+                                        <div>
+                                            ⭐请慎重操作!确保对方用户ID无误<br/>
+                                            ⭐转让成功后对方将继承该战队相关的所有数据,无需验证
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="teamTransferModalCloseBtn" data-bs-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- 分页 -->
         <div class="dropdown-divider"></div>
         <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
@@ -340,9 +401,9 @@
 <script>
 import Page from '@/components/Page.vue';
 
-import { Toast } from 'bootstrap';
-import { getTeamType } from "../api/dictionary";
-import { saveTeamRelationInfo,relieveTeam,searchMyRelationTeam,saveTeamCheckData,getAllViceCaptain,addViceCaptain } from "../api/userWithTeam";
+import { Toast,Popover } from 'bootstrap';
+import { getTeamMemberPositionTypeExcludeViceCaptain, getTeamType } from "../api/dictionary";
+import { saveTeamRelationInfo,relieveTeam,searchMyRelationTeam,saveTeamCheckData,getAllViceCaptain,addViceCaptain,teamTransfer } from "../api/userWithTeam";
 import { getTeamData } from "../api/credit";
 export default {
     name: "myTeam",
@@ -371,7 +432,7 @@ export default {
                 totalPage: 0,
             },
             teamInfoBtn: true, // 添加战队 > 信息完整才放开"保存"按钮
-            teamList: [],
+            uwtInfoList: [],
             teamInfo: {
                 teamInfoTitle: '',
                 add: true,
@@ -383,6 +444,7 @@ export default {
                 teamExcellentLine: 20,
                 teamNote: '',
                 teamType: '',
+                playerPosition:'' // 职位
             },
             searchTeamInfo:{
                 teamScid:'',
@@ -393,6 +455,7 @@ export default {
             competition: {},
             task: {},
             teamTypeList: [],
+            playerPositionList: [],
             checkData: {
                 controllerPreparePageFile: '',
                 teamMainPageFile: '',
@@ -405,9 +468,19 @@ export default {
                 userId: ''
             },
             addViceCaptainBtn: true,
-            viceCaptainList:[],
+            viceCaptainList: [],
+            teamTransferInfo: {
+                teamName: '',
+            }, // 战队装让
+            teamTransBtn: true,
         }
     },
+    updated() { //更新之后.场景:获取更新真实DOM之后
+    var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new Popover(popoverTriggerEl)
+    });
+  },
     mounted() {
         getTeamType().then(
             response => {
@@ -415,6 +488,12 @@ export default {
                 this.teamInfo.teamType = this.teamTypeList[0].id;
             }
         );
+        getTeamMemberPositionTypeExcludeViceCaptain().then(
+            response => {
+                this.playerPositionList = response.data.data;
+                this.teamInfo.playerPosition = this.playerPositionList[0].id;
+            }
+        )
     },
     watch : {
         // 监听对象,注意设置 deep:true
@@ -438,6 +517,16 @@ export default {
                     this.addViceCaptainBtn = false;
                 }
             },
+        },
+        teamTransferInfo: {
+            handler() {
+                if (this.teamTransferInfo.newUserId=='') {
+                    this.teamTransBtn = true;
+                } else {
+                    this.teamTransBtn = false;
+                }
+            },
+            deep: true
         }
     },
     methods: {
@@ -461,12 +550,23 @@ export default {
             this.modalPage = event;
             // this.searchMyRelationTeam();
         },
-        checkTeamInfo(){ // 添加队员请求 > 信息返回的提示样式
-            if(this.teamInfo.teamName=='' || this.teamInfo.teamScid==''){
-                this.teamInfoBtn=true;
+        checkTeamInfo() { // 添加队员请求 > 信息返回的提示样式
+            this.teamInfo.teamScid =this.teamInfo.teamScid.toLocaleUpperCase();
+            if (this.teamInfo.playerPosition == 1202) { // 队员
+                if (this.teamInfo.teamScid == '') {
+                    this.teamInfoBtn = true;
+                }
+                else {
+                    this.teamInfoBtn = false;
+                }
             }
-            else{
-                this.teamInfoBtn=false;
+            else { // 队长
+                if (this.teamInfo.teamName == '' || this.teamInfo.teamScid == '') {
+                    this.teamInfoBtn=true;
+                }
+                else{
+                    this.teamInfoBtn=false;
+                }
             }
         },
         saveTeamRelationInfo(){
@@ -508,7 +608,7 @@ export default {
         },
         addTeamBtn(){
             this.cleanTeamRelationInfo();
-            this.teamInfo.teamInfoTitle = "关联新战队";
+            this.teamInfo.teamInfoTitle = "关联我的战队";
             this.teamInfo.add=true;
         },
         editTeamBtn(team) {
@@ -532,7 +632,7 @@ export default {
         searchMyRelationTeam() {
             searchMyRelationTeam(Object.assign(this.page, this.searchTeamInfo)).then(
                 response=>{
-                    this.teamList = response.data.data.data;
+                    this.uwtInfoList = response.data.data.data;
                     this.page.totalPage = response.data.data.totalPage;
                 }
             )
@@ -570,16 +670,16 @@ export default {
             this.checkData.id = uwtInfo.id;
             this.checkData.checkStatus = uwtInfo.checkStatus.id;
         },
-        pageChange(currentPage) {
-            this.page.currentPage = currentPage;
-            this.searchMyRelationTeam();
-        },
-        getTeamData(team) {
+        // pageChange(currentPage) {
+        //     this.page.currentPage = currentPage;
+        //     this.searchMyRelationTeam();
+        // },
+        getTeamData(uwtInfo) {
             getTeamData(Object.assign({
-                teamId:team.team.id
+                uwtId:uwtInfo.parentId==null ? uwtInfo.id:uwtInfo.parentId
             })).then(
                 response => {
-                    this.teamModalData.teamName = team.team.name;
+                    this.teamModalData.teamName = uwtInfo.team.name;
                     this.teamModalData.competition = response.data.data.competition;
                     this.teamModalData.task = response.data.data.task;
                     this.$emit('showTeamDataModal', this.teamModalData);
@@ -665,6 +765,25 @@ export default {
             this.addViceCaptainModalInfo.teamId = team.team.id;
             this.addViceCaptainModalInfo.teamName = team.team.name;
             this.getAllViceCaptain();
+        },
+        teamTransferManage(team) {
+            this.teamTransferInfo.teamId = team.team.id;
+            this.teamTransferInfo.teamName = team.team.name;
+            this.teamTransferInfo.id = team.id;
+        },
+        teamTransfer() { // 战队转让(待实现)
+            teamTransfer(this.teamTransferInfo).then(
+                response => {
+                    if (response.data.code == 1) { // 转让成功,清空数据,关闭 Modal 并重新搜索
+                        this.teamTransferInfo.teamId = '';
+                        this.teamTransferInfo.teamName = '';
+                        this.teamTransferInfo.id = '';
+                        document.getElementById('teamTransferModalCloseBtn').click();
+                        this.searchTeamBtn();
+                    }
+                    this.showToast(response);
+                }
+            )
         },
         refreshAllViceCaptain() {
             this.modalPage.currentPage = 1;

@@ -3,7 +3,7 @@
         <div v-if="this.teamList.length==0">
             <div class="alert alert-info" role="alert">
             <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" bounce />
-            ~~>_&lt;~~你还没有关联任何战队,请先关联战队,然后为你的战队添加队员吧!
+            ~~>_&lt;~~你还没有关联任何战队,请先关联战队,<strong>等待审核通过,</strong>然后为你的战队添加队员吧!
             </div>
             <div class="col-md mb-2">
                 <div class="form-floating text-center" style="height: 640px;">
@@ -15,22 +15,27 @@
             <!-- 搜索条件 -->
             <form class="row g-3 mt-1 mb-3">
                 <div class="col-auto">
-                    <select class="form-select" v-model="searchCreditWithTeamInfo">
-                        <option v-for="team in teamList" v-bind:key="team.team" :value="team.team">
+                    <select class="form-select" v-model="uwtInfo">
+                        <option v-for="team in teamList" v-bind:key="team" :value="team">
                             {{ team.team.name }}</option>
                     </select>
-                </div>
-                <div class="col-auto">
-                    <input type="text" class="form-control" v-model="searchCreditInfo.playerName" placeholder="队员名称">
                 </div>
                 <div class="col-auto">
                     <input type="text" class="form-control" v-model="searchCreditInfo.playerScid" placeholder="队员SCID标签">
                 </div>
                 <div class="col-auto">
-                    <select class="form-select" v-model="searchCreditInfo.settlementTimeStr">
-                        <option v-for="settlementTime in settlementTimeList" v-bind:key="settlementTime.settlementTimeStr"
-                            :value="settlementTime.settlementTimeStr">
-                            {{ settlementTime.settlementTimeShowFormat }}</option>
+                    <input type="text" class="form-control" v-model="searchCreditInfo.playerName" placeholder="队员名称">
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" v-model="searchCreditInfo.teamCompetitionTypeId">
+                        <option v-for="searchTeamCompetitionType in searchTeamCompetitionTypeList" :key="searchTeamCompetitionType.id" 
+                            :value="searchTeamCompetitionType.id">{{searchTeamCompetitionType.name}}</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" v-model="searchCreditInfo.settlementTime">
+                        <option v-for="settlementTime in settlementTimeList" v-bind:key="settlementTime.settlementTime"
+                            :value="settlementTime.settlementTime">{{ settlementTime.settlementTimeStr }}</option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -38,16 +43,17 @@
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" href="#batchCreditAddModalToggle"
-                        role="button" @click="getAllValidTeamMember()">积分录入</button>
+                        role="button" @click="getAllValidTeamMember()" v-if="uwtInfo.playerPositionType.id==1200||uwtInfo.playerPositionType.id==1201">积分录入</button>
                 </div>
             </form>
+            <!-- 积分录入 -->
             <div>
-                <!-- 积分录入 -->
+                <!-- 批量成员积分录入 -->
                 <div class="modal fade" id="batchCreditAddModalToggle" aria-hidden="true" aria-labelledby="batchCreditAddModalToggleLabel" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <div class="badge rounded-pill bg-primary" style="font-size:larger">{{creditImportInfo.teamName}}</div>
+                                <div class="badge rounded-pill bg-primary" style="font-size:larger">{{uwtInfo.team.teamName}}</div>
                                 <h5 class="modal-title" id="batchCreditAddModalToggleLabel">批量队员积分录入</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -116,11 +122,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- 单个成员积分录入 -->
                 <div class="modal fade" id="singleCreditAddModalToggle" aria-hidden="true" aria-labelledby="singleCreditAddModalToggleLabel" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <div class="badge rounded-pill bg-primary" style="font-size:larger">{{creditImportInfo.teamName}}</div>
+                                <div class="badge rounded-pill bg-primary" style="font-size:larger">{{uwtInfo.team.teamName}}</div>
                                 <h5 class="modal-title" id="singleCreditAddModalToggleLabel">单个队员积分录入</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -211,23 +218,25 @@
                         <th scope="col">队员名称</th>
                         <th scope="col">结算时间</th>
                         <th scope="col">积分</th>
+                        <th scope="col">战队赛类型</th>
                         <th scope="col">积分类型</th>
                         <th scope="col">备注</th>
-                        <th scope="col">操作</th>
+                        <th scope="col" v-if="uwtInfo.playerPositionType.id==1200||uwtInfo.playerPositionType.id==1201">操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(teamMemberCredit, index) in teamMemberCreditList" :key="teamMemberCredit.creditId"
                         :class="Number(teamMemberCredit.creditTypeId) ==200 ? '': 'table-warning'">
                         <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ teamMemberCredit.scid }}</td>
+                        <td>{{ teamMemberCredit.playerScid }}</td>
                         <td>{{ teamMemberCredit.playerName }}</td>
                         <td>{{ teamMemberCredit.settlementTimeStr }}</td>
                         <td>{{ teamMemberCredit.credit }}</td>
+                        <td>{{ teamMemberCredit.teamCompetitionType.name }}</td>
                         <td>{{ teamMemberCredit.creditType.name }}</td>
                         <td>{{ teamMemberCredit.note }}</td>
                         <td>
-                            <span class="btn badge rounded-pill bg-primary" @click="editCredit(teamMemberCredit)">编辑</span>
+                            <span class="btn badge rounded-pill bg-primary" v-if="uwtInfo.playerPositionType.id==1200||uwtInfo.playerPositionType.id==1201" @click="editCredit(teamMemberCredit)">编辑</span>
                         </td>
                     </tr>
                     <!-- 编辑队员积分 -->
@@ -236,9 +245,8 @@
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header  alert-primary">
-                                    <h3>编辑队员<span
-                                            class="badge rounded-pill bg-dark">{{teamMemberCreditInfo.playerName}}</span>的积分
-                                    </h3>
+                                    <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamMemberCreditInfo.playerName}}</div>
+                                            <h5 class="modal-title" id="addNewTeamMemberModalLabel">编辑队员积分</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -250,7 +258,16 @@
                                             <label>积分</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" v-model="teamMemberCreditInfo.creditType.id">
+                                            <select class="form-select"
+                                                v-model="teamMemberCreditInfo.teamCompetitionTypeId">
+                                                <option v-for="teamCompetitionType in teamCompetitionTypeList"
+                                                    :key="teamCompetitionType.id" :value="teamCompetitionType.id">
+                                                    {{teamCompetitionType.name}}</option>
+                                            </select>
+                                            <label>战队竞赛类型</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" v-model="teamMemberCreditInfo.creditTypeId">
                                                 <option v-for="creditType in creditTypeList" :key="creditType.id"
                                                     :value="creditType.id">{{creditType.name}}</option>
                                             </select>
@@ -315,15 +332,17 @@ export default {
                 teamCompetitionTypeId: '', // 积分录入时用于监听其值
             },
             batchCreditAddSaveBtn: false, // 批量添加积分 > 保存按钮
-            teamCompetitionTypeList: [],
+            teamCompetitionTypeList: [], // 新增/修改积分 > 战队赛类型
+            searchTeamCompetitionTypeList: [], // 搜索栏 > 战队赛类型(比上一个多了一个无限制)
             creditTypeList: [], // 字典表 > 积分类型
             allValidTeamMemberList: [], // 战队所有正式队员,用于批量积分录入
-            singleTeamMemberCreditInfo: {
+            singleTeamMemberCreditInfo: { // 单个成员积分录入
                 teamMemberId: '',
                 creditTypeId: '',
                 settlementTime: '',
                 note: '',
-                teamCompetitionType: '',
+                teamCompetitionTypeId: '',
+                uwtId: ''
             },
             teamMemberCreditList:[], // 队员积分
             teamMemberCreditInfo:{ // 队员积分
@@ -332,8 +351,8 @@ export default {
                 scid: '',
                 playerName: '',
                 credit: 0,
-                creditType: {},
                 creditTypeId: 0,
+                teamCompetitionTypeId: '',
                 note: '',
             },
             settlementTimeList: [],
@@ -343,9 +362,10 @@ export default {
                 teamId:'',
                 playerName: '',
                 playerScid: '',
-                settlementTimeStr: '',
+                settlementTime: '',
             },
             teamList: [],
+            uwtInfo: {},
         }
     },
     watch : {
@@ -356,10 +376,36 @@ export default {
             },
             deep: true
         },
-        'creditImportInfo.teamId':{ // team 和 战队竞赛类型修改时,所有队员的 team 和 战队竞赛类型全部更改
+        uwtInfo:{ // team 和 战队竞赛类型修改时,所有队员的 team 和 战队竞赛类型全部更改
             handler() {
                 this.page.currentPage = 1;
-                this.getAllValidTeamMember();
+                var uwtId = '';
+                if (this.uwtInfo.parentId == null) {
+                    uwtId = this.uwtInfo.id;
+                } else {
+                    uwtId = this.uwtInfo.parentId;
+                }
+                this.searchCreditInfo.uwtId = uwtId;
+                this.creditImportInfo.uwtId = uwtId;
+                this.searchCreditInfo.teamId = this.uwtInfo.team.id;
+                this.creditImportInfo.teamId = this.uwtInfo.team.id;
+                this.creditImportInfo.teamName = this.searchCreditWithTeamInfo.name;
+                getSettlementTimeList(Object.assign({ // 统计战队赛所有结算时间并搜索该结算时间内所有队员的积分
+                    uwtId : uwtId
+                })).then(
+                    response => {
+                        this.settlementTimeList = response.data.data;
+                        this.settlementTimeList.unshift({
+                            settlementTime: '',
+                            settlementTimeStr:'无限制'
+                        });
+                        if (this.settlementTimeList.length>0) {
+                            this.searchCreditInfo.settlementTime = this.settlementTimeList[0].settlementTime;
+                            this.searchCreditBy();
+                        }
+                    }
+                )
+                this.getAllValidTeamMember(); // 积分导入时需要的数据
             },
         },
         'creditImportInfo.teamCompetitionTypeId':{ // team 和 战队竞赛类型修改时,所有队员的 team 和 战队竞赛类型全部更改
@@ -373,32 +419,17 @@ export default {
                 this.searchCreditInfo.playerScid=newVal.toLocaleUpperCase();
             }
         },
-        'searchCreditWithTeamInfo':{
-            handler() {
-                this.creditImportInfo.teamId = this.searchCreditWithTeamInfo.id;
-                this.creditImportInfo.teamName = this.searchCreditWithTeamInfo.name;
-                getSettlementTimeList(Object.assign({ // 统计战队赛所有结算时间并搜索该结算时间内所有队员的积分
-                    teamId : this.creditImportInfo.teamId
-                })).then(
-                    response => {
-                        this.settlementTimeList = response.data.data;
-                        this.settlementTimeList.unshift({
-                            settlementTimeStr: '',
-                            settlementTimeShowFormat:'无限制'
-                        });
-                        if (this.settlementTimeList.length>0) {
-                            this.searchCreditInfo.settlementTimeStr = this.settlementTimeList[0].settlementTimeStr;
-                            this.searchCreditBy();
-                        }
-                    }
-                )
-            }
-        }
     },
     mounted() {
         getTeamCompetitionType().then(
             response => {
                 this.teamCompetitionTypeList = response.data.data;
+                this.searchTeamCompetitionTypeList = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
+                this.searchTeamCompetitionTypeList.unshift({
+                    id: '',
+                    name:'无限制'
+                });
+                this.searchCreditInfo.teamCompetitionTypeId = '';
                 this.creditImportInfo.teamCompetitionTypeId = this.teamCompetitionTypeList[0].id;
             }
         );
@@ -410,13 +441,24 @@ export default {
         );
     },
     methods: {
+        showToast(response) { // 通用信息展示
+            if (response.data.code == 0) {
+                this.commonResponse.success = false;
+            } else {
+                this.commonResponse.success = true;
+            }
+            this.commonResponse.msg = response.data.msg;
+            this.$emit('commonResponse', this.commonResponse);
+            var toastLiveExample = document.getElementById('commonToast');
+            var toast = new Toast(toastLiveExample);
+            toast.show();
+        },
         searchMyTeam(){
             searchMyTeam().then(
                 response => {
                     this.teamList = response.data.data.data;
                     if (this.teamList.length>0) {
-                        this.searchCreditWithTeamInfo = this.teamList[0].team;
-                        this.creditImportInfo.teamId = this.teamList[0].team.id;
+                        this.uwtInfo = this.teamList[0];
                     }
                 }
             )
@@ -426,7 +468,6 @@ export default {
             this.searchCreditBy();
         },
         searchCreditBy() { // 获取队员积分
-            this.searchCreditInfo.teamId = this.creditImportInfo.teamId;
             searchCreditBy(Object.assign(this.page,this.searchCreditInfo)).then(
                 response=>{
                     this.teamMemberCreditList = response.data.data.data;
@@ -434,34 +475,40 @@ export default {
                 }
             )
         },
-        editCredit(credit){
-            this.teamMemberCreditInfo=credit;
+        editCredit(credit) {
+            this.teamMemberCreditInfo.creditId = credit.creditId;
+            this.teamMemberCreditInfo.teamName = credit.teamName;
+            this.teamMemberCreditInfo.scid = credit.scid;
+            this.teamMemberCreditInfo.playerName = credit.playerName;
+            this.teamMemberCreditInfo.credit = credit.credit;
+            this.teamMemberCreditInfo.creditTypeId = credit.creditType.id;
+            this.teamMemberCreditInfo.settlementTime = credit.settlementTime;
+            this.teamMemberCreditInfo.teamCompetitionTypeId = credit.teamCompetitionType.id;
+            this.teamMemberCreditInfo.note = credit.note;
             var editCreditModal = document.getElementById('editCreditModal');
             var modal = new Modal(editCreditModal);
             modal.show();
         },
-        saveTeamMemberCreditInfo(){
+        saveTeamMemberCreditInfo(){ // 编辑队员积分 > 保存
             saveTeamMemberCreditInfo(this.teamMemberCreditInfo).then(
                 response => {
                     this.searchCreditBy();
                     document.getElementById('editTeamMemberCreditModalCloseBtn').click();
+                    this.showToast(response);
                 }
             ).catch(error=>{
                 console.log("error:"+error);
             });
         },
-        refreshEditCreditTypeForm(){ // 重置"编辑队员积分"表单
-            this.teamMemberCreditInfo={ // 队员积分
-                creditId: 0,
-                teamName: '',
-                scid: '',
-                playerName: '',
-                settlementTime: getToday()+'T18:00:00', // 重置日期,
-                credit: 0,
-                creditType: {},
-                creditTypeId: 0,
-                note: '',
-            };
+        refreshEditCreditTypeForm() { // 重置"编辑队员积分"表单
+            this.teamMemberCreditInfo.creditId = '';
+            this.teamMemberCreditInfo.teamName = '';
+            this.teamMemberCreditInfo.scid = '';
+            this.teamMemberCreditInfo.playerName = '';
+            this.teamMemberCreditInfo.settlementTime = getToday()+'T18:00:00', // 重置日期
+            this.teamMemberCreditInfo.credit = '';
+            this.teamMemberCreditInfo.creditTypeId = '';
+            this.teamMemberCreditInfo.note = '';
         },
         getAllValidTeamMember(){
             getAllValidTeamMember(this.creditImportInfo).then(
@@ -469,34 +516,36 @@ export default {
                     this.allValidTeamMemberList = response.data.data;
                     if (this.allValidTeamMemberList!= null && this.allValidTeamMemberList.length>0) { // 把【积分录入】的批量模板和单个模板的计算时间重置为今天
                         for (var i = 0; i < this.allValidTeamMemberList.length; i++){
-                            this.allValidTeamMemberList[i].teamCompetitionType=this.creditImportInfo.teamCompetitionTypeId;
+                            this.allValidTeamMemberList[i].teamCompetitionTypeId=this.creditImportInfo.teamCompetitionTypeId;
                             this.allValidTeamMemberList[i].settlementTime=getToday()+'T18:00:00';
                             this.allValidTeamMemberList[i].creditTypeId=this.creditTypeList[0].id;
-                            this.allValidTeamMemberList[i].credit=30;
+                            this.allValidTeamMemberList[i].credit = 30;
+                            this.allValidTeamMemberList[i].uwtId = this.creditImportInfo.uwtId;
+                            
                         }
+                        this.singleTeamMemberCreditInfo.uwtId = this.creditImportInfo.uwtId;
                         this.singleTeamMemberCreditInfo.teamMemberId = this.allValidTeamMemberList[0].teamMemberId;
                         this.singleTeamMemberCreditInfo.settlementTime = getToday() + 'T18:00:00';
                         this.singleTeamMemberCreditInfo.creditTypeId = this.creditTypeList[0].id;
                         this.singleTeamMemberCreditInfo.credit = 30;
-                        this.singleTeamMemberCreditInfo.teamCompetitionType = this.creditImportInfo.teamCompetitionTypeId;
+                        this.singleTeamMemberCreditInfo.teamCompetitionTypeId = this.creditImportInfo.teamCompetitionTypeId;
                     }
                 }
             )
         },
         refreshAllValidTeamMemberListTeamCompetitionType(){
             for (var i = 0; i < this.allValidTeamMemberList.length; i++){
-                this.allValidTeamMemberList[i].teamCompetitionType=this.creditImportInfo.teamCompetitionTypeId;
+                this.allValidTeamMemberList[i].teamCompetitionTypeId=this.creditImportInfo.teamCompetitionTypeId;
             }
-            this.singleTeamMemberCreditInfo.teamCompetitionType = this.creditImportInfo.teamCompetitionTypeId;
+            this.singleTeamMemberCreditInfo.teamCompetitionTypeId = this.creditImportInfo.teamCompetitionTypeId;
         },
         batchCreditAddSave(){
             batchCreditAddSave(this.allValidTeamMemberList).then(
                 response=>{
-                    this.commonResponse.success = true;
                     document.getElementById("closeBatchCreditAddSaveBtn").click();
                     this.searchCreditByBtn();
-
-                    this.commonResponse.msg= response.data.data.msg;
+                    this.commonResponse.success = true;
+                    this.commonResponse.msg = response.data.msg;
                     this.$emit('commonResponse', this.commonResponse);
                     var toastLiveExample = document.getElementById('commonToast');
                     var toast = new Toast(toastLiveExample);
@@ -507,9 +556,9 @@ export default {
         singleCreditAddSave() {
             singleCreditAddSave(this.singleTeamMemberCreditInfo).then(
                 response => {
-                    this.commonResponse.success = true;
+                    
                     document.getElementById("closeSingleCreditAddSaveBtn").click();
-
+                    this.commonResponse.success = true;
                     this.searchCreditByBtn();
                     this.commonResponse.msg= response.data.msg;
                     this.$emit('commonResponse', this.commonResponse);

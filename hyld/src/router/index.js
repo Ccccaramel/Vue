@@ -34,6 +34,72 @@ const routes = [
     component: () =>
       import("../views/SearchPlayer.vue"),
   },
+  {
+    path: "/community",
+    name: "community",
+    component: () =>
+      import("../views/Community.vue"),
+  },
+  {
+    path: "/gluttonousSnake",
+    name: "gluttonousSnake",
+    component: () =>
+      import("../views/GluttonousSnake.vue"),
+  },
+  {
+    path: "/tetris",
+    name: "tetris",
+    component: () =>
+      import("../views/Tetris.vue"),
+  },
+  {
+    path: "/topicInfo&:id",
+    name: "topicInfo",
+    component: () =>
+      import("../views/TopicInfo.vue"),
+  },
+  {
+    path: "/findYou",
+    name: "findYou",
+    component: () =>
+      import("../views/FindYou.vue"),
+  }, 
+  {
+    path: "/pointer",
+    name: "pointer",
+    component: () =>
+      import("../views/Pointer.vue"),
+  },
+  {
+    path: "/gameRole",
+    name: "gameRole",
+    component: () =>
+      import("../views/GameRole.vue"),
+  },
+  {
+    path: "/gear",
+    name: "gear",
+    component: () =>
+      import("../views/Gear.vue"),
+  },
+  {
+    path: "/officialVersionUpdateLog",
+    name: "officialVersionUpdateLog",
+    component: () =>
+      import("../views/OfficialVersionUpdateLog.vue"),
+  },
+  {
+    path: "/gameRoleInfo&:id",
+    name: "gameRoleInfo",
+    component: () =>
+      import("../views/GameRoleInfo.vue"),
+  },
+  {
+    path: "/explain",
+    name: "explain",
+    component: () =>
+      import("../views/Explain.vue"),
+  },
 ];
 
 const router = createRouter({

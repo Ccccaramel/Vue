@@ -28,6 +28,9 @@ module.exports = defineConfig({
 					'^/api' : '' // k:v 把请求中的 k 替换成 v
 				}
 			}
+		},
+		client: {
+			webSocketURL: 'ws://0.0.0.0:8091/ws',
 		}
 	},
 });

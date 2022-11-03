@@ -1,23 +1,23 @@
 <template>
     <div class="tab-pane fade" id="list-myGameAccount" role="tabpanel" aria-labelledby="list-myGameAccount-list">
-        <!-- 搜索条件 -->
+        <!-- 新增&编辑 关联游戏账号信息 -->
         <form class="row g-3 mt-1 mb-3">
             <!-- 在 form 中的 button 其 type 默认为 submit ,所以必须指定类型 button
                 或使用 event.prevent 取消默认事件, vue: @click.stop="delRow()" -->
             <div class="col-auto">
-                <!-- 关联新战队 -->
+                <!-- 关联新游戏账号 -->
                 <div class="container">
                     <div class="row justify-content-start">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#playerInfoModal" @click="relationPlayerBtn()">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#relationPlayerInfoModal" @click="relationPlayerBtn()">
                             关联我的游戏账号
                         </button>
-                        <div class="modal fade" id="playerInfoModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="relationPlayerInfoModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <div class="d-flex align-items-center">
-                                            <h4 class="modal-title align-items-center">{{playerInfo.title}}</h4>
-                                            <!-- <div class="badge rounded-pill bg-primary" v-if="playerInfo.add" style="font-size:larger">{{playerInfo.name}}</div> -->
+                                            <h4 class="modal-title align-items-center">{{relationPlayerInfo.title}}</h4>
+                                            <!-- <div class="badge rounded-pill bg-primary" v-if="relationPlayerInfo.add" style="font-size:larger">{{relationPlayerInfo.name}}</div> -->
                                         </div>
 
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -25,26 +25,26 @@
                                     </div>
                                     <div class="modal-body">
                                         <form class="was-validated" novalidate>
-                                            <div class="col-md mb-2" v-if="playerInfo.add">
+                                            <div class="col-md mb-2" v-if="relationPlayerInfo.add">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control is-invalid"
-                                                        v-model="playerInfo.scid" required>
-                                                    <label>SCID</label>
+                                                        v-model="relationPlayerInfo.playerScid" required>
+                                                    <label>游戏账号SCID</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md mb-2 text-center" v-if="!playerInfo.add">
-                                                <h4><span class="badge rounded-pill bg-primary ">SCID:{{playerInfo.scid}}</span></h4>
+                                            <div class="col-md mb-2 text-center" v-if="!relationPlayerInfo.add">
+                                                <h4><span class="badge rounded-pill bg-primary ">游戏账号SCID:{{relationPlayerInfo.playerScid}}</span></h4>
                                             </div>
                                             <div class="col-md mb-2">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="playerInfo.name"
+                                                    <input type="text" class="form-control" v-model="relationPlayerInfo.playerName"
                                                         required>
                                                     <label>游戏昵称</label>
                                                 </div>
                                             </div>
                                             <div class="col-md mb-2">
                                                 <div class="form-floating">
-                                                    <select class="form-select" v-model="playerInfo.type">
+                                                    <select class="form-select" v-model="relationPlayerInfo.playerType">
                                                         <option v-for="playerType in playerTypeList"
                                                             :key="playerType.id" :value="playerType.id">
                                                             {{playerType.name}}</option>
@@ -52,7 +52,7 @@
                                                     <label>账号所在区</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md mb-2">
+                                            <div class="col-md mb-2" v-if="relationPlayerInfo.add">
                                                 <div class="form-floating">
                                                     <div class="alert alert-warning d-flex align-items-center"
                                                         role="alert">
@@ -72,9 +72,9 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-warning" @click="cleanPlayerInfo()" v-if="playerInfo.add">清空</button>
+                                        <button type="button" class="btn btn-warning" @click="cleanRelationPlayerInfo()" v-if="relationPlayerInfo.add">清空</button>
                                         <button type="button" class="btn btn-secondary" id="closeRelationPlayerModal" data-bs-dismiss="modal">取消</button>
-                                        <button type="button" class="btn btn-primary" @click="savePlayer()" :disabled="playerInfoBtn">保存</button>
+                                        <button type="button" class="btn btn-primary" @click="saveRelationPlayerInfo()" :disabled="saveRelationPlayerInfoBtn">保存</button>
                                     </div>
                                 </div>
                             </div>
@@ -99,20 +99,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-if="myGameAccountList.length==0">
+                <tr v-if="relationPlayerInfoList.length==0">
                     <td colspan="14">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div>
                                     <div class="alert alert-light" role="alert">
-                                        没有绑定任何游戏账号!暂无信息!
+                                        ⭐没有绑定任何游戏账号!暂无信息!<br/>
+                                        ⭐绑定且验证成功之后,你可以修改你的游戏账号信息,例如修改游戏昵称
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </td>
                 </tr>
-                <tr v-for="(myGameAccount, index) in myGameAccountList" :key="myGameAccount.id" :class="myGameAccount.checkStatus.id==1402?'table-success':(myGameAccount.checkStatus.id==1403?'table-danger':'')">
+                <tr v-for="(myGameAccount, index) in relationPlayerInfoList" :key="myGameAccount.id" :class="myGameAccount.checkStatus.id==1402?'table-success':(myGameAccount.checkStatus.id==1403?'table-danger':'')">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ myGameAccount.player.scid }}</td>
                     <td>{{ myGameAccount.player.name }}</td>
@@ -123,7 +124,7 @@
                         <span class="btn badge rounded-pill bg-success" data-bs-toggle="modal" v-if="myGameAccount.checkStatus.id!=1402" data-bs-target="#upPlayerVerificationInformationModal"
                             @click="upVerificationInformation(myGameAccount.id)">上传验证</span>
                         <span class="btn badge rounded-pill bg-primary ms-2" data-bs-toggle="modal" v-if="myGameAccount.checkStatus.id==1402"
-                            data-bs-target="#playerInfoModal" @click="editPalyer(myGameAccount)">编辑</span>
+                            data-bs-target="#relationPlayerInfoModal" @click="editPalyer(myGameAccount)">编辑</span>
                         <span class="btn badge rounded-pill bg-danger ms-2" v-if="myGameAccount.checkStatus.id==1402" @click="relievePlayer(myGameAccount.player.id)">解除关联</span>
                     </td>
                 </tr>
@@ -221,40 +222,50 @@
                     <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#upPlayerVerificationInformationModalExampleModal" data-bs-toggle="modal">查看上传样例</button>
                         <button type="button" class="btn btn-secondary" id="closePlayerModal" data-bs-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-primary" @click="savePlayerCheckData()" :disabled="saveCheckDataBtn">提交验证信息</button>
+                        <button type="button" class="btn btn-primary" @click="saveRelationPlayerInfoCheckData()" :disabled="saveCheckDataBtn">提交验证信息</button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 分页 -->
+        <div class="dropdown-divider"></div>
+        <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
 </template>
 
 <script>
+import Page from '@/components/Page.vue';
 import { Modal, Toast } from 'bootstrap';
 import { getPlayerType } from "../api/dictionary";
-import { savePlayer } from "../api/player";
-import { searchMyGameAccount,relievePlayer,savePlayerCheckData } from "../api/userWithPlayer";
+import { searchMyGameAccount,relievePlayer,saveRelationPlayerInfoCheckData,saveRelationPlayerInfo } from "../api/userWithPlayer";
 export default {
     name: "myGameAccount",
+    components: {
+        Page,
+    },
     data() {
         return {
+            page: {
+                size: 10,
+                currentPage:1, // 偏移量,数据库从0开始
+                totalPage: 0,
+            },
             commonResponse: {
                 success: true,
                 msg: ''
             },
             playerTypeList: [],
-            playerInfo: {
+            relationPlayerInfo: {
                 add: true,
                 title: '',
                 id: '',
-                scid: '',
-                name: '',
-                type: '',
+                playerScid: '',
+                playerName: '',
+                playerType: '',
             },
-            playerInfoBtn: true,
+            saveRelationPlayerInfoBtn: true,
             saveCheckDataBtn: true,
-            playerList: [],
-            myGameAccountList: [],
+            relationPlayerInfoList: [],
             checkData: {
                 playerMainPageFile: '',
                 playerPreparePageFile: '',
@@ -268,15 +279,15 @@ export default {
         getPlayerType().then(
             response => {
                 this.playerTypeList = response.data.data;
-                this.playerInfo.type = this.playerTypeList[0].id;
+                this.relationPlayerInfo.playerType = this.playerTypeList[0].id;
             },
         );
     },
     watch: {
         // 监听对象,注意设置 deep:true
-        playerInfo: {
+        relationPlayerInfo: {
             handler() {
-                this.checkPlayerInfo();
+                this.checkUwtInfo();
             },
             deep: true
         },
@@ -300,23 +311,32 @@ export default {
             var toast = new Toast(toastLiveExample);
             toast.show();
         },
+        commonPageChange(event) {
+            this.page = event;
+            this.searchMyGameAccount();
+        },
+        // pageChange(currentPage) {
+        //     this.page.currentPage = currentPage;
+        //     this.searchMyGameAccount();
+        // },
         searchMyGameAccount() {
-            searchMyGameAccount(this.playerInfo).then(
+            searchMyGameAccount(this.page).then(
                 response => {
-                    this.myGameAccountList = response.data.data;
+                    this.relationPlayerInfoList = response.data.data.data;
+                    this.page.totalPage = response.data.data.totalPage;
                 }
             );
         },
         relationPlayerBtn() {
-            this.playerInfo.add = true;
-            this.playerInfo.title = "关联新账号";
-            this.cleanPlayerInfo();
+            this.relationPlayerInfo.add = true;
+            this.relationPlayerInfo.title = "关联新账号";
+            this.cleanRelationPlayerInfo();
         },
-        savePlayer() { // 关联游戏账号
-            savePlayer(this.playerInfo).then(
+        saveRelationPlayerInfo() { // 关联游戏账号
+            saveRelationPlayerInfo(this.relationPlayerInfo).then(
                 response => {
                     if (response.data.code == 1) {
-                        this.cleanPlayerInfo();
+                        this.cleanRelationPlayerInfo();
                         document.getElementById("closeRelationPlayerModal").click();
                         this.searchMyGameAccount();
                     }
@@ -324,12 +344,12 @@ export default {
                 }
             )
         },
-        savePlayerCheckData() { // 提交验证
+        saveRelationPlayerInfoCheckData() { // 提交验证
             var forms = new FormData();
             forms.append('playerMainPageFile', this.playerMainPageFile);
             forms.append('playerPreparePageFile', this.playerPreparePageFile);
             forms.append('relationId', this.relationId);
-            savePlayerCheckData(forms).then(
+            saveRelationPlayerInfoCheckData(forms).then(
                 response => {
                     if (response.data.code == 1) {
                         this.cleanCheckFile('playerMainPage');
@@ -341,19 +361,20 @@ export default {
                 }
             )
         },
-        checkPlayerInfo() {
-            if (this.playerInfo.scid == '' || this.playerInfo.name == '') {
-                this.playerInfoBtn = true;
+        checkUwtInfo() {
+            this.relationPlayerInfo.playerScid =this.relationPlayerInfo.playerScid.toLocaleUpperCase();
+            if (this.relationPlayerInfo.playerScid == '' || this.relationPlayerInfo.playerName == '') {
+                this.saveRelationPlayerInfoBtn = true;
             }
             else {
-                this.playerInfoBtn = false;
+                this.saveRelationPlayerInfoBtn = false;
             }
         },
-        cleanPlayerInfo() {
-            this.playerInfo.id = '';
-            this.playerInfo.scid = '';
-            this.playerInfo.name = '';
-            this.playerInfo.type = this.playerTypeList[0].id;
+        cleanRelationPlayerInfo() {
+            this.relationPlayerInfo.id = '';
+            this.relationPlayerInfo.playerScid = '';
+            this.relationPlayerInfo.playerName = '';
+            this.relationPlayerInfo.playerType = this.playerTypeList[0].id;
         },
         cleanCheckFile(fileId) {
             var obj = document.getElementById(fileId) ;
@@ -364,12 +385,12 @@ export default {
             this.relationId = relationId;
         },
         editPalyer(myGameAccount) {
-            this.playerInfo.add = false;
-            this.playerInfo.title = "编辑游戏账号信息";
-            this.playerInfo.id = myGameAccount.player.id;
-            this.playerInfo.scid = myGameAccount.player.scid;
-            this.playerInfo.name = myGameAccount.player.name;
-            this.playerInfo.type = myGameAccount.player.type;
+            this.relationPlayerInfo.add = false;
+            this.relationPlayerInfo.title = "编辑游戏账号信息";
+            this.relationPlayerInfo.id = myGameAccount.id;
+            this.relationPlayerInfo.playerScid = myGameAccount.player.scid;
+            this.relationPlayerInfo.playerName = myGameAccount.player.name;
+            this.relationPlayerInfo.playerType = myGameAccount.player.type;
         },
         checkCheckData() {
             if (this.checkData.playerMainPageFile=='' || this.checkData.playerPreparePageFile=='') {

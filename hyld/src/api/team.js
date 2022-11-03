@@ -1,12 +1,12 @@
 import request from '../utils/request'
 
-export function searchTeamInfo(params){
-    return request({
-        method: 'GET',
-        url: '/team/searchTeamInfo',
-        params: params,
-    })
-}
+// export function searchTeamInfo(params){
+//     return request({
+//         method: 'GET',
+//         url: '/team/searchTeamInfo',
+//         params: params,
+//     })
+// }
 
 export function searchAllTeam(params){
     return request({

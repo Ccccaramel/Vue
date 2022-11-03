@@ -1,20 +1,19 @@
 <template>
   <div>
-    <Head ref="head" :commonResponse="commonResponseData"></Head>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container mt-2 mb-2">
       <div class="row justify-content-center">
         <div class="col-auto">
-          <input type="text" class="form-control" v-model="teamInfo.name" placeholder="战队名称">
+          <input type="text" class="form-control" v-model="uwtInfo.name" placeholder="战队名称">
         </div>
         <div class="col-auto">
-          <input type="text" class="form-control" v-model="teamInfo.scid" placeholder="战队SCID标签">
+          <input type="text" class="form-control" v-model="uwtInfo.scid" placeholder="战队SCID标签">
         </div>
         <div class="col-auto">
           <button type="button" class="btn btn-dark" @click="searchTeamInfo()">搜索</button>
         </div>
       </div>
     </div>
-
     <div class="container">
       <div class="row text-center">
         <div class="col">
@@ -32,16 +31,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(teamInfo,i) in teamInfoList" :key="i">
+              <tr v-for="(uwtInfo,i) in uwtInfoList" :key="i">
                 <th scope="row">{{i}}</th>
-                <td>{{teamInfo.scid}}</td>
-                <td>{{teamInfo.name}}</td>
-                <td>{{teamInfo.teamType.name }}</td>
-                <td>{{teamInfo.eliminationLine}}</td>
-                <td>{{teamInfo.excellentLine}}</td>
-                <td>{{teamInfo.note}}</td>
+                <td>{{uwtInfo.team.scid}}</td>
+                <td>{{uwtInfo.team.name}}</td>
+                <td>{{uwtInfo.team.type.name }}</td>
+                <td>{{uwtInfo.team.eliminationLine}}</td>
+                <td>{{uwtInfo.team.excellentLine}}</td>
                 <td>
-                  <span class="btn badge rounded-pill bg-primary" @click="getTeamData(teamInfo)">综合数据</span>
+                  <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="uwtInfo.team.note" style="max-width: 300px;">
+                    {{uwtInfo.team.note}}
+                  </span>
+                </td>
+                <td>
+                  <span class="btn badge rounded-pill bg-primary" @click="getTeamData(uwtInfo)">综合数据</span>
                 </td>
               </tr>
             </tbody>
@@ -61,15 +64,16 @@
   </div>
 </template>
 <script>
-import Head from "@/components/Head.vue";
+import { Popover } from "bootstrap";
+import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
 
-import { searchTeamInfo } from "../api/team";
+import { searchValidTeamInfo } from "../api/userWithTeam";
 import { getTeamData } from "../api/credit";
 export default {
   name: "searchTeam",
   components: {
-    Head,
+    Top,
     Page,
   },
   data() {
@@ -88,15 +92,28 @@ export default {
         currentPage: 1, // 偏移量,数据库从0开始
         totalPage: 0,
       },
-      teamInfoList: [],
-      teamInfo: {
-        name: '',
-        scid: '',
+      uwtInfoList: [],
+      uwtInfo: {
+        teamName: '',
+        teamScid: '',
       },
     }
   },
   mounted() {
     this.searchTeamInfoBtn();
+    // var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    //   return new Popover(popoverTriggerEl)
+    // });
+  },
+  updated() { //更新之后.场景:获取更新真实DOM之后
+    /**
+     * 尝试一下放在 updated() 和 mounted() 中分别有什么区别
+     */
+    var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new Popover(popoverTriggerEl)
+    });
   },
   methods: {
     commonPageChange(event) {
@@ -107,23 +124,26 @@ export default {
       this.page.currentPage = 1;
       this.searchTeamInfo();
     },
+    /**
+     * 仅搜索已关联并验证通过的战队的 team 信息,而不是所有的 team 信息
+     */
     searchTeamInfo() {
-      searchTeamInfo(Object.assign(this.page, this.teamInfo)).then(
+      searchValidTeamInfo(Object.assign(this.page, this.uwtInfo)).then(
         response => {
-          this.teamInfoList = response.data.data.data;
+          this.uwtInfoList = response.data.data.data;
           this.page.totalPage = response.data.data.data.totalPage;
         }
       )
     },
-    getTeamData(team) {
+    getTeamData(uwtInfo) {
       getTeamData(Object.assign({
-        teamId: team.id
+        uwtId: uwtInfo.id
       })).then(
         response => {
-          this.teamModalData.teamName = team.name;
+          this.teamModalData.teamName = uwtInfo.team.name;
           this.teamModalData.competition = response.data.data.competition;
           this.teamModalData.task = response.data.data.task;
-          this.$refs.head.showTeamDataModal(this.teamModalData);
+          this.$refs.top.showTeamDataModal(this.teamModalData);
         }
       );
     },

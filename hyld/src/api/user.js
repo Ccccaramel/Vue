@@ -82,3 +82,11 @@ export function saveUserPassword(params){
         data: params
     })
 }
+
+export function saveHeadPortrait(params){
+    return request({
+        method: 'post',
+        url: '/user/saveHeadPortrait',
+        data: params
+    })
+}

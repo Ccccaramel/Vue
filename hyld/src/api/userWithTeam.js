@@ -48,10 +48,10 @@ export function teamExamineCheck(params){
     })
 }
 
-export function searchTeamExamine(params){
+export function searchTeamRelation(params){
     return request({
         method: 'get',
-        url: '/userWithTeam/searchTeamExamine',
+        url: '/userWithTeam/searchTeamRelation',
         params:params
     })
 }
@@ -77,5 +77,29 @@ export function addViceCaptain(params){
         method: 'post',
         url: '/userWithTeam/addViceCaptain',
         data:params
+    })
+}
+
+export function searchValidTeamInfo(params){
+    return request({
+        method: 'GET',
+        url: '/userWithTeam/searchValidTeamInfo',
+        params: params,
+    })
+}
+
+export function teamTransfer(params){
+    return request({
+        method: 'POST',
+        url: '/userWithTeam/teamTransfer',
+        data: params,
+    })
+}
+
+export function teamCreditScoreSave(params){
+    return request({
+        method: 'POST',
+        url: '/userWithTeam/teamCreditScoreSave',
+        data: params,
     })
 }

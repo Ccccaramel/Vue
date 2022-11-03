@@ -3,6 +3,11 @@
         <!-- 用户个人基本信息 -->
         <div class="alert" role="alert">
             <div class="mb-3 row">
+                <img class="col-auto rounded-circle" :src="currentUserInfo.headPortraitUrl"
+                 data-bs-toggle="modal" data-bs-target="#changeHeadPortraitModal" @click="changeHeadPortrait()"
+                 style="weight:164px;height:164px">
+            </div>
+            <div class="mb-3 row">
                 <label class="col-1 col-form-label">ID</label>
                 <label class="col-6 col-form-label">{{currentUserInfo.id}}</label>
             </div>
@@ -56,15 +61,79 @@
                 </div>
             </div>
         </div>
+        <!-- 修改头像 -->
+        <div class="modal fade" id="changeHeadPortraitModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="modal-title align-items-center">{{userHeadPortraitInfo.title}}</h4>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" id="changeHeadPortraitModalCloseBtn" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container text-center">
+                            <div class="row row-cols-12">
+                                <div class="col col-lg-1" v-for="headPortraitInfo in allHeadPortraitList" :key="headPortraitInfo.id">
+                                    <div class="vstack">
+                                        <img class="rounded-circle" :src="headPortraitInfo.imageUrl" @dblclick="saveHeadPortrait(headPortraitInfo.id)">
+                                        <p>{{headPortraitInfo.name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 分页 -->
+                        <Page :commonPage="modalPage" @commonPageChange="commonModalPageChange($event)"></Page>
+                        <div class="alert alert-warning d-flex align-items-center justify-content-center" role="alert">
+                            <!-- 显隐+缩放 交替 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat-fade /> -->
+                            <!-- 向上跳动 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" bounce /> -->
+                            <!-- 显隐交替 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" fade /> -->
+                            <!-- y轴旋转 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" flip /> -->
+                            <!-- 原点左右摆动 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" shake /> -->
+                            <!-- 原点顺时针旋转 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin /> -->
+                            <!-- 原点逆时针旋转 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin spin-reverse /> -->
+                            <!-- 原点顺时针每帧60°旋转 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin-pulse /> -->
+                            <!-- 缩放交替 -->
+                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/> -->
+                            <font-awesome-icon icon="fa-solid fa-circle-question" size="1x" bounce/>
+                            <div>
+                                ⭐双击即可修改哦!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
+import Page from '@/components/Page.vue';
 import { Toast } from 'bootstrap';
-import { getCurrentUserInfo,updateUserInfo,saveUserPassword } from "@/api/user";
+import { getCurrentUserInfo,updateUserInfo,saveUserPassword,saveHeadPortrait } from "@/api/user";
+import { searchHeadPortrait } from '@/api/headPortrait';
+import {getPublicKey,encrypt} from "@/api/common"
 export default {
     name: "userInfo",
+    components: {
+        Page,
+    },
     data() {
         return {
+            modalPage: {
+                size: 48,
+                currentPage:1, // 偏移量,数据库从0开始
+                totalPage: 0,
+                asc: true,
+                currentPageSize:0, // 本页搜索结果数
+            },
             commonResponse: {
                 success: true,
                 msg: '',
@@ -73,13 +142,22 @@ export default {
                 id: '',
                 name: '',
                 qq: '',
-                note: ''
+                note: '',
+                headPortraitUrl:''
+
             },
             userPasswordInfo: {
                 title: '',
                 id: '',
                 password: ''
-            }
+            },
+            saveUserPasswordBtn: true,
+            userHeadPortraitInfo: {
+                title: '',
+                newHeadPortraitId:'',
+            },
+            allHeadPortraitList: [],
+            publicKey: '',
         }
     },
     watch: {
@@ -93,6 +171,10 @@ export default {
     mounted() {
     },
     methods: {
+        commonModalPageChange(event) { // 修改头像 modal 的分页
+            this.modalPage = event;
+            this.searchHeadPortrait();
+        },
         showToast(response) { // 通用信息展示
             if (response.data.code == 0) {
                 this.commonResponse.success = false;
@@ -124,6 +206,7 @@ export default {
                     this.currentUserInfo.name = response.data.data.name;
                     this.currentUserInfo.qq = response.data.data.qq;
                     this.currentUserInfo.note = response.data.data.note;
+                    this.currentUserInfo.headPortraitUrl = response.data.data.headPortrait.imageUrl;
                 }
             );
         },
@@ -142,14 +225,19 @@ export default {
             this.userPasswordInfo.title = '修改密码';
         },
         saveUserPassword() {
-            saveUserPassword(this.userPasswordInfo).then(
+            getPublicKey().then( // 获取加密密钥
                 response => {
-                    this.showToast(response);
-                    document.getElementById("editCurrentUserPasswordModalCloseBtn").click();
-                    this.userPasswordInfo.password = '';
-
+                    this.publicKey = response.data.data.publicKey;
+                    this.userPasswordInfo.password = encrypt(this.userPasswordInfo.password, this.publicKey); // 加密
+                    saveUserPassword(this.userPasswordInfo).then(
+                        response => {
+                            this.showToast(response);
+                            document.getElementById("editCurrentUserPasswordModalCloseBtn").click();
+                            this.userPasswordInfo.password = '';
+                        }
+                    );
                 }
-            )
+            );
         },
         checkUserPasswordInfo() {
             if (this.userPasswordInfo.password == '') {
@@ -158,6 +246,29 @@ export default {
             else {
                 this.saveUserPasswordBtn = false;
             }
+        },
+        changeHeadPortrait() {
+            this.userHeadPortraitInfo.title = "修改头像";
+            this.searchHeadPortrait();
+        },
+        searchHeadPortrait() {
+            searchHeadPortrait(this.modalPage).then(
+                response => {
+                    this.allHeadPortraitList = response.data.data.data;
+                    this.modalPage.totalPage = response.data.data.totalPage;
+                }
+            )
+        },
+        saveHeadPortrait(headPortraitId) {
+            saveHeadPortrait(Object.assign({
+                headPortraitId:headPortraitId
+            })).then(
+                response => {
+                    document.getElementById("changeHeadPortraitModalCloseBtn").click();
+                    this.showToast(response);
+                    this.getCurrentUserInfo();
+                }
+            )
         },
     },
 }

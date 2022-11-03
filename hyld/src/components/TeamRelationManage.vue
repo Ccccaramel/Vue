@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="list-TeamExamine" role="tabpanel" aria-labelledby="list-TeamExamine-list">
+    <div class="tab-pane fade" id="list-teamRelationManage" role="tabpanel" aria-labelledby="list-teamRelationManage-list">
         <!-- 搜索条件 -->
         <form class="row g-3 mt-1 mb-3">
             <!-- 在 form 中的 button 其 type 默认为 submit ,所以必须指定类型 button
@@ -44,7 +44,7 @@
                 <button type="button" class="btn btn-dark" @click="cleanSearchRelationInfo()">清空</button>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-dark" @click="searchTeamExamineBtn()">搜索</button>
+                <button type="button" class="btn btn-dark" @click="searchTeamRelationBtn()">搜索</button>
             </div>
         </form>
         <table class="table text-center table-hover caption-top">
@@ -63,12 +63,13 @@
                     <th scope="col">验证状态</th>
                     <th scope="col">关联状态</th>
                     <th scope="col">关联时间</th>
+                    <th scope="col">信誉积分</th>
                     <th scope="col">验证结果备注</th>
                     <th scope="col">操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-if="teamExamineList.length==0">
+                <tr v-if="teamRelationList.length==0">
                     <td colspan="14">
                         <div class="container">
                             <div class="row justify-content-center">
@@ -82,21 +83,24 @@
                     </td>
                 </tr>
 
-                <tr v-for="(teamExamine, index) in teamExamineList" :key="teamExamine.id" :class="teamExamine.relation.id==702?'table-secondary':(teamExamine.checkStatus.id==1402?'table-success':(teamExamine.checkStatus.id==1403?'table-danger':(teamExamine.checkStatus.id==1401?'table-warning':'')))">
+                <tr v-for="(teamRelation, index) in teamRelationList" :key="teamRelation.id" :class="teamRelation.relation.id==702?'table-secondary':(teamRelation.checkStatus.id==1402?'table-success':(teamRelation.checkStatus.id==1403?'table-danger':(teamRelation.checkStatus.id==1401?'table-warning':'')))">
                     <th scope="row">{{ index + 1 }}</th>
-                    <td>{{ teamExamine.user.id }}</td>
-                    <td>{{ teamExamine.user.name }}</td>
-                    <td>{{ teamExamine.playerPositionType.name }}</td>
-                    <td>{{ teamExamine.team.scid }}</td>
-                    <td>{{ teamExamine.team.name }}</td>
-                    <td>{{ teamExamine.team.teamType.name }}</td>
-                    <td>{{ teamExamine.checkStatus.name }}</td>
-                    <td>{{ teamExamine.relation.name }}</td>
-                    <td>{{ teamExamine.createTimeStr }}</td>
-                    <td>{{ teamExamine.note }}</td>
+                    <td>{{ teamRelation.user.id }}</td>
+                    <td>{{ teamRelation.user.name }}</td>
+                    <td>{{ teamRelation.playerPositionType.name }}</td>
+                    <td>{{ teamRelation.team.scid }}</td>
+                    <td>{{ teamRelation.team.name }}</td>
+                    <td>{{ teamRelation.team.type.name }}</td>
+                    <td>{{ teamRelation.checkStatus.name }}</td>
+                    <td>{{ teamRelation.relation.name }}</td>
+                    <td>{{ teamRelation.createTimeStr }}</td>
+                    <td>{{ teamRelation.playerPositionType.id==1200? teamRelation.creditScore:'-' }}</td>
+                    <td>{{ teamRelation.note }}</td>
                     <td>
                         <span class="btn badge rounded-pill bg-primary ms-2" data-bs-toggle="modal"
-                            data-bs-target="#showTeamExamineInfoModal" @click="showTeamExamineInfo(teamExamine)">审核</span>
+                            data-bs-target="#showTeamExamineInfoModal" @click="showTeamExamineInfo(teamRelation)">审核</span>
+                        <span class="btn badge rounded-pill bg-primary ms-2" data-bs-toggle="modal"
+                            data-bs-target="#editTeamCreditScoreModal" @click="editTeamCreditScore(teamRelation)">编辑信誉积分</span>
                     </td>
                 </tr>
             </tbody>
@@ -106,7 +110,7 @@
             <div class="modal-dialog modal-xl modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamExamineInfo.teamScid}}({{teamExamineInfo.teamName}})</div>
+                        <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamRelationInfo.teamScid}}({{teamRelationInfo.teamName}})</div>
                         <h4 class="modal-title align-items-center">验证信息</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -116,7 +120,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img :src="teamExamineInfo.controllerPreparePage" class="rounded" style="height: 640px;" />
+                                <img :src="teamRelationInfo.controllerPreparePageUrl" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                         <div class="alert alert-primary text-center" role="alert">
@@ -124,13 +128,13 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img :src="teamExamineInfo.teamMainPage" class="rounded" style="height: 640px;" />
+                                <img :src="teamRelationInfo.teamMainPageUrl" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                         <hr/>
                         <div class="col-md mb-2">
                             <div class="form-floating mb-3">
-                                <select class="form-select" v-model="teamExamineInfo.checkStatus">
+                                <select class="form-select" v-model="teamRelationInfo.checkStatus">
                                     <option v-for="checkStatus in checkStatusListToModal" :key="checkStatus.id" :value="checkStatus.id">{{checkStatus.name}}</option>
                                 </select>
                                 <label>审核状态</label>
@@ -138,7 +142,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" v-model="teamExamineInfo.note">
+                                <input type="text" class="form-control" v-model="teamRelationInfo.note">
                                 <label>备注</label>
                             </div>
                         </div>
@@ -150,6 +154,31 @@
                 </div>
             </div>
         </div>
+        <!-- 编辑关联战队的信誉积分 -->
+        <div class="modal fade" id="editTeamCreditScoreModal" aria-hidden="true" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamRelationInfo.teamScid}}({{teamRelationInfo.teamName}})</div>
+                        <h4 class="modal-title align-items-center">编辑信誉积分</h4>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md mb-2">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" v-model="teamRelationInfo.creditScore">
+                                <label>备注</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="closeTeamCreditScoreSaveBtn" data-bs-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" @click="teamCreditScoreSave()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- :commonPage="page"   发送数据 -->
         <!-- @commonPageChange="commonPageChange($event)"   接收数据 -->
         <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
@@ -160,9 +189,9 @@
 import Page from '@/components/Page.vue';
 import { Modal, Toast } from 'bootstrap';
 import { getTeamType,getCheckStatus,getRelationStatus } from "../api/dictionary";
-import { searchTeamExamine,teamExamineCheck } from "../api/userWithTeam";
+import { searchTeamRelation,teamExamineCheck,teamCreditScoreSave } from "../api/userWithTeam";
 export default {
-    name: "teamExamine",
+    name: "teamRelationManage",
     components: {
         Page,
     },
@@ -181,7 +210,7 @@ export default {
             checkStatusList: [],
             checkStatusListToModal: [],
             relationStatusList: [],
-            teamExamineList: [],
+            teamRelationList: [],
             checkData: {
                 controllerPreparePageUrl: '',
                 teamMainPageUrl: '',
@@ -196,7 +225,7 @@ export default {
                 relationStatus: '',
                 checkStatus: '',
             },
-            teamExamineInfo: {
+            teamRelationInfo: {
                 checkStatus: ''
             },
         }
@@ -248,7 +277,7 @@ export default {
         },
         commonPageChange(event) {
             this.page = event;
-            this.searchTeamExamine();
+            this.searchTeamRelation();
         },
         cleanSearchRelationInfo() {
             this.searchRelationInfo.userId = '';
@@ -259,33 +288,52 @@ export default {
                 this.searchRelationInfo.relationStatus = '';
                 this.searchRelationInfo.checkStatus = '';
         },
-        searchTeamExamineBtn() { 
+        searchTeamRelationBtn() { 
             this.page.currentPage = 1;
-            this.searchTeamExamine();
+            this.searchTeamRelation();
         },
-        searchTeamExamine() {
-            searchTeamExamine(Object.assign(this.page,this.searchRelationInfo)).then(
+        searchTeamRelation() {
+            searchTeamRelation(Object.assign(this.page,this.searchRelationInfo)).then(
                 response => {
-                    this.teamExamineList = response.data.data.data;
+                    this.teamRelationList = response.data.data.data;
                     this.page.totalPage = response.data.data.totalPage;
                 }
             );
         },
-        showTeamExamineInfo(teamExamine) {
-            this.teamExamineInfo.id = teamExamine.id;
-            this.teamExamineInfo.teamScid = teamExamine.team.scid;
-            this.teamExamineInfo.teamName = teamExamine.team.name;
-            this.teamExamineInfo.controllerPreparePage = teamExamine.controllerPreparePage;
-            this.teamExamineInfo.teamMainPage = teamExamine.teamMainPage;
-            this.teamExamineInfo.checkStatus = teamExamine.checkStatus.id;
-            this.teamExamineInfo.note = teamExamine.note;
+        showTeamExamineInfo(teamRelation) {
+            this.teamRelationInfo.id = teamRelation.id;
+            this.teamRelationInfo.teamScid = teamRelation.team.scid;
+            this.teamRelationInfo.teamName = teamRelation.team.name;
+            this.teamRelationInfo.controllerPreparePage = teamRelation.controllerPreparePage;
+            this.teamRelationInfo.controllerPreparePageUrl = teamRelation.controllerPreparePageUrl;
+            this.teamRelationInfo.teamMainPage = teamRelation.teamMainPage;
+            this.teamRelationInfo.teamMainPageUrl = teamRelation.teamMainPageUrl;
+            this.teamRelationInfo.checkStatus = teamRelation.checkStatus.id;
+            this.teamRelationInfo.note = teamRelation.note;
+        },
+        editTeamCreditScore(teamRelation) {
+            this.teamRelationInfo.id = teamRelation.id;
+            this.teamRelationInfo.teamScid = teamRelation.team.scid;
+            this.teamRelationInfo.teamName = teamRelation.team.name;
+            this.teamRelationInfo.creditScore = teamRelation.creditScore;
         },
         teamExamineSave() {
-            teamExamineCheck(this.teamExamineInfo).then(
+            teamExamineCheck(this.teamRelationInfo).then(
                 response => {
                     if (response.data.code == 1) {
                         document.getElementById("closeTeamExamineSaveBtn").click();
-                        this.searchTeamExamine();
+                        this.searchTeamRelation();
+                    }
+                    this.showToast(response);
+                }
+            )
+        },
+        teamCreditScoreSave() {
+            teamCreditScoreSave(this.teamRelationInfo).then(
+                response => {
+                    if (response.data.code == 1) {
+                        document.getElementById("closeTeamCreditScoreSaveBtn").click();
+                        this.searchTeamRelation();
                     }
                     this.showToast(response);
                 }

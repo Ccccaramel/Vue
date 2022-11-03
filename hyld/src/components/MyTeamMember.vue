@@ -1,17 +1,9 @@
 <template>
-    <div class="tab-pane fade" id="list-teamMember" role="tabpanel" aria-labelledby="list-teamMember-list">
-        <div v-if="this.teamList.length==0">
+    <div class="tab-pane fade" id="list-myTeamMember" role="tabpanel" aria-labelledby="list-myTeamMember-list">
+        <div v-if="this.uwtInfoList.length==0">
             <div class="alert alert-info" role="alert">
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat-fade /> -->
                 <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" bounce />
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" fade /> -->
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" flip /> -->
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" shake /> -->
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin /> -->
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin spin-reverse /> -->
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin-pulse /> -->
-                <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/> -->
-                ~~>_&lt;~~你还没有关联任何战队,请先关联战队,然后为你的战队添加队员吧!
+                ~~>_&lt;~~你还没有关联任何战队,请先关联战队,<strong>等待审核通过,</strong>然后为你的战队添加队员吧!
             </div>
             <div class="col-md mb-2">
                 <div class="form-floating text-center" style="height: 640px;">
@@ -19,23 +11,23 @@
                 </div>
             </div>
         </div>
-        <div v-if="this.teamList.length>0">
+        <div v-if="this.uwtInfoList.length>0">
             <!-- 搜索条件 -->
             <form class="row g-3 mt-1 mb-3">
                 <div class="col-auto">
-                    <select class="form-select" v-model="teamInfo">
+                    <select class="form-select" v-model="uwtInfo">
                         <option
-                            v-for="team in teamList"
-                            v-bind:key="team.team"
-                            :value="team.team">
-                            {{ team.team.name }}</option>
+                            v-for="uwtInfo in uwtInfoList"
+                            v-bind:key="uwtInfo"
+                            :value="uwtInfo">
+                            {{ uwtInfo.team.name }}</option>
                     </select>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" v-model="teamMemberInfo.scid" placeholder="队员SCID标签">
+                    <input type="text" class="form-control" v-model="teamMemberInfo.playerScid" placeholder="队员SCID标签">
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" v-model="teamMemberInfo.name" placeholder="队员名称">
+                    <input type="text" class="form-control" v-model="teamMemberInfo.playerName" placeholder="队员名称">
                 </div>
                 <div class="col-auto">
                     <select class="form-select" v-model="teamMemberInfo.teamMemberStatusId">
@@ -57,67 +49,16 @@
                     <!-- 添加新队员 -->
                     <div class="container">
                         <div class="row justify-content-start">
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addNewTeamMemberModal">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addNewTeamMemberModal"  v-if="uwtInfo.playerPositionType.id==1200 || uwtInfo.playerPositionType.id==1201">
                                 添加新队员
                             </button>
-                            <div class="modal fade" id="addNewTeamMemberModal" tabindex="-1" aria-labelledby="addNewTeamMemberModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <div class="badge rounded-pill bg-primary" style="font-size:larger">{{teamInfo.name}}</div>
-                                            <h5 class="modal-title" id="addNewTeamMemberModalLabel">添加新队员</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form class="was-validated" novalidate>
-                                                <div class="col-md mb-2">
-                                                    <div class="form-floating">
-                                                    <input type="text" class="form-control is-invalid" v-model="newTeamMemberInfo.scid" placeholder="newTeamMemberInfo_scid" required>
-                                                    <label>队员SCID标签</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md mb-2">
-                                                    <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.name" placeholder="newTeamMemberInfo_name" required>
-                                                    <label>队员名称</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md mb-2">
-                                                    <div class="form-floating">
-                                                    <input step=1 type="datetime-local" class="form-control" v-model="newTeamMemberInfo.time" placeholder="newTeamMemberInfo_time"/>
-                                                    <label>加入时间</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md mb-2">
-                                                    <div class="form-floating">
-                                                        <select class="form-select"  v-model="newTeamMemberInfo.joinWay">
-                                                            <option v-for="joinWay in joinWayList" :key="joinWay.id" :value="joinWay.id">{{joinWay.name}}</option>
-                                                        </select>
-                                                        <label>加入方式</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md mb-2">
-                                                    <div class="form-floating">
-                                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.note" placeholder="newTeamMemberInfo_note">
-                                                    <label>备注</label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" id="addNewTeamMemberCloseBtn" data-bs-dismiss="modal">取消</button>
-                                            <button type="button" class="btn btn-primary" @click="addNewTeamMember()" :disabled="newTeamMemberInfoBtn">保存</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </form>
             <!-- <div class="dropdown-divider"></div> -->
             <table class="table text-center table-hover caption-top">
-                <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary ">{{teamInfo.name}}</span></h4></caption>
+                <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary ">{{uwtInfo.team.name}}</span></h4></caption>
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -159,10 +100,8 @@
                         <td>
                             <span class="btn badge rounded-pill bg-primary me-2" data-bs-toggle="modal" data-bs-target="#teamMemberAllCreditRecordModal"
                                 @click="getTeamMemberAllCreditRecord(teamMember)">查看战队赛记录</span>
-                            <span class="btn badge rounded-pill bg-success me-2" data-bs-toggle="modal" data-bs-target="#teamMemberAllCreditRecordModal"
-                                @click="updateTeamMemberInfo(teamMember)" v-if="teamMember.statusId==100">编辑队员信息</span>
                             <span class="btn badge rounded-pill bg-danger" data-bs-toggle="modal" data-bs-target="#kickOutModal-teamMember"
-                                @click="setTeamMemberId(teamMember)" v-if="teamMember.statusId==100">踢出</span>
+                                @click="setTeamMemberId(teamMember)" v-if="teamMember.statusId==100 &&(uwtInfo.playerPositionType.id==1200 || uwtInfo.playerPositionType.id==1201)">踢出</span>
                             <div class="modal fade" id="kickOutModal-teamMember" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form>
@@ -185,12 +124,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-floating mb-2">
-                                                    <textarea class="form-control" placeholder="Leave a comment here" v-model="changeTeamMemberStatusInfo.note" id="floatingTextarea2"></textarea>
-                                                    <label for="floatingTextarea2">备注信息</label>
+                                                    <textarea class="form-control" placeholder="Leave a comment here" v-model="changeTeamMemberStatusInfo.note"></textarea>
+                                                    <label>备注信息</label>
                                                 </div>
                                                 <div class="form-floating mb-2">
                                                     <input step=1 type="datetime-local" class="form-control" v-model="changeTeamMemberStatusInfo.time"/>
-                                                    <label for="floatingTextarea2">离队时间</label>
+                                                    <label>离队时间</label>
                                                 </div>
                                                 <hr/>
                                                 <div class="row g-3">
@@ -208,7 +147,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="leaveTeamModalCloseBtn">关闭</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="leaveTeamModalCloseBtn">关闭</button>
                                                 <button type="button" class="btn btn-primary" @click="changeTeamMemberStatus()">保存</button>
                                             </div>
                                         </div>
@@ -220,6 +159,59 @@
                 </tbody>
             </table>
             <Page :commonPage="page"  @commonPageChange="commonPageChange($event)"></Page>
+
+            <!-- 添加新队员 Modal -->
+            <div class="modal fade" id="addNewTeamMemberModal" tabindex="-1" aria-labelledby="addNewTeamMemberModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="badge rounded-pill bg-primary" style="font-size:larger">{{uwtInfo.team.name}}</div>
+                            <h5 class="modal-title" id="addNewTeamMemberModalLabel">添加新队员</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="was-validated" novalidate>
+                                <div class="col-md mb-2">
+                                    <div class="form-floating">
+                                    <input type="text" class="form-control is-invalid" v-model="newTeamMemberInfo.playerScid" placeholder="newTeamMemberInfo_scid" required>
+                                    <label>队员SCID标签</label>
+                                    </div>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <div class="form-floating">
+                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.playerName" placeholder="newTeamMemberInfo_name" required>
+                                    <label>队员名称</label>
+                                    </div>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <div class="form-floating">
+                                    <input step=1 type="datetime-local" class="form-control" v-model="newTeamMemberInfo.time" placeholder="newTeamMemberInfo_time"/>
+                                    <label>加入时间</label>
+                                    </div>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <div class="form-floating">
+                                        <select class="form-select"  v-model="newTeamMemberInfo.joinWay">
+                                            <option v-for="joinWay in joinWayList" :key="joinWay.id" :value="joinWay.id">{{joinWay.name}}</option>
+                                        </select>
+                                        <label>加入方式</label>
+                                    </div>
+                                </div>
+                                <div class="col-md mb-2">
+                                    <div class="form-floating">
+                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.note" placeholder="newTeamMemberInfo_note">
+                                    <label>备注</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="addNewTeamMemberCloseBtn" data-bs-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" @click="addNewTeamMember()" :disabled="newTeamMemberInfoBtn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 弹窗 -->
             <div class="modal fade" id="teamMemberAllCreditRecordModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -234,6 +226,7 @@
                                     <tr>
                                         <th scope="col">结算时间</th>
                                         <th scope="col">积分</th>
+                                        <th scope="col">战队赛类型</th>
                                         <th scope="col">积分类型</th>
                                         <th scope="col">备注信息</th>
                                     </tr>
@@ -242,6 +235,7 @@
                                     <tr v-for="teamMemberCredit in teamMemberCreditList" :key="teamMemberCredit.id">
                                         <th>{{teamMemberCredit.settlementTimeStr}}</th>
                                         <td>{{teamMemberCredit.credit}}</td>
+                                        <td>{{teamMemberCredit.teamCompetitionType.name}}</td>
                                         <td>{{teamMemberCredit.creditType.name}}</td>
                                         <td>{{teamMemberCredit.note}}</td>
                                     </tr>
@@ -268,7 +262,7 @@ import { saveTeamInfo,removeTeam,searchMyTeam } from "../api/userWithTeam";
 import { searchTeamMember,changeTeamMemberStatus,addNewTeamMember,getAllValidTeamMember } from "../api/teamWithPlayer";
 import { getToday } from "../api/common";
 export default {
-    name: "teamMember",
+    name: "myTeamMember",
     components: {
         Page,
     },
@@ -279,8 +273,8 @@ export default {
             newTeamMemberInfoBtn: false, // "新增成员"弹窗的保存按钮
             newTeamMemberInfo:{ // "新增成员"弹窗数据绑定
                 teamId: '',
-                name: '',
-                scid: '',
+                playerName: '',
+                playerScid: '',
                 joinWay: 0,
                 time: '',
                 note: '',
@@ -294,18 +288,20 @@ export default {
             teamMemberStatusList: [], // 队员所有状态
             teamMemberLeaveTypeList: [], // 队员离开的类型
             teamMemberInfo: {
-                scid: '',
-                name: '',
+                playerScid: '',
+                playerName: '',
                 teamMemberStatusId: '',
                 teamId: '',
+                uwtId: ''
             },
+            searchTeamMemberCondition: {}, // 原本是直接使用 teamMemberInfo 作为参数,但由于新增了 parentId 结构发生了改变
             page: {
                 size: 10,
                 currentPage:1, // 偏移量,数据库从0开始
                 totalPage: 0,
             },
-            teamList: [],
-            teamInfo: {
+            uwtInfoList: [],
+            uwtInfo: {
                 id: '',
                 name: ''
             },
@@ -315,9 +311,9 @@ export default {
                 time: ''
             },
             changeTeamMemberStatusInfo: { // "踢出">提交数据
-                teamMemberId: 0,
+                teamMemberId: '',
                 teamMemberName: '',
-                teamMemberStatusId: 0,
+                teamMemberStatusId: '',
                 note: '',
                 time: ''
             },
@@ -355,11 +351,11 @@ export default {
             },
             deep: true
         },
-        'teamInfo': {
+        'uwtInfo': {
             handler() {
-                this.newTeamMemberInfo.teamId = this.teamInfo.id; // 设置【添加新成员】
+                this.newTeamMemberInfo.teamId = this.uwtInfo.team.id; // 添加新成员
+                this.newTeamMemberInfo.uwtId = this.uwtInfo.id;
                 this.searchTeamMemberBtn();
-
             },
             deep: true
         },
@@ -368,16 +364,16 @@ export default {
         searchMyTeam() {
             searchMyTeam().then( // 结果为"关联战队信息",包含"关联者信息","战队信息","关联状态信息"等等;而并非是"战队信息"
                 response => {
-                    this.teamList = response.data.data.data;
-                    if (this.teamList.length>0) {
-                        this.teamInfo = this.teamList[0].team;
+                    this.uwtInfoList = response.data.data.data;
+                    if (this.uwtInfoList.length>0) {
+                        this.uwtInfo = this.uwtInfoList[0];
                         this.refreshSearchForm();
                     }
                 }
             )
         },
         addNewTeamMember(){ // 添加新队员 > 提交
-            this.newTeamMemberInfo.scid=this.newTeamMemberInfo.scid.toLocaleUpperCase(); // 将战队标签中字母转换为大写
+            this.newTeamMemberInfo.playerScid=this.newTeamMemberInfo.playerScid.toLocaleUpperCase(); // 将战队标签中字母转换为大写
             addNewTeamMember(this.newTeamMemberInfo).then(
                 response=>{
                     if(response.data.code==0){
@@ -397,7 +393,7 @@ export default {
             )
         },
         checkNewTeamMemberInfo() { // 添加队员请求 > 信息返回的提示样式
-            if(this.newTeamMemberInfo.name=='' || this.newTeamMemberInfo.scid==''){
+            if(this.newTeamMemberInfo.playerName=='' || this.newTeamMemberInfo.playerScid==''){
                 this.newTeamMemberInfoBtn=true;
             }
             else{
@@ -406,14 +402,14 @@ export default {
         },
         cleanNewTeamMemberInfo() { // 重置"新增成员"表单
         this.newTeamMemberInfo.teamId = '';
-            this.newTeamMemberInfo.name = '';
-            this.newTeamMemberInfo.scid = '';
+            this.newTeamMemberInfo.playerName = '';
+            this.newTeamMemberInfo.playerScid = '';
             this.newTeamMemberInfo.joinWay = this.joinWayList[0].id;
             this.newTeamMemberInfo.time = getToday()+'T18:00:00';
             this.newTeamMemberInfo.note = '';
         },
         getTeamMemberAllCreditRecord(teamMember){
-            this.teamMember=teamMember;
+            this.teamMember = teamMember;
             getTeamMemberAllCreditRecord(Object.assign({
                 teamMemberId:teamMember.teamMemberId
             })).then(
@@ -423,22 +419,32 @@ export default {
             )
         },
         refreshSearchForm() {
-            this.teamMemberInfo.scid = '';
-            this.teamMemberInfo.name = '';
+            this.teamMemberInfo.playerScid = '';
+            this.teamMemberInfo.playerName = '';
             this.teamMemberInfo.teamMemberStatusId = this.teamMemberStatusList[0].id;
-            this.teamMemberInfo.teamId = this.teamList[0].team.id;
-            this.newTeamMemberInfo.teamId = this.teamList[0].team.id;
+            this.teamMemberInfo.teamId = this.uwtInfoList[0].team.id;
+            this.teamMemberInfo.uwtId = this.uwtInfoList[0].id;
+            this.newTeamMemberInfo.teamId = this.uwtInfoList[0].team.id;
         },
         searchTeamMemberBtn() {
             this.page.currentPage = 1;
             this.searchTeamMember();
         },
         searchTeamMember() {
-            this.teamMemberInfo.teamId = this.teamInfo.id; // 搜索条件
+            this.teamMemberInfo.teamId = this.uwtInfo.team.id; // 搜索条件
             if (this.teamMemberInfo.teamId=='') {
                 return;
             }
-            searchTeamMember(Object.assign(this.page,this.teamMemberInfo)).then(
+            if (this.uwtInfo.parentId == null) {
+                this.searchTeamMemberCondition.uwtId = this.uwtInfo.id;
+            } else {
+                this.searchTeamMemberCondition.uwtId = this.uwtInfo.parentId;
+            }
+            this.searchTeamMemberCondition.teamId = this.uwtInfo.team.id;
+            this.searchTeamMemberCondition.playerScid = this.teamMemberInfo.playerScid;
+            this.searchTeamMemberCondition.playerName = this.teamMemberInfo.playerName;
+            this.searchTeamMemberCondition.teamMemberStatusId = this.teamMemberInfo.teamMemberStatusId;
+            searchTeamMember(Object.assign(this.page,this.searchTeamMemberCondition)).then(
                 response => {
                     this.teamMemberList = response.data.data.data;
                     this.page.totalPage = response.data.data.totalPage;
@@ -457,7 +463,8 @@ export default {
             this.changeTeamMemberStatusInfo.teamMemberStatusId=this.leave.teamMemberStatus.id;
             changeTeamMemberStatus(this.changeTeamMemberStatusInfo).then(
                 response => {
-                    document.getElementById('leaveTeamModalCloseBtn').click();
+                    document.getElementsByName('leaveTeamModalCloseBtn').click();
+                    // document.getElementById('leaveTeamModalCloseBtn').click();
                 }
             ).then(
                 res=>{

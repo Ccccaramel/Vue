@@ -301,10 +301,6 @@ export default {
                 type:'',
             };
         },
-        pageChange(currentPage) {
-            this.page.currentPage = currentPage;
-            this.searchAllTeam();
-        },
     },
 }
 </script>

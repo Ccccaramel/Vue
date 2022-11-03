@@ -167,6 +167,18 @@ export default {
             this.page = event;
             this.searchDictionary();
         },
+        showToast(response) { // 通用信息展示
+            if(response.data.code==0){
+                this.commonResponse.success= false;
+            }else{
+                this.commonResponse.success = true;
+            }
+            this.commonResponse.msg= response.data.msg;
+            this.$emit('commonResponse', this.commonResponse);
+            var toastLiveExample = document.getElementById('commonToast');
+            var toast = new Toast(toastLiveExample);
+            toast.show();
+        },
         cleanSearchDictionaryBtn() {
             this.searchDictionaryInfo = {
                 name: '',
@@ -206,18 +218,11 @@ export default {
                 dictionaryId: dictionaryId
             }).then(
                 response => {
-                    if(response.data.code==0){
-                        this.commonResponse.success= false;
-                    }else{
-                        this.commonResponse.success = true;
+                    if(response.data.code==1){
                         document.getElementById("closeDictionaryInfoModal").click();
                         this.searchDictionaryBtn();
                     }
-                    this.commonResponse.msg= response.data.msg;
-                    this.$emit('commonResponse', this.commonResponse);
-                    var toastLiveExample = document.getElementById('commonToast');
-                    var toast = new Toast(toastLiveExample);
-                    toast.show();
+                    this.showToast(response);
                 }
             )
         },
@@ -233,19 +238,12 @@ export default {
         saveDictionaryInfo() {
             saveDictionaryInfo(this.dictionaryInfo).then(
                 response => {
-                    if(response.data.code==0){
-                        this.commonResponse.success= false;
-                    }else{
-                        this.commonResponse.success = true;
+                    if(response.data.code==1){
                         document.getElementById("closeDictionaryInfoModal").click();
                         this.cleanDictionaryInfo();
                         this.searchDictionaryBtn();
                     }
-                    this.commonResponse.msg= response.data.msg;
-                    this.$emit('commonResponse', this.commonResponse);
-                    var toastLiveExample = document.getElementById('commonToast');
-                    var toast = new Toast(toastLiveExample);
-                    toast.show();
+                    this.showToast(response);
                 }
             )
         },

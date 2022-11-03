@@ -8,7 +8,7 @@
             <div class="col-2">
                 <select class="form-select" v-model="searchUserInfo.type">
                     <option
-                        v-for="userType in userTypeList"
+                        v-for="userType in userTypeListOfSearch"
                         v-bind:key="userType.id"
                         :value="userType.id">
                         {{ userType.name }}</option>
@@ -17,7 +17,7 @@
             <div class="col-2">
                 <select class="form-select" v-model="searchUserInfo.status">
                     <option
-                        v-for="userStatus in userStatusList"
+                        v-for="userStatus in userStatusListOfSearch"
                         v-bind:key="userStatus.id"
                         :value="userStatus.id">
                         {{ userStatus.name }}</option>
@@ -172,6 +172,7 @@ export default {
                 msg: '',
             },
             saveUserBtn: true,
+            saveUserPasswordBtn: true,
             userInfoList: [],
             userInfo: {
                 title: '',
@@ -184,6 +185,8 @@ export default {
             },
             userTypeList: [],
             userStatusList: [],
+            userTypeListOfSearch: [],
+            userStatusListOfSearch: [],
             searchUserInfo: {
                 name: '',
                 type: '',
@@ -213,22 +216,26 @@ export default {
     mounted() {
         getUserType().then(
             response => {
-                this.userTypeList = response.data.data;
-                this.userTypeList.unshift({
+                this.userTypeListOfSearch = response.data.data;
+                this.userTypeList = JSON.parse(JSON.stringify(response.data.data));
+                this.userTypeListOfSearch.unshift({
                             id: '',
                             name:'无限制'
                 });
-                this.searchUserInfo.type = this.userTypeList[0].id;
+                
+                this.searchUserInfo.type = this.userTypeListOfSearch[0].id;
             }
         );
         getUserStatus().then(
             response => {
-                this.userStatusList = response.data.data;
-                this.userStatusList.unshift({
+                this.userStatusListOfSearch = response.data.data;
+                this.userStatusList = JSON.parse(JSON.stringify(response.data.data));
+                this.userStatusListOfSearch.unshift({
                             id: '',
                             name:'无限制'
                 });
-                this.searchUserInfo.status = this.userStatusList[0].id;
+                
+                this.searchUserInfo.status = this.userStatusListOfSearch[0].id;
             }
         );
     },

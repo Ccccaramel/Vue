@@ -92,7 +92,12 @@ export function getplayerPositionType(){
         url: '/dictionary/getplayerPositionType',
     })
 }
-
+export function getTeamMemberPositionTypeExcludeViceCaptain(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getTeamMemberPositionTypeExcludeViceCaptain',
+    })
+}
 export function getPlayerType(){
     return request({
         method: 'get',
@@ -111,5 +116,26 @@ export function getRelationStatus(){
     return request({
         method: 'get',
         url: '/dictionary/getRelationStatus',
+    })
+}
+
+export function getGameRoleRarity(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getGameRoleRarity',
+    })
+}
+
+export function getGameRolePosition(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getGameRolePosition',
+    })
+}
+
+export function getGearRarity(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getGearRarity',
     })
 }

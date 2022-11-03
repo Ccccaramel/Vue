@@ -14,17 +14,10 @@ export function searchPlayerInfo(params){
     })
 }
 
-export function searchMyGameAccount(){
-    return request({
-        method: 'get',
-        url: '/player/searchMyGameAccount',
-    })
-}
-
-export function savePlayer(params){
+export function updatePlayer(params){
     return request({
         method: 'post',
-        url: '/player/savePlayer',
+        url: '/player/updatePlayer',
         data: params,
     })
 }

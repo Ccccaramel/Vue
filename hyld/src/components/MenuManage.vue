@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="list-menu" role="tabpanel" aria-labelledby="list-menu-list">
+    <div class="tab-pane fade" id="list-menuManage" role="tabpanel" aria-labelledby="list-menuManage-list">
         <!-- 菜单树 与 编辑菜单 -->
         <form class="row g-3 mt-1 mb-3">
             <div class="col-4 alert alert-primary">
@@ -95,7 +95,7 @@ import { getMenuTree, saveMenu, deleteMenu } from "../api/menu";
 import { getMenuNoteType } from "../api/dictionary";
 import TreeMenu from "@/components/TreeMenu.vue";
 export default {
-    name: "menu",
+    name: "menuManage",
     components: {
         TreeMenu,
     },
