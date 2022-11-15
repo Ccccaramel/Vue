@@ -199,18 +199,6 @@ export default {
         }
     },
     mounted() {
-        getTeamType().then(
-            response => {
-                this.teamTypeList = response.data.data;
-                this.teamInfo.type = this.teamTypeList[0].id;
-            }
-        );
-        getTeamStatusType().then(
-            response => {
-                this.teamStatusList = response.data.data;
-                this.teamInfo.status = this.teamStatusList[0].id;
-            }
-        );
     },
     watch : {
         // 监听对象,注意设置 deep:true
@@ -237,6 +225,22 @@ export default {
         commonPageChange(event) {
             this.page = event;
             this.searchAllTeam();
+        },
+        init() {
+            getTeamType().then(
+                response => {
+                    this.teamTypeList = response.data.data;
+                    this.teamInfo.type = this.teamTypeList[0].id;
+                }
+            ).then(
+                getTeamStatusType().then(
+                    response => {
+                        this.teamStatusList = response.data.data;
+                        this.teamInfo.status = this.teamStatusList[0].id;
+                        this.searchAllTeam();
+                    }
+                ),
+            );
         },
         checkTeamInfo(){ // 添加队员请求 > 信息返回的提示样式
             if(this.teamInfo.name=='' || this.teamInfo.scid==''){

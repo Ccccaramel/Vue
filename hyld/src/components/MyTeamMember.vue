@@ -24,10 +24,10 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" v-model="teamMemberInfo.playerScid" placeholder="队员SCID标签">
+                    <input type="text" class="form-control" v-model="teamMemberInfo.playerScid" maxlength="15" placeholder="队员SCID标签">
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" v-model="teamMemberInfo.playerName" placeholder="队员名称">
+                    <input type="text" class="form-control" v-model="teamMemberInfo.playerName" maxlength="20" placeholder="队员名称">
                 </div>
                 <div class="col-auto">
                     <select class="form-select" v-model="teamMemberInfo.teamMemberStatusId">
@@ -173,13 +173,13 @@
                             <form class="was-validated" novalidate>
                                 <div class="col-md mb-2">
                                     <div class="form-floating">
-                                    <input type="text" class="form-control is-invalid" v-model="newTeamMemberInfo.playerScid" placeholder="newTeamMemberInfo_scid" required>
+                                    <input type="text" class="form-control is-invalid" v-model="newTeamMemberInfo.playerScid" placeholder="newTeamMemberInfo_scid" maxlength="15" required>
                                     <label>队员SCID标签</label>
                                     </div>
                                 </div>
                                 <div class="col-md mb-2">
                                     <div class="form-floating">
-                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.playerName" placeholder="newTeamMemberInfo_name" required>
+                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.playerName" placeholder="newTeamMemberInfo_name" maxlength="20" required>
                                     <label>队员名称</label>
                                     </div>
                                 </div>
@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="col-md mb-2">
                                     <div class="form-floating">
-                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.note" placeholder="newTeamMemberInfo_note">
+                                    <input type="text" class="form-control" v-model="newTeamMemberInfo.note" placeholder="newTeamMemberInfo_note" maxlength="40">
                                     <label>备注</label>
                                     </div>
                                 </div>
@@ -320,28 +320,6 @@ export default {
         }
     },
     mounted() {
-        findLeaveType().then( // 获取所有"离队原因"的类型
-            response => {
-                this.teamMemberLeaveTypeList = response.data.data;
-                this.refreshLeaveForm();
-            }
-        );
-        findJoinWayType().then(
-            response => {
-                this.joinWayList = response.data.data;
-                this.cleanNewTeamMemberInfo();
-            }
-        );
-        getTeamMemberStatusType().then( // 获取所有"离队原因"的类型
-            response => {
-                this.teamMemberStatusList = response.data.data;
-                this.teamMemberStatusList.unshift({
-                    id: 0,
-                    name:'无限制',
-                });
-                this.searchMyTeam(); // 为什么在这里 searchMyTeam ? getTeamMemberStatusType 和 searchMyTeam 确实是相互独立的,独立的话无法确保谁先谁后,并且我只想写一个 refreshSearchForm
-            }
-        );
     },
     watch : {
         // 监听对象,注意设置 deep:true
@@ -361,6 +339,44 @@ export default {
         },
     },
     methods: {
+        showToast(response) { // 通用信息展示
+            if (response.data.code == 0) {
+                this.commonResponse.success = false;
+            } else {
+                this.commonResponse.success = true;
+            }
+            this.commonResponse.msg = response.data.msg;
+            this.$emit('commonResponse', this.commonResponse);
+            var toastLiveExample = document.getElementById('commonToast');
+            var toast = new Toast(toastLiveExample);
+            toast.show();
+        },
+        init() {
+            findLeaveType().then( // 获取所有"离队原因"的类型
+                response => {
+                    this.teamMemberLeaveTypeList = response.data.data;
+                    this.refreshLeaveForm();
+                }
+            ).then(
+                findJoinWayType().then(
+                    response => {
+                        this.joinWayList = response.data.data;
+                        this.cleanNewTeamMemberInfo();
+                    }
+                ),
+            ).then(
+                getTeamMemberStatusType().then( // 获取所有"离队原因"的类型
+                    response => {
+                        this.teamMemberStatusList = response.data.data;
+                        this.teamMemberStatusList.unshift({
+                            id: 0,
+                            name:'无限制',
+                        });
+                        this.searchMyTeam(); // 为什么在这里 searchMyTeam ? getTeamMemberStatusType 和 searchMyTeam 确实是相互独立的,独立的话无法确保谁先谁后,并且我只想写一个 refreshSearchForm
+                    }
+                ),
+            );
+        },
         searchMyTeam() {
             searchMyTeam().then( // 结果为"关联战队信息",包含"关联者信息","战队信息","关联状态信息"等等;而并非是"战队信息"
                 response => {
@@ -376,19 +392,12 @@ export default {
             this.newTeamMemberInfo.playerScid=this.newTeamMemberInfo.playerScid.toLocaleUpperCase(); // 将战队标签中字母转换为大写
             addNewTeamMember(this.newTeamMemberInfo).then(
                 response=>{
-                    if(response.data.code==0){
-                        this.commonResponse.success= false;
-                    }else{
-                        this.commonResponse.success = true;
+                    if(response.data.code==1){
                         document.getElementById("addNewTeamMemberCloseBtn").click(); // 关闭 Modal
                         this.cleanNewTeamMemberInfo(); // 清空表单
                         this.searchTeamMemberBtn(); // 重新搜索
                     }
-                    this.commonResponse.msg= response.data.msg;
-                    this.$emit('commonResponse', this.commonResponse);
-                    var toastLiveExample = document.getElementById('commonToast');
-                    var toast = new Toast(toastLiveExample);
-                    toast.show();
+                    this.showToast(response);
                 }
             )
         },

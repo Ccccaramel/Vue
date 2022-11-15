@@ -4,10 +4,10 @@
     <div class="container mt-2 mb-2">
       <div class="row justify-content-center">
         <div class="col-auto">
-          <input type="text" class="form-control" v-model="uwtInfo.name" placeholder="战队名称">
+          <input type="text" class="form-control" v-model="uwtInfo.teamName" placeholder="战队名称"  maxlength="10">
         </div>
         <div class="col-auto">
-          <input type="text" class="form-control" v-model="uwtInfo.scid" placeholder="战队SCID标签">
+          <input type="text" class="form-control" v-model="uwtInfo.teamScid" placeholder="战队SCID标签" maxlength="15">
         </div>
         <div class="col-auto">
           <button type="button" class="btn btn-dark" @click="searchTeamInfo()">搜索</button>
@@ -99,6 +99,15 @@ export default {
       },
     }
   },
+  watch: {
+    uwtInfo: {
+      handler: function (oldVal, newVal) {
+        console.log(JSON.stringify(oldVal)+","+JSON.stringify(newVal));
+        this.checkUwtInfo();
+      },
+      deep: true
+    },
+  },
   mounted() {
     this.searchTeamInfoBtn();
     // var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -146,6 +155,9 @@ export default {
           this.$refs.top.showTeamDataModal(this.teamModalData);
         }
       );
+    },
+    checkUwtInfo() {
+      this.uwtInfo.teamScid =this.uwtInfo.teamScid.toLocaleUpperCase();
     },
   },
 };

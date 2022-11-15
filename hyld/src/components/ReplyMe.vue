@@ -19,10 +19,24 @@
                 </div>
                 <div class="col">
                     <div class="alert alert-secondary" role="alert">
+                        <h4>{{ reply.parentInfo.rubric }}</h4>
                         {{reply.parentInfo.text}}
+                        <div class="container text-center">
+                            <div class="row align-items-start">
+                                <div class="col-auto" v-for="(image,i) in reply.parentInfo.images" :key="i">
+                                <img class="btn rounded" :src="image" style="max-height: 120px;"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h4>{{ reply.rubric }}</h4>
                     <p class="fw-bold" style="white-space: pre-wrap">{{ reply.text }}</p>
+                    <div class="container text-center">
+                      <div class="row align-items-start">
+                        <div class="col-auto" v-for="(image,i) in reply.images" :key="i">
+                          <img class="btn rounded" :src="image" style="max-height: 120px;"/>
+                        </div>
+                      </div>
+                    </div>
                     <small>{{ reply.createTimeStr }}&emsp;{{ reply.address }}</small>
                 </div>
                 <div class="col-auto ms-md-auto">
@@ -45,9 +59,27 @@
                         <form class="form-floating">
                             <div class="form-floating mb-3">
                                 <textarea class="form-control" placeholder="replyTopicInfo.text"
-                                    v-model="replyTopicInfo.text"></textarea>
+                                    v-model="replyTopicInfo.text" maxlength="200"></textarea>
                                 <label for="floatingInput">内容</label>
                             </div>
+
+                            <!-- 已添加图片回显 -->
+                            <div class="form-floating mb-3" style="max-width: 240px;" v-for="(img, index) of imgList" :key="index"
+                                v-show="imgList.length != 0">
+                                <div class="card text-bg-dark">
+                                <img :src="img.file.src" class="card-img">
+                                <div class="card-img-overlay text-end">
+                                    <font-awesome-icon icon="fa-solid fa-circle-xmark" @click="fileDel(index)" />
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- 添加图片按钮 -->
+                            <div class="form-floating mb-3" v-show="addState">
+                                <font-awesome-icon icon="fa-regular fa-images" size="2x" @click="addImage()" />
+                                <input name="files" class="form-control" ref="file" type="file" @change="fileChange($event)" accept="image/jpg, image/png" style="display: none;" />
+                            </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -101,10 +133,19 @@ export default {
             topicId: 0,
             replyTopicModalCloseBtn: true,
             replyTopicInfo: {},
+            imgList: [],
+            addState:true,
+        }
+    },
+    watch: {
+        imgList: {
+        handler() {
+            this.checkImgList();
+        },
+        deep: true
         }
     },
     mounted() {
-        this.searchReplyMe();
     },
     updated() { //更新之后.场景:获取更新真实DOM之后
         var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -160,6 +201,66 @@ export default {
                     this.searchReplyMeBtn();
                 }
             )
+        },
+        addImage() {
+            this.$refs.file.click();
+        },
+        fileChange(el) {
+            if (!el.target.files[0].size) {
+                return
+            };
+            this.fileList(el.target);
+            el.target.value = "";
+        },
+        fileList(fileList) {
+            var files = fileList.files;
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type != "") {
+                this.fileAdd(files[i]);
+                }
+            }
+        },
+        fileAdd(file) {
+            var fileSize = this.bytesToSize(file.size);
+            if (file.size > 1024*1024) {
+                var response = {
+                data: {
+                    code: 0,
+                    msg: '图片太大('+fileSize+'),单张图片不可超过1MB!',
+                }
+                };
+                this.showToast(response);
+                return;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            var that = this;
+            reader.onload = function () {
+                file.src = this.result;
+                that.imgList.push({
+                file
+                });
+            };
+        },
+        fileDel(index) {
+            this.imgList.splice(index, 1);
+        },
+        bytesToSize(bytes) {
+            if (bytes === 0) return "0 B";
+            let k = 1000, // or 1024
+                sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+            return (bytes / Math.pow(k, i)).toPrecision(3) + " " + sizes[i];
+        },
+        checkImgList() {
+            if (this.imgList.length == 3) {
+                this.addState = false;
+            } else {
+                this.addState = true;
+            }
+        },
+        showImage(image) {
+            this.showImageUrl = image;
         },
     },
 }

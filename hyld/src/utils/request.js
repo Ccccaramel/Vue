@@ -9,6 +9,7 @@ var request = axios.create({
 request.defaults.retry = 3 // 请求重试次数
 request.defaults.retryDelay = 1000 // 请求重试时间间隔
 request.defaults.shouldretry = true // 是否重试
+// request.defaults.baseURL = 'http://10.109.21.63:8090' // 后端地址
 
 // 添加请求拦截器
 request.interceptors.request.use(

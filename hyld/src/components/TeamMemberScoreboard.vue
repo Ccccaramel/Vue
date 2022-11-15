@@ -204,15 +204,18 @@ export default {
         },
     },
     mounted() {
-        findLeaveType().then( // 获取所有"离队原因"的类型
-            response => {
-                this.teamMemberStatusList = response.data.data;
-                this.refreshLeaveForm();
-            }
-        );
-        this.reset();
+
     },
     methods: {
+        init() {
+            findLeaveType().then( // 获取所有"离队原因"的类型
+                response => {
+                    this.teamMemberStatusList = response.data.data;
+                    this.refreshLeaveForm();
+                    this.reset();
+                }
+            );
+        },
         reset() {
             this.searchMyTeam();
             this.getTeamCompetitionType();

@@ -20,6 +20,17 @@
       </div>
 
       <hr />
+
+      <div class="container mt-2 mb-2">
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <input type="text" class="form-control" v-model="officialVersionUpdateLogInfo.text" placeholder="关键字">
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-dark" @click="searchOfficialVersionUpdateLogBtn()" maxlength="10">搜索</button>
+          </div>
+        </div>
+      </div>
       
       <div class="alert alert-success text-center mb-0" role="alert">
         <h5>更新日志</h5>
@@ -60,6 +71,7 @@ export default {
         msg: '',
       },
       officialVersionUpdateLogList: [],
+      officialVersionUpdateLogInfo:{},
     }
   },
   mounted() {
@@ -80,8 +92,12 @@ export default {
       this.page = event;
       this.searchOfficialVersionUpdateLog();
     },
+    searchOfficialVersionUpdateLogBtn() {
+      this.page.currentPage = 1;
+      this.searchOfficialVersionUpdateLog();
+    },
     searchOfficialVersionUpdateLog() {
-      searchOfficialVersionUpdateLog().then(
+      searchOfficialVersionUpdateLog(Object.assign(this.officialVersionUpdateLogInfo,this.page)).then(
         response => {
           this.officialVersionUpdateLogList = response.data.data.data;
           this.page.totalPage = response.data.data.totalPage;

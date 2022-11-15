@@ -154,7 +154,8 @@
 import Page from '@/components/Page.vue';
 import {Modal,Toast} from 'bootstrap';
 import { searchUser,saveUser,saveUserPassword } from "../api/user";
-import { getUserType,getUserStatus } from "../api/dictionary";
+import { getUserType, getUserStatus } from "../api/dictionary";
+import { getPublicKey, encrypt } from "@/api/common"
 export default {
     name: "user",
     components: {
@@ -214,30 +215,6 @@ export default {
         }
     },
     mounted() {
-        getUserType().then(
-            response => {
-                this.userTypeListOfSearch = response.data.data;
-                this.userTypeList = JSON.parse(JSON.stringify(response.data.data));
-                this.userTypeListOfSearch.unshift({
-                            id: '',
-                            name:'无限制'
-                });
-                
-                this.searchUserInfo.type = this.userTypeListOfSearch[0].id;
-            }
-        );
-        getUserStatus().then(
-            response => {
-                this.userStatusListOfSearch = response.data.data;
-                this.userStatusList = JSON.parse(JSON.stringify(response.data.data));
-                this.userStatusListOfSearch.unshift({
-                            id: '',
-                            name:'无限制'
-                });
-                
-                this.searchUserInfo.status = this.userStatusListOfSearch[0].id;
-            }
-        );
     },
     methods: {
         commonPageChange(event) { // 通用分页
@@ -255,6 +232,33 @@ export default {
             var toastLiveExample = document.getElementById('commonToast');
             var toast = new Toast(toastLiveExample);
             toast.show();
+        },
+        init() {
+            getUserType().then(
+                response => {
+                    this.userTypeListOfSearch = response.data.data;
+                    this.userTypeList = JSON.parse(JSON.stringify(response.data.data));
+                    this.userTypeListOfSearch.unshift({
+                                id: '',
+                                name:'无限制'
+                    });
+                    
+                    this.searchUserInfo.type = this.userTypeListOfSearch[0].id;
+                }
+            ).then(
+                getUserStatus().then(
+                    response => {
+                        this.userStatusListOfSearch = response.data.data;
+                        this.userStatusList = JSON.parse(JSON.stringify(response.data.data));
+                        this.userStatusListOfSearch.unshift({
+                                    id: '',
+                                    name:'无限制'
+                        });
+                        this.searchUserInfo.status = this.userStatusListOfSearch[0].id;
+                        this.searchUserBtn();
+                    }
+                ),
+            );
         },
         editUser(user) {
             this.userInfo.title = '编辑用户';
@@ -288,12 +292,20 @@ export default {
             )
         },
         saveUserPassword() {
-            saveUserPassword(this.userPasswordInfo).then(
+            getPublicKey().then( // 获取加密密钥
                 response => {
-                    document.getElementById('editUserPasswordModalCloseBtn').click();
-                    this.showToast(response);
+                    this.publicKey = response.data.data.publicKey;
+                    this.userPasswordInfo.password = encrypt(JSON.stringify(this.userPasswordInfo.password), this.publicKey);
+
+                    saveUserPassword(this.userPasswordInfo).then(
+                        response => {
+                            document.getElementById('editUserPasswordModalCloseBtn').click();
+                            this.showToast(response);
+                            this.userPasswordInfo.password = '';
+                        }
+                    )
                 }
-            )
+            );
         },
         editUserPassword(user) {
             this.userPasswordInfo.title = '修改用户密码';

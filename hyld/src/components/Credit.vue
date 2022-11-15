@@ -21,10 +21,10 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" v-model="searchCreditInfo.playerScid" placeholder="队员SCID标签">
+                    <input type="text" class="form-control" v-model="searchCreditInfo.playerScid" maxlength="15" placeholder="队员SCID标签">
                 </div>
                 <div class="col-auto">
-                    <input type="text" class="form-control" v-model="searchCreditInfo.playerName" placeholder="队员名称">
+                    <input type="text" class="form-control" v-model="searchCreditInfo.playerName" maxlength="20" placeholder="队员名称">
                 </div>
                 <div class="col-auto">
                     <select class="form-select" v-model="searchCreditInfo.teamCompetitionTypeId">
@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" v-model="validTeamMember.credit" required>
+                                                <input type="number" class="form-control" v-model="validTeamMember.credit" maxlength="3" required>
                                                 <label>积分</label>
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" v-model="validTeamMember.note">
+                                                <input type="text" class="form-control" v-model="validTeamMember.note" maxlength="50">
                                                 <label>备注</label>
                                             </div>
                                         </div>
@@ -169,8 +169,8 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" v-model="singleTeamMemberCreditInfo.credit"
-                                                    required>
+                                                <input type="number" class="form-control" v-model="singleTeamMemberCreditInfo.credit"
+                                                maxlength="3" required>
                                                 <label>积分</label>
                                             </div>
                                         </div>
@@ -192,7 +192,7 @@
                                         </div>
                                         <div class="col-2">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" v-model="singleTeamMemberCreditInfo.note">
+                                                <input type="text" class="form-control" v-model="singleTeamMemberCreditInfo.note" maxlength="50">
                                                 <label>备注</label>
                                             </div>
                                         </div>
@@ -201,7 +201,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" id="closeSingleCreditAddSaveBtn" data-bs-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary" @click="singleCreditAddSave()" :disabled="batchCreditAddSaveBtn">保存</button>
+                                <button type="button" class="btn btn-primary" @click="singleCreditAddSave()" :disabled="singleCreditAddSaveBtn">保存</button>
                             </div>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                                 <div class="modal-body">
                                     <form>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="4"
+                                            <input type="number" class="form-control" maxlength="3"
                                                 v-model="teamMemberCreditInfo.credit">
                                             <label>积分</label>
                                         </div>
@@ -279,15 +279,15 @@
                                             <label>结算时间</label>
                                         </div>
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="1"
-                                                v-model="teamMemberCreditInfo.note">
+                                            <input type="text" class="form-control"
+                                                v-model="teamMemberCreditInfo.note" maxlength="50">
                                             <label>备注</label>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" id="editTeamMemberCreditModalCloseBtn" data-bs-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary" @click="saveTeamMemberCreditInfo()">保存</button>
+                                    <button type="button" class="btn btn-primary" @click="saveTeamMemberCreditInfo()" :disabled="saveTeamMemberCreditInfoBtn">保存</button>
                                 </div>
                             </div>
                         </div>
@@ -331,7 +331,9 @@ export default {
                 teamName: '',
                 teamCompetitionTypeId: '', // 积分录入时用于监听其值
             },
-            batchCreditAddSaveBtn: false, // 批量添加积分 > 保存按钮
+            batchCreditAddSaveBtn: true, // 批量添加积分 > 保存按钮
+            singleCreditAddSaveBtn: true, // 单个添加积分 > 保存按钮
+            saveTeamMemberCreditInfoBtn: true, // 编辑积分保存按钮
             teamCompetitionTypeList: [], // 新增/修改积分 > 战队赛类型
             searchTeamCompetitionTypeList: [], // 搜索栏 > 战队赛类型(比上一个多了一个无限制)
             creditTypeList: [], // 字典表 > 积分类型
@@ -373,6 +375,18 @@ export default {
         allValidTeamMemberList:{
             handler() {
                 this.checkAllValidTeamMemberList();
+            },
+            deep: true
+        },
+        singleTeamMemberCreditInfo: {
+            handler() {
+                this.checkSingleTeamMemberCreditInfo();
+            },
+            deep: true
+        },
+        teamMemberCreditInfo: {
+            handler() {
+                this.checkTeamMemberCreditInfo();
             },
             deep: true
         },
@@ -421,24 +435,6 @@ export default {
         },
     },
     mounted() {
-        getTeamCompetitionType().then(
-            response => {
-                this.teamCompetitionTypeList = response.data.data;
-                this.searchTeamCompetitionTypeList = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
-                this.searchTeamCompetitionTypeList.unshift({
-                    id: '',
-                    name:'无限制'
-                });
-                this.searchCreditInfo.teamCompetitionTypeId = '';
-                this.creditImportInfo.teamCompetitionTypeId = this.teamCompetitionTypeList[0].id;
-            }
-        );
-        findCreditType().then(
-            response => {
-                this.creditTypeList = response.data.data;
-                this.refreshEditCreditTypeForm();
-            }
-        );
     },
     methods: {
         showToast(response) { // 通用信息展示
@@ -452,6 +448,28 @@ export default {
             var toastLiveExample = document.getElementById('commonToast');
             var toast = new Toast(toastLiveExample);
             toast.show();
+        },
+        init() {
+            getTeamCompetitionType().then(
+                response => {
+                    this.teamCompetitionTypeList = response.data.data;
+                    this.searchTeamCompetitionTypeList = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
+                    this.searchTeamCompetitionTypeList.unshift({
+                        id: '',
+                        name:'无限制'
+                    });
+                    this.searchCreditInfo.teamCompetitionTypeId = '';
+                    this.creditImportInfo.teamCompetitionTypeId = this.teamCompetitionTypeList[0].id;
+                }
+            ).then(
+                findCreditType().then(
+                    response => {
+                        this.creditTypeList = response.data.data;
+                        this.refreshEditCreditTypeForm();
+                        this.searchMyTeam();
+                    }
+                ),
+            );
         },
         searchMyTeam(){
             searchMyTeam().then(
@@ -489,7 +507,8 @@ export default {
             var modal = new Modal(editCreditModal);
             modal.show();
         },
-        saveTeamMemberCreditInfo(){ // 编辑队员积分 > 保存
+        saveTeamMemberCreditInfo() { // 编辑队员积分 > 保存
+            this.checkTeamMemberCreditInfo();
             saveTeamMemberCreditInfo(this.teamMemberCreditInfo).then(
                 response => {
                     this.searchCreditBy();
@@ -539,7 +558,8 @@ export default {
             }
             this.singleTeamMemberCreditInfo.teamCompetitionTypeId = this.creditImportInfo.teamCompetitionTypeId;
         },
-        batchCreditAddSave(){
+        batchCreditAddSave() { // 批量积分录入
+            this.checkAllValidTeamMemberList(); // 再检查一遍,处理通过粘贴的方式输入 01 这样格式的数字
             batchCreditAddSave(this.allValidTeamMemberList).then(
                 response=>{
                     document.getElementById("closeBatchCreditAddSaveBtn").click();
@@ -554,6 +574,7 @@ export default {
             )
         },
         singleCreditAddSave() {
+            this.checkSingleTeamMemberCreditInfo(); // 同上
             singleCreditAddSave(this.singleTeamMemberCreditInfo).then(
                 response => {
                     
@@ -568,18 +589,50 @@ export default {
                 }
             )
         },
-        checkAllValidTeamMemberList() { // 积分录入 > 数据检查,检查通过放开"保存"按钮
-            if (this.allValidTeamMemberList.length==0) {
-                    this.batchCreditAddSaveBtn = true;
-                    return;
-            }
+        checkAllValidTeamMemberList() { // 积分录入 > 数据检查,检查通过放开批量"保存"按钮
             this.batchCreditAddSaveBtn=false;
-            for(var i=0;i<this.allValidTeamMemberList.length;i++){
-                if(this.allValidTeamMemberList[i].settlementTime==''||this.allValidTeamMemberList[i].settlementTime==null|| this.allValidTeamMemberList[i].credit==null|| this.allValidTeamMemberList[i].credit==''){
+            for (var i = 0; i < this.allValidTeamMemberList.length; i++){
+                if (typeof(this.allValidTeamMemberList[i].credit)!='number') {
+                    this.allValidTeamMemberList[i].credit = 30;
+                } else {
+                    if (this.allValidTeamMemberList[i].credit<0 || this.allValidTeamMemberList[i].credit>100) {
+                        this.allValidTeamMemberList[i].credit = 30;
+                    }
+                }
+                console.log(">>>"+this.allValidTeamMemberList[i].credit);
+                if (this.allValidTeamMemberList[i].settlementTime == '' || this.allValidTeamMemberList[i].settlementTime == null || this.allValidTeamMemberList[i].credit===null || this.allValidTeamMemberList[i].credit==='') {
                     this.batchCreditAddSaveBtn = true;
                     return;
                 }
             }
+        },
+        checkSingleTeamMemberCreditInfo() { // 积分录入 > 数据检查,检查通过放开单个"保存"按钮
+            this.singleCreditAddSaveBtn=false;
+            if (typeof(this.singleTeamMemberCreditInfo.credit)!='number') {
+                this.singleTeamMemberCreditInfo.credit = 30;
+            } else {
+                if (this.singleTeamMemberCreditInfo.credit<0 || this.singleTeamMemberCreditInfo.credit>100) {
+                    this.singleTeamMemberCreditInfo.credit = 30;
+                }
+            };
+            if (this.singleTeamMemberCreditInfo.settlementTime == '' || this.singleTeamMemberCreditInfo.settlementTime == null || this.singleTeamMemberCreditInfo.credit===null || this.singleTeamMemberCreditInfo.credit==='') {
+                this.singleCreditAddSaveBtn = true;
+                return;
+            };
+        },
+        checkTeamMemberCreditInfo() { // 编辑积分
+            this.saveTeamMemberCreditInfoBtn=false;
+            if (typeof(this.teamMemberCreditInfo.credit)!='number') {
+                this.teamMemberCreditInfo.credit = 30;
+            } else {
+                if (this.teamMemberCreditInfo.credit<0 || this.teamMemberCreditInfo.credit>100) {
+                    this.teamMemberCreditInfo.credit = 30;
+                }
+            };
+            if (this.teamMemberCreditInfo.settlementTime == '' || this.teamMemberCreditInfo.settlementTime == null || this.teamMemberCreditInfo.credit===null || this.teamMemberCreditInfo.credit==='') {
+                this.teamMemberCreditInfo = true;
+                return;
+            };
         },
         commonPageChange(event) {
             this.page = event;

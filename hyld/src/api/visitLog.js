@@ -15,3 +15,10 @@ export function saveVisitLog(params){
         data:params
     })
 }
+
+export function getStatisticalData(){
+    return request({
+        method: 'get',
+        url: '/vL/getStatisticalData'
+    })
+}

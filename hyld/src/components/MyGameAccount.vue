@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade" id="list-myGameAccount" role="tabpanel" aria-labelledby="list-myGameAccount-list">
+    <div class="tab-pane fade" id="list-myGameAccount" role="tabpanel" aria-labelledby="list-myGameAccount-list" tabindex="0">
         <!-- 新增&编辑 关联游戏账号信息 -->
         <form class="row g-3 mt-1 mb-3">
             <!-- 在 form 中的 button 其 type 默认为 submit ,所以必须指定类型 button
@@ -28,7 +28,7 @@
                                             <div class="col-md mb-2" v-if="relationPlayerInfo.add">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control is-invalid"
-                                                        v-model="relationPlayerInfo.playerScid" required>
+                                                        v-model="relationPlayerInfo.playerScid" maxlength="15" required>
                                                     <label>游戏账号SCID</label>
                                                 </div>
                                             </div>
@@ -38,7 +38,7 @@
                                             <div class="col-md mb-2">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" v-model="relationPlayerInfo.playerName"
-                                                        required>
+                                                    maxlength="20" required>
                                                     <label>游戏昵称</label>
                                                 </div>
                                             </div>
@@ -276,12 +276,6 @@ export default {
         }
     },
     mounted() {
-        getPlayerType().then(
-            response => {
-                this.playerTypeList = response.data.data;
-                this.relationPlayerInfo.playerType = this.playerTypeList[0].id;
-            },
-        );
     },
     watch: {
         // 监听对象,注意设置 deep:true
@@ -315,10 +309,15 @@ export default {
             this.page = event;
             this.searchMyGameAccount();
         },
-        // pageChange(currentPage) {
-        //     this.page.currentPage = currentPage;
-        //     this.searchMyGameAccount();
-        // },
+        init() {
+            getPlayerType().then(
+                response => {
+                    this.playerTypeList = response.data.data;
+                    this.relationPlayerInfo.playerType = this.playerTypeList[0].id;
+                    this.searchMyGameAccount();
+                },
+            );
+        },
         searchMyGameAccount() {
             searchMyGameAccount(this.page).then(
                 response => {
@@ -362,8 +361,9 @@ export default {
             )
         },
         checkUwtInfo() {
+            var patt = /^[0-9A-Z]+$/;
             this.relationPlayerInfo.playerScid =this.relationPlayerInfo.playerScid.toLocaleUpperCase();
-            if (this.relationPlayerInfo.playerScid == '' || this.relationPlayerInfo.playerName == '') {
+            if (this.relationPlayerInfo.playerScid == '' || this.relationPlayerInfo.playerName == '' || !patt.test(this.relationPlayerInfo.playerScid)) {
                 this.saveRelationPlayerInfoBtn = true;
             }
             else {

@@ -227,15 +227,6 @@ export default {
         }
     },
     mounted() {
-        getGearRarity().then(
-            response => {
-                this.gearRarityList = response.data.data;
-                this.gearRarityList.unshift({
-                    id: -1,
-                    name: '<无>',
-                });
-            }
-        );
     },
     methods: {
         commonPageChange(event) { // 通用分页
@@ -253,6 +244,18 @@ export default {
             var toastLiveExample = document.getElementById('commonToast');
             var toast = new Toast(toastLiveExample);
             toast.show();
+        },
+        init() {
+            getGearRarity().then(
+                response => {
+                    this.gearRarityList = response.data.data;
+                    this.gearRarityList.unshift({
+                        id: -1,
+                        name: '<无>',
+                    });
+                    this.searchGearBtn();
+                }
+            );
         },
         searchGearBtn() {
             this.page.currentPage = 1;

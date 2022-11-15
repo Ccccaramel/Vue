@@ -1035,19 +1035,6 @@ export default {
         },
     },
     mounted() {
-        getGameRoleRarity().then(
-            response => {
-                this.gameRoleRarityList = response.data.data;
-                this.gameRoleInfo.rarity = this.gameRoleRarityList[0].id;
-            }
-        );
-        getGameRolePosition().then(
-            response => {
-                this.gameRolePositionList = response.data.data;
-                this.gameRoleInfo.position = this.gameRolePositionList[0].id;
-            }
-        );
-        this.refreshBasicFormList();
     },
     methods: {
         commonPageChange(event) { // 通用分页
@@ -1085,6 +1072,23 @@ export default {
             var toastLiveExample = document.getElementById('commonToast');
             var toast = new Toast(toastLiveExample);
             toast.show();
+        },
+        init() {
+            getGameRoleRarity().then(
+                response => {
+                    this.gameRoleRarityList = response.data.data;
+                    this.gameRoleInfo.rarity = this.gameRoleRarityList[0].id;
+                }
+            ).then(
+                getGameRolePosition().then(
+                    response => {
+                        this.gameRolePositionList = response.data.data;
+                        this.gameRoleInfo.position = this.gameRolePositionList[0].id;
+                        this.refreshBasicFormList();
+                        this.searchGameRoleBtn();
+                    }
+                ),
+            );
         },
         refreshBasicFormList() {
             getBasicForm().then(

@@ -191,34 +191,6 @@ export default {
         }
     },
     mounted() {
-        getPlayerType().then( // 游戏账号所在区
-            response => {
-                this.playerTypeList = response.data.data;
-                this.playerTypeList.unshift({
-                    id: '',
-                    name:'无限制'
-                });
-            },
-        );
-        getCheckStatus().then( // 验证状态
-            response => {
-                this.checkStatusList = response.data.data;
-                this.checkStatusListToModal = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
-                this.checkStatusList.unshift({
-                    id: '',
-                    name:'无限制'
-                });
-            },
-        );
-        getRelationStatus().then( // 关联状态
-            response => {
-                this.relationStatusList = response.data.data;
-                this.relationStatusList.unshift({
-                    id: '',
-                    name:'无限制'
-                });
-            },
-        );
     },
     watch: {
     },
@@ -238,6 +210,39 @@ export default {
         commonPageChange(event) {
             this.page = event;
             this.searchPlayerExamine();
+        },
+        init() {
+            getPlayerType().then( // 游戏账号所在区
+                response => {
+                    this.playerTypeList = response.data.data;
+                    this.playerTypeList.unshift({
+                        id: '',
+                        name:'无限制'
+                    });
+                },
+            ).then(
+                getCheckStatus().then( // 验证状态
+                    response => {
+                        this.checkStatusList = response.data.data;
+                        this.checkStatusListToModal = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
+                        this.checkStatusList.unshift({
+                            id: '',
+                            name:'无限制'
+                        });
+                    },
+                ),
+            ).then(
+                getRelationStatus().then( // 关联状态
+                    response => {
+                        this.relationStatusList = response.data.data;
+                        this.relationStatusList.unshift({
+                            id: '',
+                            name:'无限制'
+                        });
+                        this.searchPlayerExamine();
+                    },
+                ),
+            );
         },
         searchPlayerExamine() {
             searchPlayerExamine(Object.assign(this.page,this.searchRelationInfo)).then(

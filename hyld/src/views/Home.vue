@@ -21,20 +21,36 @@
           </div>
         </div>
       </div>
+      <br/>
+      <div class="row align-items-center">
+        <div class="col">
+          <div class="card text-center">
+            <div class="card-header">
+              <h4>首页通知!</h4>
+            </div>
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>{{homeNotice.v}}</p>
+                <footer class="blockquote-footer">{{homeNotice.updateTimeStr}}</footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
       <hr />
       <div class="alert alert-success text-center mb-0" role="alert">
-        <h5>更新日志</h5>
+        <h5>平台日志</h5>
       </div>
       <div class="alert alert-success" role="alert" v-for="updateLog in updateLogList" :key="updateLog.id">
-        <h4 class="alert-heading">{{updateLog.note}}</h4>
+        <h4 class="alert-heading">{{ updateLog.note }}</h4>
         <!-- <textarea class="form-control" readonly v-model="updateLog.text" rows="3"></textarea> -->
-        <p style='white-space: pre-wrap;'>{{updateLog.text}}</p> <!-- 这样就不用使用难看的 textarea 了 -->
+        <p style='white-space: pre-wrap;'>{{ updateLog.text }}</p> <!-- 这样就不用使用难看的 textarea 了 -->
         <hr />
-        <p class="card-text" v-if="updateLog.note!='undefined'">{{updateLog.createTimeStr}}</p>
+        <p class="card-text" v-if="updateLog.note != 'undefined'">{{ updateLog.createTimeStr }}</p>
       </div>
       <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
-    <hr/>
+    <hr />
   </div>
 </template>
 
@@ -45,7 +61,10 @@ import Page from '@/components/Page.vue';
 import Top from "@/components/Top.vue";
 import { searchUpdateLog } from "../api/updateLog";
 import { saveVisitLog } from "../api/visitLog";
-import {getPublicKey,encrypt} from "@/api/common"
+import { getPublicKey, encrypt } from "@/api/common";
+import { getHomeNotice } from "../api/systemConfig";
+import { jsonp } from 'vue-jsonp';
+
 export default {
   name: "home",
   components: {
@@ -66,12 +85,19 @@ export default {
       updateLogList: [],
       visitLogInfo: {},
       publicKey: '',
+      ip: '',
+      homeNotice:{},
     }
   },
   mounted() {
     this.page.currentPage = 1;
     this.searchUpdateLog();
     this.saveVisitLog();
+    getHomeNotice().then(
+      response => {
+        this.homeNotice = response.data.data;
+      }
+    )
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     /**
@@ -99,16 +125,34 @@ export default {
       getPublicKey().then( // 获取加密密钥
         response => {
           this.publicKey = response.data.data.publicKey;
+
+          // 通过 sohu 第三方接口获取用户 ip 和 所在位置,但如果用户使用代理则位置会不准确
+          // 在 index.html 中引入 js
           this.visitLogInfo.ip = returnCitySN['cip'];
           this.visitLogInfo.address = returnCitySN['cname'];
-          this.visitLogInfo.note = '访问首页';
-          saveVisitLog(
-            encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
-            // this.visitLogInfo
-          ).then(
-            response => {
-            }
-          );
+
+          // 这里是明文传输,也就是说你的 key 是完全暴露的,如果想不被他人使用,在上线时去开发者平台配置一下(仅指定 url 可调用)
+          jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+            //重点来了
+            //腾讯的api上有个callback参数，这是使用指定回调函数
+            //使用vue-jsonp时这个参数需要通过callbackQuery和callbackName来设置
+            //否vue-jsonp会随机生成一个callback参数这样无论怎么弄都会报签名校验失败
+            // callbackQuery: 'callback', // 设置callback参数的key  不设置的话callback参数会自动被赋予一个随机值  md5校验无法通过
+            // callbackName: 'jsonpCallback', // 设置callback 参数的值
+            //其他参数正常传
+            key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+            output: 'jsonp'
+          }).then(res => {
+            var ad_info = res.result.ad_info;
+            this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+            this.visitLogInfo.note = '访问首页';
+            saveVisitLog(
+              encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
+            ).then(
+              response => {
+              }
+            );
+          })
         }
       )
     },

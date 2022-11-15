@@ -23,6 +23,7 @@
                     <th scope="col">话题创建者</th>
                     <th scope="col">标题</th>
                     <th scope="col">正文</th>
+                    <th scope="col">图片</th>
                     <th scope="col">发表时间</th>
                     <th scope="col">状态</th>
                     <th scope="col">备注</th>
@@ -35,17 +36,20 @@
                     <td>{{ topic.userInfo.name }}</td>
                     <td>
                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
-                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.rubric"
+                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.rubric==''?'<无>':topic.rubric"
                             style="max-width: 300px;">
                             {{ topic.rubric }}
                         </span>
                     </td>
                     <td>
                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
-                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.text"
+                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.text==''?'<无>':topic.text"
                             style="max-width: 300px;">
                             {{ topic.text }}
                         </span>
+                    </td>
+                    <td>
+                        <img class="btn rounded" v-for="(image,i) in topic.images" :key="i" :src="image" style="max-width: 64px;"/>
                     </td>
                     <td>{{ topic.createTimeStr }}</td>
                     <td>{{ topic.status.name }}</td>
@@ -81,6 +85,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">用户</th>
                                     <th scope="col">内容</th>
+                                    <th scope="col">图片</th>
                                     <th scope="col">回复时间</th>
                                     <th scope="col">状态</th>
                                     <th scope="col">操作</th>
@@ -93,17 +98,18 @@
                                     <td>
                                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
                                             data-bs-trigger="hover focus" data-bs-placement="top"
-                                            :data-bs-content="topicReplyInfo.text" style="max-width: 300px;">
+                                            :data-bs-content="topicReplyInfo.text==''?'<无>':topicReplyInfo.text" style="max-width: 300px;">
                                             {{ topicReplyInfo.text }}
                                         </span>
+                                    </td>
+                                    <td>
+                                        <img class="btn rounded" v-for="(image,i) in topicReplyInfo.images" :key="i" :src="image" style="max-width: 64px;"/>
                                     </td>
                                     <td>{{ topicReplyInfo.createTimeStr }}</td>
                                     <td>{{ topicReplyInfo.status.name }}</td>
                                     <td>
-                                        <span class="btn badge rounded-pill bg-danger"
-                                            @click="frozenTopic(topicReplyInfo)">冻结</span>
-                                        <span class="btn badge rounded-pill bg-success ms-1"
-                                            @click="returnTopic(topicReplyInfo)">恢复</span>
+                                        <span class="btn badge rounded-pill bg-danger" @click="frozenTopic(topicReplyInfo)">冻结</span>
+                                        <span class="btn badge rounded-pill bg-success ms-1" @click="returnTopic(topicReplyInfo)">恢复</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -143,6 +149,13 @@
                                         <div class="col">
                                             <h3>{{topic.rubric}}</h3>
                                             <p class="fw-bold" style="white-space: pre-wrap">{{topic.text}}</p>
+                                            <div class="container text-center">
+                                                <div class="row align-items-start">
+                                                    <div class="col-auto" v-for="(image,i) in topic.images" :key="i">
+                                                        <img class="btn rounded" :src="image" style="max-width: 320px;" data-bs-toggle="modal" data-bs-target="#showImageModal" @click="showImage(image)"/>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <small>{{topic.createTimeStr}}&emsp;{{topic.address}}</small>
 
                                             <!-- 楼中楼 -->
@@ -176,8 +189,14 @@
                                                     </div>
                                                     <div class="col">
                                                         <h4>{{reply.rubric}}</h4>
-                                                        <p class="fw-bold" style="white-space: pre-wrap">{{reply.text}}
-                                                        </p>
+                                                        <p class="fw-bold" style="white-space: pre-wrap">{{reply.text}}</p>
+                                                        <div class="container text-center">
+                                                            <div class="row align-items-start">
+                                                                <div class="col-auto" v-for="(image,i) in reply.images" :key="i">
+                                                                    <img class="btn rounded" :src="image" style="max-width: 120px;" data-bs-toggle="modal" data-bs-target="#showImageModal" @click="showImage(image)"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <small>{{reply.createTimeStr}}&emsp;{{reply.address}}</small>
                                                     </div>
                                                     <div class="col-auto ms-md-auto">

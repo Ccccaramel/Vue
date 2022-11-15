@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-pane fade show active" id="list-userInfo" role="tabpanel" aria-labelledby="list-userInfo-list">
+    <div class="tab-pane fade show active" id="list-userInfo" role="tabpanel" aria-labelledby="list-userInfo-list" tabindex="0">
         <!-- 用户个人基本信息 -->
         <div class="alert" role="alert">
             <div class="mb-3 row">
@@ -18,13 +18,23 @@
             <div class="mb-3 row">
                 <label for="inputPassword" class="col-1 col-form-label">QQ</label>
                 <div class="col-6">
-                    <input type="text" v-model="currentUserInfo.qq" class="form-control">
+                    <input type="text" v-model="currentUserInfo.qq" class="form-control" maxlength="15">
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPassword" class="col-1 col-form-label">个性签名</label>
                 <div class="col-6">
-                    <input type="text" v-model="currentUserInfo.note" class="form-control">
+                    <input type="text" v-model="currentUserInfo.note" class="form-control" maxlength="20">
+                </div>
+            </div>
+            <div class="mb-3 row align-items-center">
+                <div class="col-1">
+                    <span :class="'badge hyld-bg-'+currentUserInfo.grade+' rounded-pill'">Lv{{currentUserInfo.grade}}</span>
+                </div>
+                <div class="col-6">
+                    <div class="progress">
+                        <div :class="'progress-bar hyld-bg-'+currentUserInfo.grade" role="progressbar" aria-label="Info example" :style="'width:'+ currentUserInfo.proportion +'%'" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{currentUserInfo.exEx}}/{{currentUserInfo.currentLvMaxEx}}</div>
+                    </div>
                 </div>
             </div>
             <hr/>
@@ -48,7 +58,7 @@
                         <form class="was-validated" novalidate>
                             <div class="col-md mb-2">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" v-model="userPasswordInfo.password" required>
+                                    <input type="text" class="form-control" v-model="userPasswordInfo.password" maxlength="20" required>
                                     <label>新密码</label>
                                 </div>
                             </div>
@@ -119,7 +129,7 @@ import Page from '@/components/Page.vue';
 import { Toast } from 'bootstrap';
 import { getCurrentUserInfo,updateUserInfo,saveUserPassword,saveHeadPortrait } from "@/api/user";
 import { searchHeadPortrait } from '@/api/headPortrait';
-import {getPublicKey,encrypt} from "@/api/common"
+import {getPublicKey,encrypt,exToLv} from "@/api/common"
 export default {
     name: "userInfo",
     components: {
@@ -207,6 +217,17 @@ export default {
                     this.currentUserInfo.qq = response.data.data.qq;
                     this.currentUserInfo.note = response.data.data.note;
                     this.currentUserInfo.headPortraitUrl = response.data.data.headPortrait.imageUrl;
+                    this.currentUserInfo.ex = response.data.data.ex;
+                    // 转移到后台处理
+                    // var res = exToLv(response.data.data.ex);
+                    // this.currentUserInfo.grade = res.grade;
+                    // this.currentUserInfo.exEx = res.exEx;
+                    // this.currentUserInfo.currentLvMaxEx = res.currentLvMaxEx;
+                    // this.currentUserInfo.proportion =this.currentUserInfo.exEx*100/this.currentUserInfo.currentLvMaxEx < 50 ? 10 : this.currentUserInfo.exEx*100/this.currentUserInfo.currentLvMaxEx;
+                    this.currentUserInfo.grade = response.data.data.grade;
+                    this.currentUserInfo.exEx = response.data.data.exEx;
+                    this.currentUserInfo.currentLvMaxEx = response.data.data.currentLvMaxEx;
+                    this.currentUserInfo.proportion = response.data.data.proportion;
                 }
             );
         },

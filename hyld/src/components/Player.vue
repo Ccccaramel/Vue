@@ -161,16 +161,6 @@ export default {
         }
     },
     mounted() {
-        getPlayerType().then(
-            response => {
-                this.playerTypeList = response.data.data;
-                this.playerTypeList.unshift({
-                            id: '',
-                            name:'无限制'
-                });
-                this.searchPlayerInfo.type = this.playerTypeList[0].id;
-            }
-        );
     },
     methods: {
         commonPageChange(event) { // 通用分页
@@ -188,6 +178,19 @@ export default {
             var toastLiveExample = document.getElementById('commonToast');
             var toast = new Toast(toastLiveExample);
             toast.show();
+        },
+        init() {
+            getPlayerType().then(
+                response => {
+                    this.playerTypeList = response.data.data;
+                    this.playerTypeList.unshift({
+                                id: '',
+                                name:'无限制'
+                    });
+                    this.searchPlayerInfo.type = this.playerTypeList[0].id;
+                    this.searchPlayerBtn();
+                }
+            );
         },
         editPlayer(player) {
             this.playerInfo.add = false;

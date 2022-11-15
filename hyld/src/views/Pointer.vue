@@ -17,13 +17,14 @@
               v-for="(pointer,i) in pointerList" :key="i">
               <div class="container">
                 <div class="row align-items-start">
-                  <div class="col-1 text-center">
-                    <img :src="pointer.userInfo.headPortrait.imageUrl" class="rounded-circle"
-                      style="weight:52px;height:52px;" />
-                    <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                      :data-bs-content="pointer.userInfo.name" style="max-width: 80px;">
-                      {{pointer.userInfo.name}}
-                    </span>
+                  <div class="col-auto text-center">
+                    <div class="vstack">
+                      <img :src="pointer.userInfo.headPortrait.imageUrl" class="rounded-circle" style="width: 3rem;" />
+                      <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                        :data-bs-content="pointer.userInfo.name" style="max-width: 3rem;">
+                        {{pointer.userInfo.name}}
+                      </span>
+                    </div>
                   </div>
                   <div class="col">
                     <h4>{{pointer.rubric}}</h4>
@@ -68,7 +69,7 @@
           <div class="modal-body">
             <form class="form-floating">
               <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="pointerInfo.text" v-model="pointerInfo.text"></textarea>
+                <textarea class="form-control" placeholder="pointerInfo.text" v-model="pointerInfo.text" maxlength="100"></textarea>
                 <label for="floatingInput">反馈内容</label>
               </div>
             </form>

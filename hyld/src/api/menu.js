@@ -14,3 +14,11 @@ export function saveMenu(params){
         data: params,
     })
 }
+
+export function deleteMenu(params){
+    return request({
+        method: 'POST',
+        url: '/menu/deleteMenu',
+        data: params,
+    })
+}

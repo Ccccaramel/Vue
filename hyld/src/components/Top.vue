@@ -7,8 +7,7 @@
             <img src="../assets/home.jpg" class="rounded-2" style="weight:30px;height:30px;" />
           </a>
 
-          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="/" class="nav-link px-2 text-white">首页</a></li>
+          <ul class="nav col-12 col-lg-auto me-lg-auto ms-4 mb-2 justify-content-center mb-md-0">
             <li><a href="/community" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-comments"/>&ensp;社区</a></li>
             <li><a href="/searchTeam" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-users-line" />&ensp;搜索战队</a></li>
             <li><a href="/searchPlayer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-user"/>&ensp;搜索玩家</a></li>
@@ -36,7 +35,6 @@
             <li><a href="/findYou" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-location-crosshairs" />&ensp;找到你</a></li>
             <!-- <font-awesome-icon icon="fa-solid fa-circle-question" /> -->
           </ul>
-
           <div class="text-end hide">
             <button type="button" v-if="!isLogin" class="btn btn-outline-light me-2" data-bs-toggle="modal"
               data-bs-target="#loginModal"><font-awesome-icon icon="fa-solid fa-right-to-bracket" />&ensp;登录/注册</button>
@@ -62,13 +60,13 @@
           <div class="modal-body">
             <div class="col-md mb-2">
               <div class="form-floating">
-                <input type="text" class="form-control" v-model="userLoginInfo.account" required>
+                <input type="text" class="form-control" v-model="userLoginInfo.account" maxlength="20" required>
                 <label>用户名/ID</label>
               </div>
             </div>
             <div class="col-md mb-2">
               <div class="form-floating">
-                <input type="password" class="form-control" v-model="userLoginInfo.password" required>
+                <input type="password" class="form-control" v-model="userLoginInfo.password" maxlength="20" required>
                 <label>密码</label>
               </div>
             </div>
@@ -91,19 +89,19 @@
           <div class="modal-body">
             <div class="col-md mb-2">
               <div class="form-floating">
-                <input type="text" class="form-control" v-model="userRegisterInfo.account" required>
+                <input type="text" class="form-control" v-model="userRegisterInfo.account" maxlength="20" required>
                 <label>用户名</label>
               </div>
             </div>
             <div class="col-md mb-2">
               <div class="form-floating">
-                <input type="password" class="form-control" v-model="userRegisterInfo.password" required>
+                <input type="password" class="form-control" v-model="userRegisterInfo.password" maxlength="20" required>
                 <label>密码</label>
               </div>
             </div>
             <div class="col-md mb-2">
               <div class="form-floating">
-                <input type="password" class="form-control" v-model="userRegisterInfo.passwordR" required>
+                <input type="password" class="form-control" v-model="userRegisterInfo.passwordR" maxlength="20" required>
                 <label>密码确认</label>
               </div>
             </div>
@@ -120,7 +118,7 @@
     <!-- 通用消息弹窗 -->
     <!-- Modal(1055) 比 Toast(默认) 的 z-index 值更高 -->
     <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1100">
-      <div id="commonToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+      <div id="commonToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1000">
         <div class="toast-header">
           <strong class="me-auto">提示</strong>
           <small>现在</small>
@@ -182,7 +180,9 @@
 import { Modal, Toast, Popover } from 'bootstrap';
 import { register, login, checkToken } from '@/api/user';
 import { saveVisitLog } from "../api/visitLog";
-import {getPublicKey,encrypt} from "@/api/common"
+import { getPublicKey, encrypt,encryptWeb,decryptWeb } from "@/api/common";
+import { jsonp } from 'vue-jsonp';
+import Fingerprint2 from 'fingerprintjs2';
 export default {
   name: "top",
   data() {
@@ -203,6 +203,7 @@ export default {
       token: '',
       visitLogInfo: {},
       publicKey: '',
+      privateKey:'',
     }
   },
   props: ["commonResponse"],
@@ -214,11 +215,6 @@ export default {
   },
   mounted() {
     this.checkToken();
-    // var myDropdown = document.getElementById('myDropdown');
-    // myDropdown.addEventListener("show.bs.dropdown", event => {
-    //   // do something...
-    //   console.log("123");
-    // });
   },
   watch: {
     userLoginInfo: {
@@ -293,10 +289,7 @@ export default {
               localStorage.clear();
               this.commonResponse.success = false;
               this.commonResponse.msg = response.data.msg;
-              this.$emit('commonResponse', this.commonResponse);
-              var toastLiveExample = document.getElementById('commonToast');
-              var toast = new Toast(toastLiveExample);
-              toast.show();
+              this.showToast(this.commonResponse);
               setTimeout(() => {
                 this.$router.push("/")
               }, 2000);
@@ -315,6 +308,7 @@ export default {
       getPublicKey().then( // 获取加密密钥
         response => {
           this.publicKey = response.data.data.publicKey;
+          this.privateKey = response.data.data.privateKey;
           this.login();
         }
       )
@@ -323,23 +317,15 @@ export default {
       this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
       login(this.userLoginInfo).then( // 调用登录接口
         response => {
-          if (response.data.code == 0) {
-            this.commonResponse.success = false;
-          }
-          else {
-            this.commonResponse.success = true;
+          if (response.data.code == 1) {
             this.isLogin = true;
-            localStorage.setItem('authorization', response.data.data);
+            localStorage.setItem('authorization', response.data.data.token);
+            localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
             document.getElementById("closeLoginModal").click(); // 关闭 Modal
             this.refreshUserLoginInfo();
             this.saveVisitLog();
           }
-
-          this.commonResponse.msg = response.data.msg;
-          this.$emit('commonResponse', this.commonResponse);
-          var toastLive = document.getElementById('commonToast');
-          var toast = new Toast(toastLive);
-          toast.show();
+          this.showToast(response);
         }
       );
     },
@@ -359,28 +345,30 @@ export default {
       if (this.userRegisterInfo.password != this.userRegisterInfo.passwordR) {
         this.commonResponse.success = false;
         this.commonResponse.msg = "密码与确认密码不一致!";
-        var toastLive = document.getElementById('commonToast');
-        var toast = new Toast(toastLive);
-        toast.show();
+        this.showToast(this.commonResponse);
         return;
       };
-      register(this.userRegisterInfo).then(
+      this.createFingerprint();
+      getPublicKey().then( // 获取加密密钥
         response => {
-          if (response.data.code == 0) {
-            this.commonResponse.success = false;
-          }
-          else {
-            this.commonResponse.success = true;
-            document.getElementById("closeRegisterModal").click(); // 关闭 Modal
-            this.refreshUserRegisterInfo();
-          }
-          this.commonResponse.msg = response.data.msg;
-          this.$emit('commonResponse', this.commonResponse);
-          var toastLive = document.getElementById('commonToast');
-          var toast = new Toast(toastLive);
-          toast.show();
+          this.publicKey = response.data.data.publicKey;
+          this.userRegisterInfo.password = encrypt(this.userRegisterInfo.password, this.publicKey); // 加密
+          this.userRegisterInfo.no = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
+          register(this.userRegisterInfo).then(
+            response => {
+              if (response.data.code == 0) {
+                this.commonResponse.success = false;
+              }
+              else {
+                this.commonResponse.success = true;
+                document.getElementById("closeRegisterModal").click(); // 关闭 Modal
+                this.refreshUserRegisterInfo();
+              }
+              this.showToast(response);
+            }
+          );
         }
-      );
+      )
     },
     refreshUserRegisterInfo() {
       this.userRegisterInfo = {
@@ -402,12 +390,44 @@ export default {
       this.visitLogInfo.ip = returnCitySN['cip'];
       this.visitLogInfo.address = returnCitySN['cname'];
       this.visitLogInfo.note = '登录';
-      saveVisitLog(Object.assign({
-        data: encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
-      }) ).then(
-        response => {
+
+      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+        output: 'jsonp'
+      }).then(res => {
+        var ad_info = res.result.ad_info;
+        this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+        saveVisitLog(
+           encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
+        ).then(
+          response => {
+          }
+        );
+      });
+    },
+
+    // 创建浏览器指纹
+    createFingerprint() {
+      var options = {
+        fonts: {
+          extendedJsFonts: true,
+        },
+        excludes: {
+          audio: true,
+          userAgent: true,
+          enumerateDevices: true,
+          touchSupport: true,
         }
-      )
+      };
+      var fingerprint = Fingerprint2.get(options,(components) => { // 参数只有回调函数时,默认浏览器指纹依据所有配置信息进行生成
+        var values = components.map(compoent => compoent.value); // 配置的值的数组
+        var murmur = Fingerprint2.x64hash128(values.join(''), 31); // 生成浏览器指纹
+        // console.log("components:" + components);
+        // console.log("values:" + values);
+        // console.log("murmur:" + murmur);
+        // alert(murmur);
+        localStorage.setItem('browserId', murmur); // 存储浏览器指纹,在项目中用于校验用户身份和埋点
+      });
     },
   }
 };

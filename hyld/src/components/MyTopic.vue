@@ -3,7 +3,7 @@
         <!-- 搜索条件 -->
         <form class="row g-3 mt-1 mb-3">
             <div class="col-auto">
-                <input type="text" class="form-control" placeholder="标题" v-model="searchMyTopicInfo.rubric">
+                <input type="text" class="form-control" placeholder="标题" v-model="searchMyTopicInfo.rubric" maxlength="10">
             </div>
             <div class="col-auto">
                 <button type="button" class="btn btn-dark" @click="searchMyTopicBtn()">搜索</button>
@@ -18,6 +18,7 @@
                     <th scope="col">#</th>
                     <th scope="col">标题</th>
                     <th scope="col">正文</th>
+                    <th scope="col">图片</th>
                     <th scope="col">发表时间</th>
                     <th scope="col">备注</th>
                     <th scope="col">操作</th>
@@ -28,17 +29,20 @@
                     <th scope="row">{{ index + 1 }}</th>
                     <td>
                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
-                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.rubric"
+                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.rubric==''?' ':topic.rubric"
                             style="max-width: 300px;">
                             {{ topic.rubric }}
                         </span>
                     </td>
                     <td>
                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
-                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.text"
+                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.text==''?' ':topic.text"
                             style="max-width: 300px;">
                             {{ topic.text }}
                         </span>
+                    </td>
+                    <td>
+                        <img class="btn rounded" v-for="(image,i) in topic.images" :key="i" :src="image" style="max-width: 64px;"/>
                     </td>
                     <td>{{ topic.createTimeStr }}</td>
                     <td>{{ topic.note }}</td>
@@ -70,6 +74,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">用户</th>
                                     <th scope="col">内容</th>
+                                    <th scope="col">图片</th>
                                     <th scope="col">回复时间</th>
                                     <th scope="col">操作</th>
                                 </tr>
@@ -80,10 +85,13 @@
                                     <td>{{ topicReplyInfo.userInfo.name }}</td>
                                     <td>
                                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
-                                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topicReplyInfo.text"
+                                            data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topicReplyInfo.text==''?' ':topicReplyInfo.text"
                                             style="max-width: 300px;">
                                             {{ topicReplyInfo.text }}
                                         </span>
+                                    </td>
+                                    <td>
+                                        <img class="btn rounded" v-for="(image,i) in topicReplyInfo.images" :key="i" :src="image" style="max-width: 64px;"/>
                                     </td>
                                     <td>{{ topicReplyInfo.createTimeStr }}</td>
                                     <td>

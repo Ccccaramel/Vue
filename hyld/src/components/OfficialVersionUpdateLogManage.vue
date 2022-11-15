@@ -47,7 +47,7 @@
         </table>
          <!-- 新增 & 编辑 -->
         <div class="modal fade" id="officialVersionUpdateLogInfoModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="d-flex align-items-center">

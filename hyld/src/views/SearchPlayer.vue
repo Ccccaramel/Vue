@@ -6,10 +6,10 @@
     <div class="container mt-2 mb-2">
       <div class="row justify-content-center">
         <div class="col-auto">
-          <input type="text" class="form-control" v-model="playerInfo.scid" placeholder="队员SCID标签">
+          <input type="text" class="form-control" v-model="playerInfo.scid" placeholder="队员SCID标签" maxlength="15">
         </div>
         <div class="col-auto">
-          <input type="text" class="form-control" v-model="playerInfo.name" placeholder="队员名称">
+          <input type="text" class="form-control" v-model="playerInfo.name" placeholder="队员名称" maxlength="10">
         </div>
         <div class="col-auto">
           <button type="button" class="btn btn-dark" @click="searchPlayerInfoBtn()">搜索</button>
@@ -145,6 +145,14 @@ export default {
       },
     }
   },
+  watch: {
+    playerInfo: {
+      handler() {
+        this.checkPlayerInfo();
+      },
+      deep: true
+    },
+  },
   mounted() {
     this.searchPlayerInfo();
   },
@@ -182,6 +190,9 @@ export default {
           this.modalPage.totalPage = response.data.data.totalPage;
         }
       )
+    },
+    checkPlayerInfo() {
+      this.playerInfo.scid =this.playerInfo.scid.toLocaleUpperCase();
     },
   },
 };

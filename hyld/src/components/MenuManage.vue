@@ -144,11 +144,6 @@ export default {
         },
     },
     mounted() {
-        getMenuNoteType().then(
-            response => {
-                this.menuNoteTypeList = response.data.data;
-            }
-        )
     },
     methods: {
         showToast(response) { // 通用信息展示
@@ -162,6 +157,14 @@ export default {
             var toastLiveExample = document.getElementById('commonToast');
             var toast = new Toast(toastLiveExample);
             toast.show();
+        },
+        init() {
+            getMenuNoteType().then(
+                response => {
+                    this.menuNoteTypeList = response.data.data;
+                    this.getMenuTree();
+                }
+            )
         },
         getMenuTree() {
             getMenuTree().then(
@@ -198,9 +201,12 @@ export default {
         },
         menuOperation(event) {
             if(event.option == "delete"){
-                deleteMenu(event).then(
+                deleteMenu(Object.assign({
+                    id:event.id
+                })).then(
                     response => {
-                        
+                        this.showToast(response);
+                        this.init();
                     }
                 )
             } else if(event.option == "add") {

@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- 简介 -->
+    <!-- 简介 & 基本属性 -->
     <div class="container">
       <div class="row justify-content-between">
         <div class="col" style="height:540px;">
@@ -31,9 +31,7 @@
               <hr />
               <h5><span class="badge bg-primary me-1">生命值</span>{{ gameRoleInfo.hp }}</h5>
               <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">移动速度</span>{{ gameRoleInfo.speed }}</h5>
-              <h5 v-if="gameRoleInfo.inborn != ''"><span class="badge bg-primary me-1">天赋</span>{{ gameRoleInfo.inborn
-              }}
-              </h5>
+              <h5 v-if="gameRoleInfo.inborn != ''"><span class="badge bg-primary me-1">天赋</span>{{ gameRoleInfo.inborn }}</h5>
               <hr>
               <h5><span class="badge bg-primary me-1">上线时间</span>{{ gameRoleInfo.launchTimeStr }}</h5>
             </div>
@@ -49,7 +47,7 @@
 
     <br />
 
-    <!-- 普通攻击 -->
+    <!-- 普通攻击 & 超级技能 -->
     <div class="container">
       <div class="row">
         <div class="col-6">
@@ -95,7 +93,7 @@
     <!-- 妙具和星辉 -->
     <div class="container">
       <div class="row">
-        <div class="col-3" v-for="gadgetInfo in gameRoleInfo.gadgetInfoList" :key="gadgetInfo.name" style="padding-top: 12px;">
+        <div class="col" v-for="gadgetInfo in gameRoleInfo.gadgetInfoList" :key="gadgetInfo.name" style="padding-top: 12px;">
           <div class="shadow-lg rounded alert alert-success h-100">
             <div class="card border-0 alert alert-success">
               <div class="w-100 container text-center">
@@ -109,7 +107,7 @@
             </div>
           </div>
         </div>
-        <div class="col-3" v-for="starPowerInfo in gameRoleInfo.starPowerInfoList" :key="starPowerInfo.name" style="padding-top: 12px;">
+        <div class="col" v-for="starPowerInfo in gameRoleInfo.starPowerInfoList" :key="starPowerInfo.name" style="padding-top: 12px;">
           <div class="shadow-lg rounded alert alert-warning h-100">
             <div class="card border-0 alert alert-warning">
               <div class="w-100 container text-center">
@@ -119,6 +117,86 @@
               <div class="card-body">
                 <h5 class="card-title">{{ starPowerInfo.name }}</h5>
                 <p class="card-text" style="white-space: pre-wrap"><span class="badge bg-primary me-1">效果</span>{{ starPowerInfo.details }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container pt-5 text-center" v-if="gameRoleInfo.secondaryForm!=null">
+      <div class="row align-items-center">
+        <div class="col">
+          <div class="alert alert-danger" role="alert">
+            <Strong>次级形态</Strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二形态 简介 & 基本属性 -->
+    <div class="container" v-if="gameRoleInfo.secondaryForm!=null">
+      <div class="row justify-content-between">
+        <div class="col" style="height:540px;">
+          <div class="shadow-lg bg-body rounded h-100">
+            <div class="alert alert-primary h-100" role="alert">
+              <h2 class="alert-heading">{{ gameRoleInfo.secondaryForm.name }}</h2>
+              <h5><span class="badge bg-primary me-1">定位</span>{{ gameRoleInfo.secondaryForm.position.name }}</h5>
+              <h5><span class="badge bg-primary me-1">品质</span>{{ gameRoleInfo.secondaryForm.rarity.name }}</h5>
+              <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">简介</span>{{ gameRoleInfo.secondaryForm.profile }}</h5>
+              <hr />
+              <h5><span class="badge bg-primary me-1">生命值</span>{{ gameRoleInfo.secondaryForm.hp }}</h5>
+              <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">移动速度</span>{{ gameRoleInfo.secondaryForm.speed }}</h5>
+              <h5 v-if="gameRoleInfo.secondaryForm.inborn != ''"><span class="badge bg-primary me-1">天赋</span>{{ gameRoleInfo.secondaryForm.inborn
+              }}
+              </h5>
+              <hr>
+              <h5><span class="badge bg-primary me-1">上线时间</span>{{ gameRoleInfo.secondaryForm.launchTimeStr }}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col text-center" style="height:540px;">
+          <div class="shadow-lg p-3 mb-5 bg-body rounded h-100">
+            <img :src="gameRoleInfo.secondaryForm.portraitUrl" class="rounded-2 h-100" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二形态 普通攻击 & 超级技能 -->
+    <div class="container mt-5" v-if="gameRoleInfo.secondaryForm!=null">
+      <div class="row">
+        <div class="col-6">
+          <div class="shadow-lg p-3 mb-5 bg-body rounded h-100">
+            <div class="alert alert-info h-100" role="alert">
+              <h3 class="alert-heading"><span class="badge bg-primary me-1">普通攻击</span>{{
+                  gameRoleInfo.secondaryForm.normalAttackInfo.name
+              }}</h3>
+              <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">描述</span>{{ gameRoleInfo.secondaryForm.normalAttackInfo.details }}</h5>
+              <hr />
+              <div v-if="gameRoleInfo.secondaryForm.normalAttackInfo.normalAttackAttributeInfoList.length > 0">
+                <h5
+                  v-for="(normalAttackAttributeInfo, id) in gameRoleInfo.secondaryForm.normalAttackInfo.normalAttackAttributeInfoList" :key="id" style="white-space: pre-wrap">
+                  <span class="badge bg-primary me-1">{{ normalAttackAttributeInfo.name }}</span>
+                  {{ normalAttackAttributeInfo.details }}
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="shadow-lg p-3 mb-5 bg-body rounded h-100">
+            <div class="alert alert-info h-100" role="alert">
+              <h3 class="alert-heading"><span class="badge bg-primary me-1">超级技能</span>{{
+                  gameRoleInfo.secondaryForm.superSkillInfo.name
+              }}</h3>
+              <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">描述</span>{{ gameRoleInfo.secondaryForm.superSkillInfo.details }}</h5>
+              <hr />
+              <div v-if="gameRoleInfo.secondaryForm.superSkillInfo.superSkillAttributeInfoList.length > 0">
+                <h5 v-for="(superSkillAttributeInfo, id) in gameRoleInfo.secondaryForm.superSkillInfo.superSkillAttributeInfoList" :key="id"  style="white-space: pre-wrap">
+                  <span class="badge bg-primary me-1">{{ superSkillAttributeInfo.name }}</span>
+                  {{ superSkillAttributeInfo.details }}
+                </h5>
               </div>
             </div>
           </div>
@@ -146,8 +224,8 @@
                 ~~>_&lt;~~居然没人评论?!看样子<strong>沙发</strong>非你莫属了!
             </div>
             <div class="col-md mb-2">
-                <div class="form-floating text-center" style="height: 640px;">
-                    <img src="../assets/null.jpg" class="rounded" style="height: 640px;" />
+                <div class="form-floating text-center">
+                    <img src="../assets/null.jpg" class="rounded"/>
                 </div>
             </div>
           </div>
@@ -161,6 +239,7 @@
                     <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="gameRoleComment.userInfo.name" style="max-width: 80px;">
                       {{gameRoleComment.userInfo.name}}
                     </span>
+                    <span :class="'badge hyld-bg-'+gameRoleComment.userInfo.grade+' rounded-pill'">Lv{{gameRoleComment.userInfo.grade}}</span>
                   </div>
                   <div class="col">
                     <h3>{{gameRoleComment.rubric}}</h3>
@@ -172,7 +251,8 @@
                       <div class="row align-items-start mt-1" v-for="(reply,i) in gameRoleComment.replyInfo" :key="i">
                         <div class="col-1 text-center">
                           <img :src="reply.userInfo.headPortrait.imageUrl" class="rounded-circle" style="weight:36px;height:36px;" />
-                          <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="reply.userInfo.name" style="max-width: 80px;">
+                          <span :class="'badge hyld-bg-'+reply.userInfo.grade+' rounded-pill'">Lv{{reply.userInfo.grade}}</span>
+                          <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="reply.userInfo.name" style="max-width: 60px;">
                             {{reply.userInfo.name}}
                           </span>
                         </div>
@@ -181,7 +261,8 @@
                         </div>
                         <div class="col-1 text-center" v-if="gameRoleComment.id!=reply.parentId">
                           <img :src="reply.replyUser.headPortrait.imageUrl" class="rounded-circle" style="weight:36px;height:36px;" />
-                          <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="reply.replyUser.name" style="max-width: 80px;">
+                          <span :class="'badge hyld-bg-'+reply.replyUser.grade+' rounded-pill'">Lv{{reply.replyUser.grade}}</span>
+                          <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="reply.replyUser.name" style="max-width: 60px;">
                             {{reply.replyUser.name}}
                           </span>
                         </div>
@@ -241,14 +322,13 @@
           <div class="modal-body">
             <form class="form-floating">
               <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="replyGameRoleCommentInfo.text" v-model="replyGameRoleCommentInfo.text"></textarea>
+                <textarea class="form-control" placeholder="replyGameRoleCommentInfo.text" v-model="replyGameRoleCommentInfo.text" maxlength="100"></textarea>
                 <label for="floatingInput">内容</label>
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="replyGameRoleCommentModalCloseBtn"
-              data-bs-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-secondary" id="replyGameRoleCommentModalCloseBtn" data-bs-dismiss="modal">关闭</button>
             <button type="button" class="btn btn-primary" @click="saveReplyGameRoleCommentInfo()">发送</button>
           </div>
         </div>

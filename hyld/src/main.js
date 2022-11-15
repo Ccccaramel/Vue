@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 
+import VueJsonp from 'vue-jsonp'
+
 import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap";
 import "../src/assets/hyld.css"; // 导入自定义 css
@@ -48,4 +50,4 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(fas,far,fab)
 
-createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount("#app");
+createApp(App).use(router,VueJsonp).component('font-awesome-icon', FontAwesomeIcon).mount("#app");

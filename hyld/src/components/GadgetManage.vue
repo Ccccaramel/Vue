@@ -194,7 +194,6 @@ export default {
         }
     },
     mounted() {
-        this.getBasicGameRole();
     },
     methods: {
         commonPageChange(event) { // 通用分页
@@ -213,13 +212,15 @@ export default {
             var toast = new Toast(toastLiveExample);
             toast.show();
         },
-        getBasicGameRole() {
+        init() {
             getBasicForm().then(
                 response => {
                     this.gameRoleList = response.data.data;
+                    this.searchGadgetBtn();
                 }
-            )
+            );
         },
+
         searchGadgetBtn() {
             this.page.currentPage = 1;
             this.searchGadget();
