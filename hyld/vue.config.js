@@ -24,9 +24,9 @@ module.exports = defineConfig({
 		proxy: {
 			// 到底代理哪些接口
 			'/api': { // 凡是接口中后面域名中带有api的请求框架都会进行一个代理转发
-				// target: 'http://10.109.21.63:8090',  // 本地 后端提供的接口地址
-				target: 'http://121.36.141.65:8090',  // 云 后端提供的接口地址
-				// target: 'http://localhost:8090',  // 云 后端提供的接口地址
+				target: 'http://10.109.21.63:8090',  // 本地 后端提供的接口地址
+				// target: 'http://121.36.141.65:8090',  // 云 后端提供的接口地址
+				// target: 'http://127.0.0.1:8090',
 				changeOrigin: true, // 开启跨域代理
 				logLevel: 'debug',
 				pathRewrite: {

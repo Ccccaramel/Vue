@@ -39,7 +39,7 @@
           </blockquote>
         </div>
       </div>
-      <!-- <div class="card mb-1">
+      <div class="card mb-1">
         <div class="card-header">
           <h5><font-awesome-icon icon="fa-solid fa-circle-question" />&nbsp;射程、位移等等对应的数值来源是?</h5>
         </div>
@@ -52,16 +52,16 @@
             <p>特殊情况下，例如瑞科的普通攻击，芽芽的普通攻击，艾德加的超级技能，在碰撞/跨越障碍物时，<strong>会超过正常情况下最大距离</strong>，这些情况将忽略，不会记录；</p>
             <p>值得一提的是，很多技能所显示的范围与实际可造成伤害的范围并不一致，没有明确可造成伤害的边界，从而导致极小的误差。</p>
           </blockquote>
-          <img src="../assets/explain1.png" class="rounded-2 mt-1" style="height:520px;" />
+          <!-- <img src="../assets/explain1.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain2.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain3.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain4.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain5.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain6.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain7.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain8.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/explain8.png" class="rounded-2 mt-1" style="height:520px;" /> -->
         </div>
-      </div> -->
+      </div>
       <div class="card mb-1">
         <div class="card-header">
           <h5><font-awesome-icon icon="fa-solid fa-circle-question" />&nbsp;为什么有的英雄的新辉/妙具没有图标?</h5>

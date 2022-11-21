@@ -24,6 +24,7 @@
                         :data-bs-content="pointer.userInfo.name" style="max-width: 3rem;">
                         {{pointer.userInfo.name}}
                       </span>
+                      <span :class="'badge hyld-bg-' + pointer.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ pointer.userInfo.grade }}</span>
                     </div>
                   </div>
                   <div class="col">

@@ -31,7 +31,7 @@
               <hr />
               <h5><span class="badge bg-primary me-1">生命值</span>{{ gameRoleInfo.hp }}</h5>
               <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">移动速度</span>{{ gameRoleInfo.speed }}</h5>
-              <h5 v-if="gameRoleInfo.inborn != ''"><span class="badge bg-primary me-1">天赋</span>{{ gameRoleInfo.inborn }}</h5>
+              <h5 v-if="gameRoleInfo.inborn != ''" style="white-space: pre-wrap"><span class="badge bg-primary me-1">天赋</span>{{ gameRoleInfo.inborn }}</h5>
               <hr>
               <h5><span class="badge bg-primary me-1">上线时间</span>{{ gameRoleInfo.launchTimeStr }}</h5>
             </div>

@@ -61,7 +61,7 @@ import Page from '@/components/Page.vue';
 import Top from "@/components/Top.vue";
 import { searchUpdateLog } from "../api/updateLog";
 import { saveVisitLog } from "../api/visitLog";
-import { getPublicKey, encrypt } from "@/api/common";
+import { getPublicKey, encrypt,decrypt,getBrowserType } from "@/api/common";
 import { getHomeNotice } from "../api/systemConfig";
 import { jsonp } from 'vue-jsonp';
 
@@ -85,6 +85,7 @@ export default {
       updateLogList: [],
       visitLogInfo: {},
       publicKey: '',
+      privateKey: '',
       ip: '',
       homeNotice:{},
     }
@@ -145,9 +146,10 @@ export default {
           }).then(res => {
             var ad_info = res.result.ad_info;
             this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-            this.visitLogInfo.note = '访问首页';
+            this.visitLogInfo.note = "访问首页";
+            var data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
             saveVisitLog(
-              encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
+              data
             ).then(
               response => {
               }

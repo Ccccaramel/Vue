@@ -180,7 +180,7 @@
 import { Modal, Toast, Popover } from 'bootstrap';
 import { register, login, checkToken } from '@/api/user';
 import { saveVisitLog } from "../api/visitLog";
-import { getPublicKey, encrypt,encryptWeb,decryptWeb } from "@/api/common";
+import { getPublicKey, encrypt,encryptWeb,decryptWeb,getExploreName } from "@/api/common";
 import { jsonp } from 'vue-jsonp';
 import Fingerprint2 from 'fingerprintjs2';
 export default {
@@ -389,7 +389,7 @@ export default {
     saveVisitLog() {
       this.visitLogInfo.ip = returnCitySN['cip'];
       this.visitLogInfo.address = returnCitySN['cname'];
-      this.visitLogInfo.note = '登录';
+      this.visitLogInfo.note = "登录";
 
       jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
         key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',

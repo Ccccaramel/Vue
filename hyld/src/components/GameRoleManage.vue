@@ -6,8 +6,18 @@
                 <input type="text" class="form-control" placeholder="角色名称" v-model="searchGameRoleInfo.name">
             </div>
             <div class="col-auto">
+                <select class="form-select" v-model="searchGameRoleInfo.rarity">
+                    <option
+                        v-for="gameRoleRarity in gameRoleRarityListOfSearch"
+                        v-bind:key="gameRoleRarity.id"
+                        :value="gameRoleRarity.id">
+                        {{ gameRoleRarity.name }}</option>
+                </select>
+            </div>
+            <div class="col-auto">
                 <button type="button" class="btn btn-dark" @click="searchGameRoleBtn()">搜索</button>
             </div>
+
             <div class="col-auto">
                 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editGameRoleModal"
                     @click="addGameRoleBtn()">新增</button>
@@ -153,7 +163,9 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" v-model="gameRoleInfo.inborn">
+                                            <!-- <input type="text" class="form-control" v-model="gameRoleInfo.inborn"> -->
+                                            <textarea class="form-control" v-model="gameRoleInfo.inborn"
+                                                style="height:64px"></textarea>
                                             <label for="floatingInput">天赋</label>
                                         </div>
                                     </div>
@@ -1011,6 +1023,7 @@ export default {
             searchGameRoleCommentInfo: {
                 show:false,
             },
+            gameRoleRarityListOfSearch:[],
         }
     },
     updated() { //更新之后.场景:获取更新真实DOM之后
@@ -1077,7 +1090,13 @@ export default {
             getGameRoleRarity().then(
                 response => {
                     this.gameRoleRarityList = response.data.data;
+                    this.gameRoleRarityListOfSearch = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
+                    this.gameRoleRarityListOfSearch.unshift({
+                        id: '',
+                        name:'无限制'
+                    });
                     this.gameRoleInfo.rarity = this.gameRoleRarityList[0].id;
+                    this.searchGameRoleInfo.rarity = this.gameRoleRarityListOfSearch[0].id;
                 }
             ).then(
                 getGameRolePosition().then(
