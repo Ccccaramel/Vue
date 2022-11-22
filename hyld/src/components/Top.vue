@@ -72,6 +72,10 @@
             </div>
           </div>
           <div class="modal-footer">
+            <div class="btn">
+              <font-awesome-icon icon="fa-brands fa-qq" @click="qqLogin()" size="2x"/>
+            </div>
+            
             <button class="btn btn-primary" data-bs-target="#registerModal" data-bs-toggle="modal">我没有账号,去注册</button>
             <button type="button" class="btn btn-primary" @click="userLogin()" :disabled="userLoginBtn">登录</button>
           </div>
@@ -107,6 +111,9 @@
             </div>
           </div>
           <div class="modal-footer">
+            <div class="btn">
+              <font-awesome-icon icon="fa-brands fa-qq" size="2x" @click="qqLogin()"/>
+            </div>
             <button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal">我有账号,去登录</button>
             <button type="button" class="btn btn-primary" :disabled="userRegisterBtn"
               @click="userRegister()">注册</button>
@@ -313,6 +320,15 @@ export default {
         }
       )
     },
+    qqLogin() { // qq 登录/注册
+      console.log("qq登录");
+      QC.Login.showPopup({
+        appId: "102029041",// 填写在QQ互联上申请的AppId
+        redirectURI: "https://www.XXXX.top/music-client/qqsignin", //填写回调地址 登录成功后会自动跳往该地址
+      });
+      //关闭当前页面
+      window.close();
+    },
     login() {
       this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
       login(this.userLoginInfo).then( // 调用登录接口
@@ -353,7 +369,9 @@ export default {
         response => {
           this.publicKey = response.data.data.publicKey;
           this.userRegisterInfo.password = encrypt(this.userRegisterInfo.password, this.publicKey); // 加密
+          console.log("browserId（加密前）:"+localStorage.getItem('browserId'));
           this.userRegisterInfo.no = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
+          console.log("browserId（加密后）:"+this.userRegisterInfo.no);
           register(this.userRegisterInfo).then(
             response => {
               if (response.data.code == 0) {

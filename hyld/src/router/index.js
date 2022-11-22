@@ -100,6 +100,12 @@ const routes = [
     component: () =>
       import("../views/Explain.vue"),
   },
+  {
+    path: "/qq",
+    name: "qq",
+    component: () =>
+      import("../views/qq.vue"),
+  },
 ];
 
 const router = createRouter({

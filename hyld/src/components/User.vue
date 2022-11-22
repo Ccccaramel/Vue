@@ -6,12 +6,12 @@
                 <input type="text" class="form-control" placeholder="昵称" v-model="searchUserInfo.name">
             </div>
             <div class="col-2">
-                <select class="form-select" v-model="searchUserInfo.type">
+                <select class="form-select" v-model="searchUserInfo.role">
                     <option
-                        v-for="userType in userTypeListOfSearch"
-                        v-bind:key="userType.id"
-                        :value="userType.id">
-                        {{ userType.name }}</option>
+                        v-for="userRole in userRoleListOfSearch"
+                        v-bind:key="userRole.id"
+                        :value="userRole.id">
+                        {{ userRole.name }}</option>
                 </select>
             </div>
             <div class="col-2">
@@ -52,7 +52,7 @@
                     <td>{{ userInfo.id }}</td>
                     <td>{{ userInfo.name }}</td>
                     <td>{{ userInfo.qq }}</td>
-                    <td>{{ userInfo.type.name }}</td>
+                    <td>{{ userInfo.role.name }}</td>
                     <td>{{ userInfo.status.name }}</td>
                     <td>{{ userInfo.createTimeStr }}</td>
                     <td>{{ userInfo.note }}</td>
@@ -90,8 +90,8 @@
                             </div>
                             <div class="col-md mb-2">
                                 <div class="form-floating">
-                                    <select class="form-select"  v-model="userInfo.type">
-                                        <option v-for="userType in userTypeList" :key="userType.id" :value="userType.id">{{userType.name}}</option>
+                                    <select class="form-select"  v-model="userInfo.role">
+                                        <option v-for="userRole in userRoleList" :key="userRole.id" :value="userRole.id">{{userRole.name}}</option>
                                     </select>
                                     <label>账号类型</label>
                                 </div>
@@ -154,7 +154,8 @@
 import Page from '@/components/Page.vue';
 import {Modal,Toast} from 'bootstrap';
 import { searchUser,saveUser,saveUserPassword } from "../api/user";
-import { getUserType, getUserStatus } from "../api/dictionary";
+import {  getUserStatus } from "../api/dictionary";
+import { getAllRole } from "../api/role";
 import { getPublicKey, encrypt } from "@/api/common"
 export default {
     name: "user",
@@ -180,17 +181,17 @@ export default {
                 id: '',
                 name: '',
                 qq: '',
-                type: '',
+                role: '',
                 status: '',
                 note: '',
             },
-            userTypeList: [],
+            userRoleList: [],
             userStatusList: [],
-            userTypeListOfSearch: [],
+            userRoleListOfSearch: [],
             userStatusListOfSearch: [],
             searchUserInfo: {
                 name: '',
-                type: '',
+                role: '',
                 status: '',
             },
             userPasswordInfo: {
@@ -234,16 +235,16 @@ export default {
             toast.show();
         },
         init() {
-            getUserType().then(
+            getAllRole().then(
                 response => {
-                    this.userTypeListOfSearch = response.data.data;
-                    this.userTypeList = JSON.parse(JSON.stringify(response.data.data));
-                    this.userTypeListOfSearch.unshift({
+                    this.userRoleListOfSearch = response.data.data;
+                    this.userRoleList = JSON.parse(JSON.stringify(response.data.data));
+                    this.userRoleListOfSearch.unshift({
                                 id: '',
                                 name:'无限制'
                     });
                     
-                    this.searchUserInfo.type = this.userTypeListOfSearch[0].id;
+                    this.searchUserInfo.role = this.userRoleListOfSearch[0].id;
                 }
             ).then(
                 getUserStatus().then(
@@ -264,7 +265,7 @@ export default {
             this.userInfo.title = '编辑用户';
             this.userInfo.id = user.id;
             this.userInfo.qq = user.qq;
-            this.userInfo.type = user.type.id;
+            this.userInfo.role = user.role.id;
             this.userInfo.status = user.status.id;
             this.userInfo.name = user.name;
             this.userInfo.note = user.note;
@@ -279,7 +280,7 @@ export default {
         },
         cleanSearchUserBtn() {
             this.searchUserInfo.name = '';
-            this.searchUserInfo.type = this.userTypeList[0].id;
+            this.searchUserInfo.role = this.userRoleList[0].id;
             this.searchUserInfo.status = this.userStatusList[0].id;
         },
         saveUser() {

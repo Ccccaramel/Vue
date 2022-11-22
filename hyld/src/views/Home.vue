@@ -15,7 +15,7 @@
                 <p>在社区模块里你可以(友好的)畅所欲言</p>
                 <p>此外,你还可以在这里寻找优秀的队员和战队</p>
                 <p>还有丰富的游戏相关的数据提供查阅和参考</p>
-                <!-- <footer class="blockquote-footer">充满未知的<cite title="Source Title">野排坑王</cite></footer> -->
+                <footer class="blockquote-footer">建议手机横屏操作，PC/平板浏览最佳</footer>
               </blockquote>
             </div>
           </div>
