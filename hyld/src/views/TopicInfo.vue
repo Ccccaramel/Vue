@@ -327,8 +327,8 @@ export default {
       }
     },
     saveReplyTopicInfo() {
-      this.replyTopicInfo.ip = returnCitySN['cip'];
-      this.replyTopicInfo.address = returnCitySN['cname'];
+      // this.replyTopicInfo.ip = returnCitySN['cip'];
+      // this.replyTopicInfo.address = returnCitySN['cname'];
 
       var forms = new FormData();
       forms.append('replyTopicVoStr', JSON.stringify(this.replyTopicInfo));
@@ -337,13 +337,26 @@ export default {
         forms.append('imageFiles', this.imgList[i].file);
       }
 
-      saveReplyTopicInfo(forms).then(
-        response => {
-          document.getElementById("replyTopicModalCloseBtn").click();
-          this.showToast(response);
-          this.refresh();
-        }
-      )
+
+      // 通过腾讯API获取地址
+      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+        output: 'jsonp'
+      }).then(res => {
+        var ad_info = res.result.ad_info;
+        this.replyTopicInfo.ip = res.result.ip;
+        this.replyTopicInfo.address = ad_info.nation + ad_info.province;
+
+        saveReplyTopicInfo(forms).then(
+          response => {
+            document.getElementById("replyTopicModalCloseBtn").click();
+            this.showToast(response);
+            this.refresh();
+          }
+        )
+      });
+
+
     },
     addImage() {
       this.$refs.file.click();

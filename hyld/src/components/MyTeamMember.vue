@@ -1,3 +1,4 @@
+<!-- 战队成员 -->
 <template>
     <div class="tab-pane fade" id="list-myTeamMember" role="tabpanel" aria-labelledby="list-myTeamMember-list">
         <div v-if="this.uwtInfoList.length==0">
@@ -147,7 +148,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="leaveTeamModalCloseBtn">关闭</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="leaveTeamModalCloseBtn">关闭</button>
                                                 <button type="button" class="btn btn-primary" @click="changeTeamMemberStatus()">保存</button>
                                             </div>
                                         </div>
@@ -303,7 +304,8 @@ export default {
             uwtInfoList: [],
             uwtInfo: {
                 id: '',
-                name: ''
+                name: '',
+                type:{},
             },
             leave:{ // "踢出"弹窗数据绑定
                 teamMemberStatus: {},
@@ -329,7 +331,7 @@ export default {
             },
             deep: true
         },
-        'uwtInfo': {
+        uwtInfo: {
             handler() {
                 this.newTeamMemberInfo.teamId = this.uwtInfo.team.id; // 添加新成员
                 this.newTeamMemberInfo.uwtId = this.uwtInfo.id;
@@ -388,7 +390,17 @@ export default {
                 }
             )
         },
-        addNewTeamMember(){ // 添加新队员 > 提交
+        /**
+         * 战队 900:国服 901:国际服
+         * 玩家 1300:国服 1301:国际服
+         */
+        addNewTeamMember() { // 添加新队员 > 提交
+            if (this.uwtInfo.team.type.id==900) {
+                this.newTeamMemberInfo.type = 1300;
+            } else {
+                this.newTeamMemberInfo.type = 1301;
+            }
+            this.newTeamMemberInfo.teamId = this.uwtInfo.team.id;
             this.newTeamMemberInfo.playerScid=this.newTeamMemberInfo.playerScid.toLocaleUpperCase(); // 将战队标签中字母转换为大写
             addNewTeamMember(this.newTeamMemberInfo).then(
                 response=>{
@@ -402,7 +414,9 @@ export default {
             )
         },
         checkNewTeamMemberInfo() { // 添加队员请求 > 信息返回的提示样式
-            if(this.newTeamMemberInfo.playerName=='' || this.newTeamMemberInfo.playerScid==''){
+            var patt = /^[0-9A-Z]+$/;
+            this.newTeamMemberInfo.playerScid=this.newTeamMemberInfo.playerScid.toLocaleUpperCase(); // 将 scid 转换成大写
+            if(this.newTeamMemberInfo.playerName=='' || this.newTeamMemberInfo.playerScid==''|| !patt.test(this.newTeamMemberInfo.playerScid)){
                 this.newTeamMemberInfoBtn=true;
             }
             else{
@@ -472,8 +486,7 @@ export default {
             this.changeTeamMemberStatusInfo.teamMemberStatusId=this.leave.teamMemberStatus.id;
             changeTeamMemberStatus(this.changeTeamMemberStatusInfo).then(
                 response => {
-                    document.getElementsByName('leaveTeamModalCloseBtn').click();
-                    // document.getElementById('leaveTeamModalCloseBtn').click();
+                    document.getElementById('leaveTeamModalCloseBtn').click();
                 }
             ).then(
                 res=>{

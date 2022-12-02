@@ -522,15 +522,26 @@ export default {
       }
     },
     saveReplyGameRoleCommentInfo() {
-      this.replyGameRoleCommentInfo.ip = returnCitySN['cip'];
-      this.replyGameRoleCommentInfo.address = returnCitySN['cname'];
-      saveReplyGameRoleCommentInfo(this.replyGameRoleCommentInfo).then(
-        response => {
-          document.getElementById("replyGameRoleCommentModalCloseBtn").click();
-          this.showToast(response);
-          this.refreshGameRoleCommentData();
-        }
-      )
+      // this.replyGameRoleCommentInfo.ip = returnCitySN['cip'];
+      // this.replyGameRoleCommentInfo.address = returnCitySN['cname'];
+
+      // 通过腾讯API获取地址
+      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+        output: 'jsonp'
+      }).then(res => {
+        var ad_info = res.result.ad_info;
+        this.replyGameRoleCommentInfo.ip = res.result.ip;
+        this.replyGameRoleCommentInfo.address = ad_info.nation + ad_info.province;
+      
+        saveReplyGameRoleCommentInfo(this.replyGameRoleCommentInfo).then(
+          response => {
+            document.getElementById("replyGameRoleCommentModalCloseBtn").click();
+            this.showToast(response);
+            this.refreshGameRoleCommentData();
+          }
+        )
+      });
     },
   },
 };

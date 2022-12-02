@@ -38,6 +38,9 @@
                 <input type="text" class="form-control" placeholder="所属地" v-model="searchVisitLogInfo.address">
             </div>
             <div class="col-1">
+                <input type="text" class="form-control" placeholder="真实详细所属地" v-model="searchVisitLogInfo.trueAddress">
+            </div>
+            <div class="col-1">
                 <input type="text" class="form-control" placeholder="备注" v-model="searchVisitLogInfo.note">
             </div>
             <div class="col-auto">

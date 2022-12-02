@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0">
-                <p>与国际服保持同步,记录最新版本更新日志.</p>
+                <p>与国际服保持同步,记录官方最新版本更新日志</p>
               </blockquote>
             </div>
           </div>

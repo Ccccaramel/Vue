@@ -192,15 +192,25 @@ export default {
             this.replyTopicInfo.replyTopic = replyTopic;
         },
         saveReplyTopicInfo() {
-            this.replyTopicInfo.ip = returnCitySN['cip'];
-            this.replyTopicInfo.address = returnCitySN['cname'];
-            saveReplyTopicInfo(this.replyTopicInfo).then(
-                response => {
-                    document.getElementById("quickReplyTopicModalCloseBtn").click();
-                    this.showToast(response);
-                    this.searchReplyMeBtn();
-                }
-            )
+            // 通过腾讯API获取地址
+            jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+                  key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+                  output: 'jsonp'
+            }).then(res => {
+                var ad_info = res.result.ad_info;
+                this.replyTopicInfo.ip = res.result.ip;
+                this.replyTopicInfo.address = ad_info.nation + ad_info.province;
+
+                // this.replyTopicInfo.ip = returnCitySN['cip'];
+                // this.replyTopicInfo.address = returnCitySN['cname'];
+                saveReplyTopicInfo(this.replyTopicInfo).then(
+                    response => {
+                        document.getElementById("quickReplyTopicModalCloseBtn").click();
+                        this.showToast(response);
+                        this.searchReplyMeBtn();
+                    }
+                )
+            });
         },
         addImage() {
             this.$refs.file.click();

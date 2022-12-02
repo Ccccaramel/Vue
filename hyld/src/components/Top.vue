@@ -70,12 +70,19 @@
                 <label>密码</label>
               </div>
             </div>
+            <div class="col-md mb-2">
+              <div class="form-floating">
+                <hr/>
+                <Strong>第三方注册/登录</Strong>
+              </div>
+            </div>
+            <div class="col-md mb-2">
+              <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-dark" @click="qqLogin()"><font-awesome-icon icon="fa-brands fa-qq"/>&ensp;使用QQ注册/登录</button>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <div class="btn">
-              <font-awesome-icon icon="fa-brands fa-qq" @click="qqLogin()" size="2x"/>
-            </div>
-            
             <button class="btn btn-primary" data-bs-target="#registerModal" data-bs-toggle="modal">我没有账号,去注册</button>
             <button type="button" class="btn btn-primary" @click="userLogin()" :disabled="userLoginBtn">登录</button>
           </div>
@@ -109,11 +116,19 @@
                 <label>密码确认</label>
               </div>
             </div>
+            <div class="col-md mb-2">
+              <div class="form-floating">
+                <hr/>
+                <Strong>第三方注册/登录</Strong>
+              </div>
+            </div>
+            <div class="col-md mb-2">
+              <div class="d-grid gap-2">
+                <button type="button" class="btn btn-outline-dark" @click="qqLogin()"><font-awesome-icon icon="fa-brands fa-qq"/>&ensp;使用QQ注册/登录</button>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
-            <div class="btn">
-              <font-awesome-icon icon="fa-brands fa-qq" size="2x" @click="qqLogin()"/>
-            </div>
             <button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal">我有账号,去登录</button>
             <button type="button" class="btn btn-primary" :disabled="userRegisterBtn"
               @click="userRegister()">注册</button>
@@ -324,26 +339,73 @@ export default {
       console.log("qq登录");
       QC.Login.showPopup({
         appId: "102029041",// 填写在QQ互联上申请的AppId
-        redirectURI: "https://www.XXXX.top/music-client/qqsignin", //填写回调地址 登录成功后会自动跳往该地址
+        redirectURI: "http://www.164office.cn/qqLogin", //填写回调地址 登录成功后会自动跳往该地址
+        
       });
       //关闭当前页面
-      window.close();
+      // window.close();
     },
     login() {
-      this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
-      login(this.userLoginInfo).then( // 调用登录接口
-        response => {
-          if (response.data.code == 1) {
-            this.isLogin = true;
-            localStorage.setItem('authorization', response.data.data.token);
-            localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
-            document.getElementById("closeLoginModal").click(); // 关闭 Modal
-            this.refreshUserLoginInfo();
-            this.saveVisitLog();
+      // this.visitLogInfo.ip = returnCitySN['cip'];
+      // this.visitLogInfo.address = returnCitySN['cname'];
+      // this.visitLogInfo.note = "账号登录";
+
+      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+        output: 'jsonp'
+      }).then(res => {
+        var ad_info = res.result.ad_info;
+        this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+        this.visitLogInfo.ip = res.result.ip;
+        this.visitLogInfo.address = ad_info.nation + ad_info.province;
+
+        this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
+        login(
+          Object.assign(
+            this.userLoginInfo,
+            {
+              data: encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
+            }
+        )).then( // 调用登录接口
+          response => {
+            if (response.data.code == 1) {
+              this.isLogin = true;
+              localStorage.setItem('authorization', response.data.data.token);
+              localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
+              document.getElementById("closeLoginModal").click(); // 关闭 Modal
+              this.refreshUserLoginInfo();
+              // this.saveVisitLog();
+            } else {
+              this.userLoginInfo.password = "";
+            }
+            this.showToast(response);
           }
-          this.showToast(response);
-        }
-      );
+        );
+
+
+        // saveVisitLog(
+        //    encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
+        // ).then(
+        //   response => {
+        //   }
+        // );
+      });
+
+
+      // this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
+      // login(this.userLoginInfo).then( // 调用登录接口
+      //   response => {
+      //     if (response.data.code == 1) {
+      //       this.isLogin = true;
+      //       localStorage.setItem('authorization', response.data.data.token);
+      //       localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
+      //       document.getElementById("closeLoginModal").click(); // 关闭 Modal
+      //       this.refreshUserLoginInfo();
+      //       this.saveVisitLog();
+      //     }
+      //     this.showToast(response);
+      //   }
+      // );
     },
     checkUserLoginInfo() {
       this.userLoginBtn = true;
@@ -369,9 +431,7 @@ export default {
         response => {
           this.publicKey = response.data.data.publicKey;
           this.userRegisterInfo.password = encrypt(this.userRegisterInfo.password, this.publicKey); // 加密
-          console.log("browserId（加密前）:"+localStorage.getItem('browserId'));
           this.userRegisterInfo.no = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
-          console.log("browserId（加密后）:"+this.userRegisterInfo.no);
           register(this.userRegisterInfo).then(
             response => {
               if (response.data.code == 0) {
@@ -386,7 +446,7 @@ export default {
             }
           );
         }
-      )
+      );
     },
     refreshUserRegisterInfo() {
       this.userRegisterInfo = {
@@ -404,25 +464,25 @@ export default {
     userCenter() {
       this.$router.push("/userCenter");
     },
-    saveVisitLog() {
-      this.visitLogInfo.ip = returnCitySN['cip'];
-      this.visitLogInfo.address = returnCitySN['cname'];
-      this.visitLogInfo.note = "登录";
+    // saveVisitLog() {
+    //   jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+    //     key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+    //     output: 'jsonp'
+    //   }).then(res => {
+    //     var ad_info = res.result.ad_info;
+    //     this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+    //     this.visitLogInfo.ip = res.result.ip;
+    //     this.visitLogInfo.address = ad_info.nation + ad_info.province;
+    //     this.visitLogInfo.note = "登录";
 
-      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-        output: 'jsonp'
-      }).then(res => {
-        var ad_info = res.result.ad_info;
-        this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-        saveVisitLog(
-           encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
-        ).then(
-          response => {
-          }
-        );
-      });
-    },
+    //     saveVisitLog(
+    //        encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
+    //     ).then(
+    //       response => {
+    //       }
+    //     );
+    //   });
+    // },
 
     // 创建浏览器指纹
     createFingerprint() {

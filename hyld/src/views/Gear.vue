@@ -14,7 +14,10 @@
         <h4 class="alert-heading">{{gear.name}}</h4>
         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
           <div class="btn-group" role="group" aria-label="First group">
-            <p style="white-space: pre-wrap">{{gear.details}}</p>
+            <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+              <Strong v-if="gear.rarity!=null">品质:{{gear.rarity.name}}</Strong>
+              <p style="white-space: pre-wrap">{{gear.details}}</p>
+            </div>
           </div>
           <div class="input-group">
             <img :src="gear.oneLevelImgUrl" class="rounded-2" style="height:64px;" />
@@ -25,9 +28,7 @@
         <hr />
         <p class="card-text" v-if="gear.note!='undefined'">上线时间:{{gear.launchTimeStr}}</p>
       </div>
-
       </div>
-
 
       <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
@@ -80,7 +81,7 @@ export default {
       this.searchGear();
     },
     searchGear() {
-      searchGear().then(
+      searchGear(this.page).then(
         response => {
           this.gearList = response.data.data.data;
           this.page.totalPage = response.data.data.totalPage;

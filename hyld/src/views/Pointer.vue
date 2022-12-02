@@ -194,15 +194,29 @@ export default {
       }
     },
     savePointer() {
-      this.pointerInfo.ip = returnCitySN['cip'];
-      this.pointerInfo.address = returnCitySN['cname'];
-      savePointer(this.pointerInfo).then(
-        response => {
-          document.getElementById("savePointerModalCloseBtn").click();
-          this.showToast(response);
-          this.refresh();
-        }
-      )
+      // this.pointerInfo.ip = returnCitySN['cip'];
+      // this.pointerInfo.address = returnCitySN['cname'];
+
+
+      // 通过腾讯API获取地址
+      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+        output: 'jsonp'
+      }).then(res => {
+        var ad_info = res.result.ad_info;
+        this.pointerInfo.ip = res.result.ip;
+        this.pointerInfo.address = ad_info.nation + ad_info.province;
+
+        savePointer(this.pointerInfo).then(
+          response => {
+            document.getElementById("savePointerModalCloseBtn").click();
+            this.showToast(response);
+            this.refresh();
+          }
+        )
+      });
+
+
     },
   },
 };

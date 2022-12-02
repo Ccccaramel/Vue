@@ -129,8 +129,8 @@ export default {
 
           // 通过 sohu 第三方接口获取用户 ip 和 所在位置,但如果用户使用代理则位置会不准确
           // 在 index.html 中引入 js
-          this.visitLogInfo.ip = returnCitySN['cip'];
-          this.visitLogInfo.address = returnCitySN['cname'];
+          // this.visitLogInfo.ip = returnCitySN['cip'];
+          // this.visitLogInfo.address = returnCitySN['cname'];
 
           // 这里是明文传输,也就是说你的 key 是完全暴露的,如果想不被他人使用,在上线时去开发者平台配置一下(仅指定 url 可调用)
           jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
@@ -146,6 +146,8 @@ export default {
           }).then(res => {
             var ad_info = res.result.ad_info;
             this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+            this.visitLogInfo.ip = res.result.ip;
+            this.visitLogInfo.address = ad_info.nation + ad_info.province;
             this.visitLogInfo.note = "访问首页";
             var data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
             saveVisitLog(

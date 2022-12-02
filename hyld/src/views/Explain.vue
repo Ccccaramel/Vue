@@ -45,21 +45,19 @@
         </div>
         <div class="card-body">
           <blockquote class="blockquote mb-0">
-            <p>都是以自己的方式测量得来的，<strong class="text-danger">仅供对比参考，具体数值以官方为准</strong>；</p>
+            <p>测量数据<strong class="text-danger">仅供对比参考，具体数值以官方为准</strong>；</p>
             <p>非位移攻击方式和丢出召唤物是测量<strong>弹道两端点的距离</strong>；</p>
             <p>位移技能是测量<strong>位移前后中心点的距离</strong>；</p>
             <p>此外，巴兹的被动范围，8比特的伤害放大器范围，是测量以英雄或召唤物所在位置中心点为原点的<strong>半径长度</strong>；</p>
             <p>特殊情况下，例如瑞科的普通攻击，芽芽的普通攻击，艾德加的超级技能，在碰撞/跨越障碍物时，<strong>会超过正常情况下最大距离</strong>，这些情况将忽略，不会记录；</p>
             <p>值得一提的是，很多技能所显示的范围与实际可造成伤害的范围并不一致，没有明确可造成伤害的边界。</p>
           </blockquote>
-          <!-- <img src="../assets/explain1.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/explain1.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain2.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain3.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain4.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain5.png" class="rounded-2 mt-1" style="height:520px;" />
           <img src="../assets/explain6.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain7.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain8.png" class="rounded-2 mt-1" style="height:520px;" /> -->
         </div>
       </div>
       <div class="card mb-1">

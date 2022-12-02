@@ -21,11 +21,18 @@ export function register(params){
     })
 }
 
-
 export function login(params){
     return request({
         method: 'POST',
         url: '/user/login',
+        params: params,
+    })
+}
+
+export function qqLogin(params){
+    return request({
+        method: 'POST',
+        url: '/user/qqLogin',
         params: params,
     })
 }

@@ -241,7 +241,6 @@ export default {
         ele = document.getElementById(cell.x + "," + cell.y);
         ele.style.backgroundColor = this.cellColor;
         // runningAI();
-        console.log("next.");
         await this.sleep(500 + (10 - this.gear) * 40);
       }
     },

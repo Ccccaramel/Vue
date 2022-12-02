@@ -101,10 +101,10 @@ const routes = [
       import("../views/Explain.vue"),
   },
   {
-    path: "/qq",
-    name: "qq",
+    path: "/qqLogin",
+    name: "qqLogin",
     component: () =>
-      import("../views/qq.vue"),
+      import("../views/qqLogin.vue"),
   },
 ];
 

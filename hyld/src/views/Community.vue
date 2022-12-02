@@ -234,22 +234,34 @@ export default {
       }
     },
     saveTopic() {
-      this.topicInfo.ip = returnCitySN['cip'];
-      this.topicInfo.address = returnCitySN['cname'];
 
-      var forms = new FormData();
-      forms.append('topicVoStr', JSON.stringify(this.topicInfo));
+      // 通过腾讯API获取地址
+      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+        output: 'jsonp'
+      }).then(res => {
+        // this.topicInfo.ip = returnCitySN['cip'];
+        // this.topicInfo.address = returnCitySN['cname'];
+        var ad_info = res.result.ad_info;
+        this.topicInfo.ip = res.result.ip;
+        this.topicInfo.address = ad_info.nation + ad_info.province;
 
-      for (let i = 0; i < this.imgList.length; i++){
-        forms.append('imageFiles', this.imgList[i].file);
-      }
+        var forms = new FormData();
+        forms.append('topicVoStr', JSON.stringify(this.topicInfo));
 
-      saveTopic(forms).then(
-        response => {
-          document.getElementById("saveTopicModalCloseBtn").click();
-          this.showToast(response);
+        for (let i = 0; i < this.imgList.length; i++){
+          forms.append('imageFiles', this.imgList[i].file);
         }
-      )
+
+        saveTopic(forms).then(
+          response => {
+            document.getElementById("saveTopicModalCloseBtn").click();
+            this.showToast(response);
+          }
+        )
+      });
+
+
     },
     // browseTopic(id) { // 打开一个新页面
     //   const { href } = this.router.resolve({
