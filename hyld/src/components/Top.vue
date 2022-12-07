@@ -19,6 +19,8 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-black" href="/gameRole"><font-awesome-icon icon="fa-solid fa-skull" />&ensp;游戏角色</a></li>
                 <li><a class="dropdown-item text-black" href="/gear"><font-awesome-icon icon="fa-solid fa-shield-halved" />&ensp;强化装备</a></li>
+                <li><a class="dropdown-item text-black" href="/heroLeagueInfo"><font-awesome-icon icon="fa-solid fa-code-commit" />&ensp;荣誉之路奖励一览</a></li>
+                <li><a class="dropdown-item text-black" href="/clubLeagueInfo"><font-awesome-icon icon="fa-solid fa-ranking-star" />&ensp;战队竞赛奖励一览</a></li>
                 <li><a class="dropdown-item text-black" href="/officialVersionUpdateLog"><font-awesome-icon icon="fa-solid fa-clipboard" />&ensp;官方版本更新日志</a></li>
               </ul>
             </li>

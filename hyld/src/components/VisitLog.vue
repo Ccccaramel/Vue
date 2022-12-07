@@ -4,7 +4,7 @@
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-3">
-                    <div class="alert hyld-bg-8" role="alert">
+                    <div class="alert hyld-bg-16" role="alert">
                         <strong>本月注册人次：</strong>{{statisticalData.numberOfRegistrantsInThisMonth}}
                     </div>
                 </div>

@@ -295,11 +295,11 @@
                                     <div class="alert alert-warning d-flex align-items-center" role="alert">
                                         <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat />
                                         <div>
-                                            ⭐一张队长准备界面,一张战队信息界面,完整清晰无遮挡且无PS痕迹,每张图片大小不可大于1M<br />
+                                            ⭐一张队长准备界面,一张战队信息界面,完整清晰无遮挡且无PS痕迹,可以在适当位置添加"仅用于验证"等字样防止盗用,每张图片大小不可大于1M<br />
                                             ⭐验证规则:<br />
-                                            &nbsp;&nbsp;&nbsp;&nbsp;1.界面的总杯数/头像/昵称是否一致,战队信息界面要显示队长且高亮状态<br />
-                                            &nbsp;&nbsp;&nbsp;&nbsp;2.战队信息界面scid和昵称是否与填写的信息一致<br />
-                                            &nbsp;&nbsp;&nbsp;&nbsp;3.准备界面的背景图是否为最新赛季背景<br />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;1.界面的总杯数和最高奖杯数以及荣誉等级是否合理,头像/昵称是否一致<br />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;2.战队信息界面要显示队长且高亮状态,scid,昵称是否与填写的信息一致<br />
+                                            &nbsp;&nbsp;&nbsp;&nbsp;3.准备界面的背景图是否为<strong class="text-danger">最新赛季背景</strong><br />
                                             ⭐图片如果太大,可以通过QQ进行压缩:比如把图片发送给自己,不勾选原图/选择标清,发送的图片即为压缩后的图片,再保存下来上传<br />
                                         </div>
                                     </div>

@@ -7,6 +7,8 @@ import VueJsonp from 'vue-jsonp'
 import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap";
 import "../src/assets/hyld.css"; // 导入自定义 css
+// import "../public/cheatsheet";
+// import "../public/cheatsheet.css";
 // import "bootstrap/dist/js/bootstrap.bundle"; // 不要打开!否则打开 modal 对多一个黑色透明帘,使用 Toggle between modals 时帘关不掉!所以我为什么要导入
 // import "bootstrap/js/src/dropdown";
 // import "bootstrap/dist/js/bootstrap.bundle";

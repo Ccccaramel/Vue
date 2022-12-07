@@ -106,6 +106,18 @@ const routes = [
     component: () =>
       import("../views/qqLogin.vue"),
   },
+  {
+    path: "/heroLeagueInfo",
+    name: "heroLeagueInfo",
+    component: () =>
+      import("../views/HeroLeagueInfo.vue"),
+  },
+  {
+    path: "/clubLeagueInfo",
+    name: "clubLeagueInfo",
+    component: () =>
+      import("../views/ClubLeagueInfo.vue"),
+  },
 ];
 
 const router = createRouter({
