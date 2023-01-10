@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container">
       <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">反馈与建议</h4>
@@ -106,7 +106,8 @@
 import { Modal, Toast, Popover } from 'bootstrap';
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-import { searchPointer,savePointer  } from "../api/pointer";
+import { searchPointer, savePointer } from "../api/pointer";
+import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
 export default {
   name: "pointer",
@@ -136,6 +137,7 @@ export default {
   },
   mounted() {
     this.searchPointer();
+    this.$refs.top.saveVisitLog("访问【反馈与建议】");
   },
   methods: {
     commonPageChange(event) {

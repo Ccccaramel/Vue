@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container">
       <div class="card mb-1">
@@ -295,6 +295,46 @@
             </tbody>
           </table>
         </div>
+
+        <hr/>
+
+        <div class="card-body text-center">
+          <table class="table caption-top">
+            <caption>战队奖杯奖励</caption>
+            <thead>
+              <tr>
+                <th scope="col" rowspan="2"></th>
+                <th scope="col" colspan="3" class=" table-primary">标准模式</th>
+                <th scope="col" colspan="2" class=" table-info">竞技模式</th>
+              </tr>
+              <tr>
+                <th scope="col" class="table-danger">战败</th>
+                <th scope="col" class="table-warning">平局</th>
+                <th scope="col" class="table-success">获胜</th>
+                <th scope="col" class="table-danger">战败</th>
+                <th scope="col" class="table-success">获胜</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>与随机玩家组队</td>
+                <td class="table-danger">1</td>
+                <td class="table-warning">2</td>
+                <td class="table-success">3</td>
+                <td class="table-danger">3</td>
+                <td class="table-success">7</td>
+              </tr>
+              <tr>
+                <td>与战队队员组队</td>
+                <td class="table-danger">2</td>
+                <td class="table-warning">3</td>
+                <td class="table-success">4</td>
+                <td class="table-danger">5</td>
+                <td class="table-success">9</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <hr/>
     </div>
@@ -317,6 +357,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs.top.saveVisitLog("访问【战队竞赛奖励一览】");
   },
   methods: {
     commonPageChange(event) { // 通用分页

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container mt-2 mb-2">
       <div class="row justify-content-center">
@@ -155,6 +155,7 @@ export default {
   },
   mounted() {
     this.searchPlayerInfo();
+    this.$refs.top.saveVisitLog("访问【搜索玩家】");
   },
   methods: {
     commonPageChange(event) {

@@ -55,8 +55,8 @@
                     <td>{{ topic.status.name }}</td>
                     <td>{{ topic.note }}</td>
                     <td>
-                        <span class="btn badge rounded-pill bg-danger" @click="frozenTopic(topic)">冻结</span>
-                        <span class="btn badge rounded-pill bg-success ms-1" @click="returnTopic(topic)">恢复</span>
+                        <span class="btn badge rounded-pill bg-danger" @click="frozenTopic(topic,true)">冻结</span>
+                        <span class="btn badge rounded-pill bg-success ms-1" @click="returnTopic(topic,true)">恢复</span>
                         <span class="btn badge rounded-pill bg-primary ms-1" data-bs-toggle="modal"
                             data-bs-target="#topicReplyManageModal" @click="topicReplyManage(topic)">管理回复</span>
                         <span class="btn badge rounded-pill bg-primary ms-1" data-bs-toggle="modal"
@@ -108,8 +108,8 @@
                                     <td>{{ topicReplyInfo.createTimeStr }}</td>
                                     <td>{{ topicReplyInfo.status.name }}</td>
                                     <td>
-                                        <span class="btn badge rounded-pill bg-danger" @click="frozenTopic(topicReplyInfo)">冻结</span>
-                                        <span class="btn badge rounded-pill bg-success ms-1" @click="returnTopic(topicReplyInfo)">恢复</span>
+                                        <span class="btn badge rounded-pill bg-danger" @click="frozenTopic(topicReplyInfo,false)">冻结</span>
+                                        <span class="btn badge rounded-pill bg-success ms-1" @click="returnTopic(topicReplyInfo,false)">恢复</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -319,23 +319,33 @@ export default {
                 }
             )
         },
-        frozenTopic(topic) {
+        frozenTopic(topic,sign) {
             frozenTopic(Object.assign({
                 id: topic.id
             })).then(
                 response => {
                     this.showToast(response);
-                    this.getTopicReply();
+                    if (sign) {
+                        this.searchAllTopicBtn();
+                    }
+                    else {
+                        this.getTopicReply();
+                    }
                 }
             )
         },
-        returnTopic(topic) {
+        returnTopic(topic,sign) {
             returnTopic(Object.assign({
                 id: topic.id
             })).then(
                 response => {
                     this.showToast(response);
-                    this.getTopicReply();
+                    if (sign) {
+                        this.searchAllTopicBtn();
+                    }
+                    else {
+                        this.getTopicReply();
+                    }
                 }
             )
         },
@@ -346,11 +356,11 @@ export default {
             this.topicId = topic.id;
             this.refreshTopicReply();
         },
-        refreshTopicReply() {
+        refreshTopicReply() { // 获取话题
             this.topicReplyPage.currentPage = 1;
             this.getTopicReply();
         },
-        getTopicReply() {
+        getTopicReply() { // 获取话题回复
             getTopicReply(Object.assign({
                 id: this.topicId,
                 manageMyTopic: false

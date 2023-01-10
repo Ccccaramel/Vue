@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div style="height: 550px;margin: 0 30%;">
       <div id="main" style="width: 70%;height: 100%;background-color: #b3b3b3;float:left;border-radius: 10px;padding: 6px 0px 6px;">
       </div>
@@ -295,6 +295,7 @@ export default {
   },
   mounted() {
     this.init();
+    this.$refs.top.saveVisitLog("访问【小游戏-俄罗斯方块】");
 
     /**
      * 监听键盘

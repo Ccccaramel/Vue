@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <br/>
 
@@ -117,6 +117,7 @@ export default {
     },
   },
   mounted() {
+    this.$refs.top.saveVisitLog("QQ注册/登录中");
   },
   created() {
     // this.visitLogInfo.ip = returnCitySN['cip'];

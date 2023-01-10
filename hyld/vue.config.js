@@ -4,7 +4,7 @@ module.exports = defineConfig({
 	transpileDependencies: true,
 	chainWebpack(config) {
 		config.plugin('html').tap((args) => { //标题
-			args[0].title = '在吗?';
+			args[0].title = '荒野乱斗社区-荒野玩家专属的社区平台';
 			return args;
 		})
 	},

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <!-- <img class="rounded-circle" src="http://127.0.0.1:8090/hyld/ppp.jpg"> 见后台资源处理器配置 -->
     <div class="container">
       <nav>
@@ -105,6 +105,7 @@ export default {
     this.searchGameRoleByClass();
     this.searchGameRolePopularity();
     this.searchGameRoleUnPopularity();
+    this.$refs.top.saveVisitLog("访问【游戏角色】");
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));

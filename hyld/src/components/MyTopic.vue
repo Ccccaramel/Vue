@@ -47,7 +47,7 @@
                     <td>{{ topic.createTimeStr }}</td>
                     <td>{{ topic.note }}</td>
                     <td>
-                        <span class="btn badge rounded-pill bg-danger" @click="deleteTopic(topic)">删除</span>
+                        <span class="btn badge rounded-pill bg-danger" @click="deleteTopic(topic,true)">删除</span>
                         <span class="btn badge rounded-pill bg-primary ms-1" data-bs-toggle="modal"
                             data-bs-target="#myTopicReplyManageModal" @click="myTopicReplyManage(topic)">管理回复</span>
                     </td>
@@ -95,7 +95,7 @@
                                     </td>
                                     <td>{{ topicReplyInfo.createTimeStr }}</td>
                                     <td>
-                                        <span class="btn badge rounded-pill bg-danger" @click="deleteTopic(topicReplyInfo)">删除</span>
+                                        <span class="btn badge rounded-pill bg-danger" @click="deleteTopic(topicReplyInfo,false)">删除</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -193,13 +193,17 @@ export default {
                 }
             )
         },
-        deleteTopic(topic) {
+        deleteTopic(topic,sign) {
             deleteTopic(Object.assign({
                 id: topic.id
             })).then(
                 response => {
                     this.showToast(response);
-                    this.searchMyTopicBtn();
+                    if (sign) {
+                        this.searchMyTopicBtn();
+                    } else {
+                        this.refreshMyTopicReply();
+                    }
                 }
             )
         },

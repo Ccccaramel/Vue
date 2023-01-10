@@ -97,6 +97,7 @@
 <script>
 import Page from '@/components/Page.vue';
 import { Modal, Toast, Popover } from 'bootstrap';
+import { jsonp } from 'vue-jsonp';
 import { searchReplyMe, saveReplyTopicInfo } from "../api/topic";
 export default {
     name: "replyMe",

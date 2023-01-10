@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container">
       <div class="row align-items-center">
@@ -11,7 +11,9 @@
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0">
-                <p>在浏览或参考【游戏角色】、【强化装备】、【官方版本更新日志】时，请先阅读以下相关的问题</p>
+                <p>在浏览或参考【游戏角色】、【强化装备】、【官方版本更新日志】等等资料时，请先阅读以下相关的问题</p>
+                <p>在数据收集方面，在此特别感谢一些个人/组织，他/她们提供了大量的数据资料，数据详细准确，分享快速又超前，我也丛中减少了不少工作量，再次感谢!</p>
+                <h5><span class="badge bg-primary">荒野乱斗国服官方</span>&emsp;<span class="badge bg-primary">荒野乱斗蓝鸟官方</span>&emsp;<span class="badge bg-primary">Supercell 官方资源库</span>&emsp;<span class="badge bg-primary">在贴吧搬运更新的小伙伴</span>&emsp;<span class="badge bg-primary">贴吧用户Noside</span></h5>
               </blockquote>
             </div>
           </div>
@@ -112,12 +114,14 @@ export default {
     }
   },
   mounted() {
+    this.$refs.top.saveVisitLog("访问【参考前必读!】");
   },
   methods: {
     commonPageChange(event) { // 通用分页
       this.page = event;
       this.searchOfficialVersionUpdateLog();
     },
+
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="p-3 bg-dark text-white">
-      <div class="container" style="background:'../assets/eg1.jpg'">
+      <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <a href="/">
             <img src="../assets/home.jpg" class="rounded-2" style="weight:30px;height:30px;" />
@@ -19,7 +19,10 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-black" href="/gameRole"><font-awesome-icon icon="fa-solid fa-skull" />&ensp;游戏角色</a></li>
                 <li><a class="dropdown-item text-black" href="/gear"><font-awesome-icon icon="fa-solid fa-shield-halved" />&ensp;强化装备</a></li>
-                <li><a class="dropdown-item text-black" href="/heroLeagueInfo"><font-awesome-icon icon="fa-solid fa-code-commit" />&ensp;荣誉之路奖励一览</a></li>
+                <li><a class="dropdown-item text-black" href="/honorRoadInfo"><font-awesome-icon icon="fa-solid fa-code-commit" />&ensp;荣誉之路奖励一览</a></li>
+                <li><a class="dropdown-item text-black" href="/heroLeagueInfo"><font-awesome-icon icon="fa-solid fa-award" />&ensp;荣誉联赛星光奖励一览</a></li>
+                <li><a class="dropdown-item text-black" href="/starlightLeagueInfo"><font-awesome-icon icon="fa-solid fa-medal" />&ensp;星光联赛奖励一览</a></li>
+                <li><a class="dropdown-item text-black" href="/goldCouponRewardInfo"><font-awesome-icon icon="fa-solid fa-timeline" />&ensp;乱斗金券奖励一览</a></li>
                 <li><a class="dropdown-item text-black" href="/clubLeagueInfo"><font-awesome-icon icon="fa-solid fa-ranking-star" />&ensp;战队竞赛奖励一览</a></li>
                 <li><a class="dropdown-item text-black" href="/officialVersionUpdateLog"><font-awesome-icon icon="fa-solid fa-clipboard" />&ensp;官方版本更新日志</a></li>
               </ul>
@@ -45,11 +48,7 @@
           </div>
         </div>
       </div>
-
     </header>
-
-
-
 
     <div class="modal fade" id="loginModal" aria-hidden="true" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
@@ -72,9 +71,12 @@
                 <label>密码</label>
               </div>
             </div>
+            <div class="col-md mb-2 btn" data-bs-target="#resetPasswordByEmailCodeModal" data-bs-toggle="modal" @click="resetPasswordByEmailCode()">
+                忘记了账号与密码?<label class="blockquote-footer">通过邮箱找回账号并修改密码</label>
+            </div>
+            <hr/>
             <div class="col-md mb-2">
               <div class="form-floating">
-                <hr/>
                 <Strong>第三方注册/登录</Strong>
               </div>
             </div>
@@ -134,6 +136,86 @@
             <button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal">我有账号,去登录</button>
             <button type="button" class="btn btn-primary" :disabled="userRegisterBtn"
               @click="userRegister()">注册</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="resetPasswordByEmailCodeModal" aria-hidden="true" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">找回账号并重置密码</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeLoginModal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="was-validated" novalidate>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" v-model="emailVerifyInfo.email" maxlength="20" required>
+                        <label>邮箱</label>
+                    </div>
+                </div>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" v-model="emailVerifyInfo.emailCode" maxlength="20" required>
+                        <label>验证码</label>
+                    </div>
+                </div>
+                <div class="col-md mb-2 text-center">
+                    <button type="button" class="btn btn-outline-success" :disabled="sendEmailCodeBtn" @click="sendEmailCode()">{{countDownBtnInfo}}{{countDown}}</button>
+                </div>
+            </form>
+            <div class="alert alert-warning d-flex align-items-center justify-content-center" role="alert">
+                <font-awesome-icon icon="fa-solid fa-circle-info" size="1x" bounce/>
+                <div>
+                    ⭐请在发送验证码后1分钟之内完成绑定,建议提前打开自己的邮箱
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="emailVerifyModalCloseBtn" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="emailVerify()" :disabled="emailVerifyBtn">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="modal fade" id="updatePasswordModal" aria-hidden="true" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">重置密码</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeLoginModal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="was-validated" novalidate>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" v-model="updatePasswordInfo.password" maxlength="20" required>
+                        <label>密码</label>
+                    </div>
+                    <div class="invalid-feedback" v-if="updatePasswordInfo.password==null || updatePasswordInfo.password==''">
+                      密码可不为空!
+                    </div>
+                </div>
+                <div class="col-md mb-2">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" v-model="updatePasswordInfo.passwordR" maxlength="20" required>
+                        <label>密码确认</label>
+                    </div>
+                    <div class="invalid-feedback" v-if="updatePasswordInfo.password != updatePasswordInfo.passwordR">
+                      密码与确认密码不一致!
+                    </div>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="updatePasswordModalCloseBtn" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="updatePassword()" :disabled="updatePasswordBtn">确定</button>
           </div>
         </div>
       </div>
@@ -202,9 +284,10 @@
 
 <script>
 import { Modal, Toast, Popover } from 'bootstrap';
-import { register, login, checkToken } from '@/api/user';
+import { register, login, checkToken,updatePassword } from '@/api/user';
 import { saveVisitLog } from "../api/visitLog";
-import { getPublicKey, encrypt,encryptWeb,decryptWeb,getExploreName } from "@/api/common";
+import { getPublicKey, encrypt, encryptWeb, decryptWeb, getExploreName } from "@/api/common";
+import { sendEmailCode,emailVerify } from '@/api/emailCode';
 import { jsonp } from 'vue-jsonp';
 import Fingerprint2 from 'fingerprintjs2';
 export default {
@@ -227,7 +310,13 @@ export default {
       token: '',
       visitLogInfo: {},
       publicKey: '',
-      privateKey:'',
+      privateKey: '',
+      emailVerifyInfo: {},
+      countDownBtnInfo: '发送验证码',
+      countDown: '',
+      sendEmailCodeBtn: true,
+      emailVerifyBtn: true,
+      updatePasswordInfo:{},
     }
   },
   props: ["commonResponse"],
@@ -252,6 +341,18 @@ export default {
         this.checkUserRegisterInfo();
       },
       deep: true
+    },
+    emailVerifyInfo: {
+      handler() {
+          this.checkEmailInfo();
+      },
+      deep: true,
+    },
+    updatePasswordInfo: {
+      handler() {
+          this.checkUpdatePasswordInfo();
+      },
+      deep: true,
     },
   },
   methods: {
@@ -332,7 +433,6 @@ export default {
       getPublicKey().then( // 获取加密密钥
         response => {
           this.publicKey = response.data.data.publicKey;
-          this.privateKey = response.data.data.privateKey;
           this.login();
         }
       )
@@ -341,17 +441,11 @@ export default {
       console.log("qq登录");
       QC.Login.showPopup({
         appId: "102029041",// 填写在QQ互联上申请的AppId
-        redirectURI: "http://www.164office.cn/qqLogin", //填写回调地址 登录成功后会自动跳往该地址
+        redirectURI: "https://www.164office.cn/qqLogin", //填写回调地址 登录成功后会自动跳往该地址
         
       });
-      //关闭当前页面
-      // window.close();
     },
     login() {
-      // this.visitLogInfo.ip = returnCitySN['cip'];
-      // this.visitLogInfo.address = returnCitySN['cname'];
-      // this.visitLogInfo.note = "账号登录";
-
       jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
         key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
         output: 'jsonp'
@@ -376,38 +470,13 @@ export default {
               localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
               document.getElementById("closeLoginModal").click(); // 关闭 Modal
               this.refreshUserLoginInfo();
-              // this.saveVisitLog();
             } else {
               this.userLoginInfo.password = "";
             }
             this.showToast(response);
           }
         );
-
-
-        // saveVisitLog(
-        //    encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
-        // ).then(
-        //   response => {
-        //   }
-        // );
       });
-
-
-      // this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
-      // login(this.userLoginInfo).then( // 调用登录接口
-      //   response => {
-      //     if (response.data.code == 1) {
-      //       this.isLogin = true;
-      //       localStorage.setItem('authorization', response.data.data.token);
-      //       localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
-      //       document.getElementById("closeLoginModal").click(); // 关闭 Modal
-      //       this.refreshUserLoginInfo();
-      //       this.saveVisitLog();
-      //     }
-      //     this.showToast(response);
-      //   }
-      // );
     },
     checkUserLoginInfo() {
       this.userLoginBtn = true;
@@ -466,26 +535,6 @@ export default {
     userCenter() {
       this.$router.push("/userCenter");
     },
-    // saveVisitLog() {
-    //   jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-    //     key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-    //     output: 'jsonp'
-    //   }).then(res => {
-    //     var ad_info = res.result.ad_info;
-    //     this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-    //     this.visitLogInfo.ip = res.result.ip;
-    //     this.visitLogInfo.address = ad_info.nation + ad_info.province;
-    //     this.visitLogInfo.note = "登录";
-
-    //     saveVisitLog(
-    //        encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
-    //     ).then(
-    //       response => {
-    //       }
-    //     );
-    //   });
-    // },
-
     // 创建浏览器指纹
     createFingerprint() {
       var options = {
@@ -508,6 +557,130 @@ export default {
         // alert(murmur);
         localStorage.setItem('browserId', murmur); // 存储浏览器指纹,在项目中用于校验用户身份和埋点
       });
+    },
+    resetPasswordByEmailCode() {
+      document.getElementById("closeLoginModal").click();
+    },
+    checkEmailInfo() {
+      this.sendEmailCodeBtn = true;
+      this.emailVerifyBtn = true;
+      var patt = /^[0-9a-zA-Z]{2,20}@[0-9a-zA-Z]{2,10}.[0-9a-zA-Z]{2,5}$/;
+      if (patt.test(this.emailVerifyInfo.email)) {
+          this.sendEmailCodeBtn = false;
+          this.countDownBtnInfo = '发送验证码';
+          if (this.emailVerifyInfo.emailCode !=null && this.emailVerifyInfo.emailCode != '') {
+              this.emailVerifyBtn = false;
+          }
+      }
+    },
+    checkUpdatePasswordInfo() {
+      this.updatePasswordBtn = true;
+      if (this.updatePasswordInfo.password!=null && this.updatePasswordInfo.passwordR!=null && this.updatePasswordInfo.password==this.updatePasswordInfo.passwordR) {
+        this.updatePasswordBtn = false;
+      }
+    },
+    sendEmailCode() {
+      this.createFingerprint();
+      getPublicKey().then( // 获取加密密钥
+        response => {
+          this.publicKey = response.data.data.publicKey;
+          jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+              key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+              output: 'jsonp'
+          }).then(res => {
+            var ad_info = res.result.ad_info;
+            this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+            this.visitLogInfo.ip = res.result.ip;
+            this.visitLogInfo.address = ad_info.nation + ad_info.province;
+            this.emailVerifyInfo.title = "找回账号|重置密码";
+            this.emailVerifyInfo.fingerprint = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
+            this.emailVerifyInfo.data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
+            sendEmailCode(this.emailVerifyInfo).then(
+              response => {
+                if (response.data.code == 1) {
+                  this.bindEmailReadonly = true;
+                  this.start = new Date();
+                  this.countDown = 60;
+                  this.countDownBtnInfo = '验证码已发送-';
+                  this.sendEmailCodeBtn = true;
+                  var that = this;
+                  this.countDownObj = setInterval(function () {
+                    that.timer()
+                  }, 1000);
+                }
+                this.showToast(response);
+              }
+            )
+          });
+        }
+      )
+    },
+    timer() {
+      var now = new Date();
+      var det = now - this.start;
+      now.setTime(det);
+      now.setHours(0);
+      console.log(det);
+      this.countDown = 60 - now.getSeconds();
+      console.log("倒计时:"+this.countDown);
+      if (this.countDown == 60) {
+          this.countDown = 0;
+          clearInterval(this.countDownObj);
+          this.countDownBtnInfo = '发送验证码';
+          this.countDown = '';
+          this.bindEmailReadonly = false;
+          this.sendEmailCodeBtn = false;
+      }
+    },
+    emailVerify() {
+      emailVerify(this.emailVerifyInfo).then(
+        response => {
+          this.showToast(response);
+          if (response.data.code == 1) { // 验证通过
+            localStorage.setItem('emailToken', response.data.data);
+            var updatePasswordModal = document.getElementById('updatePasswordModal');
+            var modal = new Modal(updatePasswordModal);
+            modal.show();
+          }
+          document.getElementById('emailVerifyModalCloseBtn').click();
+        }
+      )
+    },
+    updatePassword() {
+      updatePassword(Object.assign({
+        password: encrypt(this.updatePasswordInfo.password, this.publicKey), // 加密
+        emailToken: localStorage.getItem('emailToken')
+      })).then(
+        response => {
+          this.showToast(response);
+          document.getElementById("updatePasswordModalCloseBtn").click();
+        }
+      )
+    },
+    // 公共接口,为其它页面提供
+    saveVisitLog(info) {
+      getPublicKey().then( // 获取加密密钥
+        response => {
+          this.publicKey = response.data.data.publicKey;
+          jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
+            key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
+            output: 'jsonp'
+          }).then(res => {
+            var ad_info = res.result.ad_info;
+            this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
+            this.visitLogInfo.ip = res.result.ip;
+            this.visitLogInfo.address = ad_info.nation + ad_info.province;
+            this.visitLogInfo.note = info;
+            var data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
+            saveVisitLog(
+              data
+            ).then(
+              response => {
+              }
+            );
+          })
+        }
+      )
     },
   }
 };

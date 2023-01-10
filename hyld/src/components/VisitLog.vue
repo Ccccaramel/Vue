@@ -15,19 +15,19 @@
                 </div>
                 <div class="col-3">
                     <div class="alert hyld-bg-20" role="alert">
-                        <strong>本月首页访问人次：</strong>{{statisticalData.numberOfVisitInThisMonth}}
+                        <strong>本月访问首页人次：</strong>{{statisticalData.numberOfVisitInThisMonth}}
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="alert hyld-bg-26" role="alert">
-                        <strong>总访问人次：</strong>{{statisticalData.totalVisits}}
+                        <strong>访问首页总人次：</strong>{{statisticalData.totalVisits}}
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- 搜索条件 -->
-        <form class="row g-3 mt-1 mb-3">
+        <form class="row g-3 mt-1 mb-3 align-items-center">
             <div class="col-1">
                 <input type="text" class="form-control" placeholder="用户ID" v-model="searchVisitLogInfo.userId">
             </div>
@@ -37,8 +37,8 @@
             <div class="col-1">
                 <input type="text" class="form-control" placeholder="所属地" v-model="searchVisitLogInfo.address">
             </div>
-            <div class="col-1">
-                <input type="text" class="form-control" placeholder="真实详细所属地" v-model="searchVisitLogInfo.trueAddress">
+            <div class="col-2">
+                <input type="text" class="form-control" placeholder="详细所属地" v-model="searchVisitLogInfo.trueAddress">
             </div>
             <div class="col-1">
                 <input type="text" class="form-control" placeholder="备注" v-model="searchVisitLogInfo.note">
@@ -56,6 +56,12 @@
                 <input step=1 type="datetime-local" class="form-control" v-model="searchVisitLogInfo.endDate">
             </div>
             <div class="col-auto">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" v-model="searchVisitLogInfo.all">
+                    <label class="form-check-label">包括非法请求</label>
+                </div>
+            </div>
+            <div class="col-auto">
                 <button type="button" class="btn btn-dark" @click="searchVisitLogBtn()">搜索</button>
             </div>
         </form>
@@ -71,7 +77,7 @@
                     <th scope="col">用户名称</th>
                     <th scope="col">IP</th>
                     <th scope="col">所属地</th>
-                    <th scope="col">真实详细所属地</th>
+                    <th scope="col">详细所属地</th>
                     <th scope="col">操作时间</th>
                     <th scope="col">备注</th>
                 </tr>
@@ -85,7 +91,12 @@
                     <td>{{ visitLog.address }}</td>
                     <td>{{ visitLog.trueAddress }}</td>
                     <td>{{ visitLog.createTimeStr }}</td>
-                    <td>{{ visitLog.note }}</td>
+                    <!-- <td>{{ visitLog.note }}</td> -->
+                    <td>
+                        <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="visitLog.note==''?'无':visitLog.note" style="max-width: 240px;">
+                            {{visitLog.note}}
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -94,7 +105,7 @@
 </template>
 <script>
 import Page from '@/components/Page.vue';
-import { Toast } from 'bootstrap';
+import { Toast,Popover } from 'bootstrap';
 import { searchVisitLog,getStatisticalData } from "../api/visitLog";
 export default {
     name: "visitLog",
@@ -117,6 +128,15 @@ export default {
             statisticalData:{},
         }
     },
+    updated() { //更新之后.场景:获取更新真实DOM之后
+    /**
+     * 尝试一下放在 updated() 和 mounted() 中分别有什么区别
+     */
+    var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new Popover(popoverTriggerEl)
+    });
+  },
     methods: {
         commonPageChange(event) { // 通用分页
             this.page = event;

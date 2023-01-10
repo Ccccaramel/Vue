@@ -107,16 +107,34 @@ const routes = [
       import("../views/qqLogin.vue"),
   },
   {
-    path: "/heroLeagueInfo",
-    name: "heroLeagueInfo",
+    path: "/honorRoadInfo",
+    name: "honorRoadInfo",
     component: () =>
-      import("../views/HeroLeagueInfo.vue"),
+      import("../views/HonorRoadInfo.vue"),
   },
   {
     path: "/clubLeagueInfo",
     name: "clubLeagueInfo",
     component: () =>
       import("../views/ClubLeagueInfo.vue"),
+  },
+  {
+    path: "/goldCouponRewardInfo",
+    name: "goldCouponRewardInfo",
+    component: () =>
+      import("../views/GoldCouponRewardInfo.vue"),
+  },
+  {
+    path: "/heroLeagueInfo",
+    name: "heroLeagueInfo",
+    component: () =>
+      import("../views/HeroLeagueInfo.vue"),
+  },
+  {
+    path: "/starlightLeagueInfo",
+    name: "starlightLeagueInfo",
+    component: () =>
+      import("../views/StarlightLeagueInfo.vue"),
   },
 ];
 

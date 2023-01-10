@@ -110,6 +110,7 @@ export default {
   },
   mounted() {
     this.searchTeamInfoBtn();
+    this.$refs.top.saveVisitLog("访问【搜索战队】");
     // var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
     // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     //   return new Popover(popoverTriggerEl)

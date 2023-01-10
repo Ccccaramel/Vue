@@ -97,3 +97,26 @@ export function saveHeadPortrait(params){
         data: params
     })
 }
+
+export function bindEmail(params){
+    return request({
+        method: 'post',
+        url: '/user/bindEmail',
+        data: params
+    })
+}
+
+export function unbindEmail(){
+    return request({
+        method: 'post',
+        url: '/user/unbindEmail'
+    })
+}
+
+export function updatePassword(params){
+    return request({
+        method: 'post',
+        url: '/user/updatePassword',
+        data: params
+    })
+}

@@ -1,6 +1,6 @@
 <template>
   <div :style="backgroundDiv" style="height:100%;">
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <br/>
     <div class="container">
       <div class="row align-items-center">
@@ -44,6 +44,9 @@ export default {
         backgroundSize:'100% 100%'
       }
     }
+  },
+  mounted() {
+    this.$refs.top.saveVisitLog("访问【找到你】");
   },
 };
 </script>

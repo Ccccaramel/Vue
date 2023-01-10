@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col">
@@ -194,12 +194,10 @@
 </template>
 <script>
 import { Modal, Toast, Popover } from 'bootstrap';
-
+import { jsonp } from 'vue-jsonp';
 import { useRoute } from 'vue-router';
-
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-
 import { checkToken } from "@/api/user";
 import { getTopicData, saveReplyTopicInfo } from "@/api/topic";
 export default {
@@ -252,6 +250,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs.top.saveVisitLog("访问【话题("+this.topicId+")】");
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));

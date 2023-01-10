@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div style="height: 140px;">
       <div style="width: 20%;margin: 0 40%;">
         <div @click="start()"
@@ -93,7 +93,7 @@ export default {
   mounted() {
     this.init();
 
-
+    this.$refs.top.saveVisitLog("访问【贪吃蛇】");
     /**
      * 监听键盘
      * 37:左,38:上,39:右,40:下

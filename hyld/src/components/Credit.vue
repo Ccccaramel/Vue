@@ -554,9 +554,20 @@ export default {
         },
         refreshAllValidTeamMemberListTeamCompetitionType(){
             for (var i = 0; i < this.allValidTeamMemberList.length; i++){
-                this.allValidTeamMemberList[i].teamCompetitionTypeId=this.creditImportInfo.teamCompetitionTypeId;
+                this.allValidTeamMemberList[i].teamCompetitionTypeId = this.creditImportInfo.teamCompetitionTypeId;
+                // 600:联赛周 601:任务周
+                if(this.creditImportInfo.teamCompetitionTypeId==600){
+                    this.allValidTeamMemberList[i].credit= 30;
+                } else {
+                    this.allValidTeamMemberList[i].credit= 100;
+                }
             }
             this.singleTeamMemberCreditInfo.teamCompetitionTypeId = this.creditImportInfo.teamCompetitionTypeId;
+            if(this.creditImportInfo.teamCompetitionTypeId==600){
+                    this.singleTeamMemberCreditInfo.credit= 30;
+                } else {
+                    this.singleTeamMemberCreditInfo.credit= 100;
+                }
         },
         batchCreditAddSave() { // 批量积分录入
             this.checkAllValidTeamMemberList(); // 再检查一遍,处理通过粘贴的方式输入 01 这样格式的数字

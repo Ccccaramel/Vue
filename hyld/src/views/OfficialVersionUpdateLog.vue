@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container">
 
@@ -77,6 +77,7 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.searchOfficialVersionUpdateLog();
+    this.$refs.top.saveVisitLog("访问【官方版本更新日志】");
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     /**

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container">
 
       <div class="alert alert-success" role="alert">
@@ -125,7 +125,7 @@ import { Modal,Toast, Popover } from 'bootstrap';
 import { useRouter } from "vue-router"; //引入useRouter
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-
+import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
 import { searchTopic, saveTopic } from "@/api/topic";
 import { getCommunityNotice } from "@/api/systemConfig";
@@ -167,7 +167,8 @@ export default {
       response => {
         this.communityNotice = response.data.data;
       }
-    )
+    );
+    this.$refs.top.saveVisitLog("访问【社区】");
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));

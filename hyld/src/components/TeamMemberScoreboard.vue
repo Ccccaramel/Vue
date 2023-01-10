@@ -38,12 +38,33 @@
                         <th scope="col">玩家SCID标签</th>
                         <th scope="col">名称</th>
                         <th scope="col">平均积分排名</th>
-                        <th scope="col">平均积分</th>
-                        <th scope="col">战队赛参与次数</th>
-                        <th scope="col">战队赛请假次数</th>
-                        <th scope="col">战队赛总积分</th>
+                        <th scope="col">
+                            <span tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                data-bs-placement="top"
+                                data-bs-content="平均积分=战队赛总积分/参与次数">
+                                平均积分
+                                <font-awesome-icon icon="fa-regular fa-circle-question" />
+                            </span>
+                        </th>
+                        <th scope="col">参与次数</th>
+                        <th scope="col">请假次数</th>
+                        <th scope="col">
+                            <span tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                data-bs-placement="top"
+                                data-bs-content="所有正常积分之和">
+                                战队赛总积分
+                                <font-awesome-icon icon="fa-regular fa-circle-question" />
+                            </span>
+                        </th>
                         <th scope="col">额外积分</th>
-                        <th scope="col">总积分</th>
+                        <th scope="col">
+                            <span tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                data-bs-placement="top"
+                                data-bs-content="所有正常积分、请假积分、额外积分之和">
+                                总积分
+                                <font-awesome-icon icon="fa-regular fa-circle-question" />
+                            </span>
+                        </th>
                         <th scope="col" v-if="uwtInfo.playerPositionType.id==1200||uwtInfo.playerPositionType.id==1201">操作</th>
                     </tr>
                 </thead>
@@ -147,6 +168,7 @@
 </template>
 
 <script>
+import { Popover } from 'bootstrap';
 import { findLeaveType,findJoinWayType,findCreditType,getTeamCompetitionType } from "../api/dictionary";
 import { getTeamMemberScoreboard,getCredit,saveTeamMemberCreditInfo } from "../api/credit";
 import { getAllTeamMember, changeTeamMemberStatus, addNewTeamMember, getAllValidTeamMember } from "../api/teamWithPlayer";
@@ -202,6 +224,12 @@ export default {
                 this.getTeamMemberScoreboard();
             },
         },
+    },
+    updated() { //更新之后.场景:获取更新真实DOM之后
+        var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new Popover(popoverTriggerEl)
+        });
     },
     mounted() {
 

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container">
       <div class="alert alert-success  text-center" role="alert">
-        <h4 class="alert-heading">强化配件</h4>
+        <h4 class="alert-heading">强化装备</h4>
       </div>
       <hr />
 
@@ -65,6 +65,7 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.searchGear();
+    this.$refs.top.saveVisitLog("访问【强化装备】");
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     /**

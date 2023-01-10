@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Top :commonResponse="commonResponseData"></Top>
+    <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container text-center">
       <div class="row alert alert-primary">
         <div class="col-md-2 offset-md-5">
           <h4>角色数据</h4>
         </div>
-        <div class="col-md-2 offset-md-3">
+        <div class="col-md-2 offset-md-3 btn">
           <font-awesome-icon v-if="like == 0 || like != 1" icon="fa-regular fa-thumbs-up" @click="likeBtn(1)" size="2x" />
           <font-awesome-icon v-if="like == 1" icon="fa-solid fa-thumbs-up" @click="likeBtn(0)" size="2x" />
           &emsp;
@@ -58,7 +58,7 @@
               }}</h3>
               <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">描述</span>{{ gameRoleInfo.normalAttackInfo.details }}</h5>
               <hr />
-              <div v-if="gameRoleInfo.normalAttackInfo.normalAttackAttributeInfoList.length > 0">
+              <div v-if="gameRoleInfo.normalAttackInfo!=null && gameRoleInfo.normalAttackInfo.normalAttackAttributeInfoList.length > 0">
                 <h5
                   v-for="(normalAttackAttributeInfo, id) in gameRoleInfo.normalAttackInfo.normalAttackAttributeInfoList" :key="id" style="white-space: pre-wrap">
                   <span class="badge bg-primary me-1">{{ normalAttackAttributeInfo.name }}</span>
@@ -68,16 +68,16 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-6" v-for="superSkill in gameRoleInfo.superSkillInfo" :key="superSkill.id">
           <div class="shadow-lg p-3 mb-5 bg-body rounded h-100">
             <div class="alert alert-info h-100" role="alert">
               <h3 class="alert-heading"><span class="badge bg-primary me-1">超级技能</span>{{
-                  gameRoleInfo.superSkillInfo.name
+                  superSkill.name
               }}</h3>
-              <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">描述</span>{{ gameRoleInfo.superSkillInfo.details }}</h5>
+              <h5 style="white-space: pre-wrap"><span class="badge bg-primary me-1">描述</span>{{ superSkill.details }}</h5>
               <hr />
-              <div v-if="gameRoleInfo.superSkillInfo.superSkillAttributeInfoList.length > 0">
-                <h5 v-for="(superSkillAttributeInfo, id) in gameRoleInfo.superSkillInfo.superSkillAttributeInfoList" :key="id"  style="white-space: pre-wrap">
+              <div v-if="superSkill.superSkillAttributeInfoList!=null && superSkill.superSkillAttributeInfoList.length > 0">
+                <h5 v-for="(superSkillAttributeInfo, id) in superSkill.superSkillAttributeInfoList" :key="id"  style="white-space: pre-wrap">
                   <span class="badge bg-primary me-1">{{ superSkillAttributeInfo.name }}</span>
                   {{ superSkillAttributeInfo.details }}
                 </h5>
@@ -234,12 +234,20 @@
             <a  class="list-group-item list-group-item-action" aria-current="true" v-for="(gameRoleComment,i) in gameRoleCommentList" :key="i">
               <div class="container">
                 <div class="row align-items-start">
-                  <div class="col-1 text-center">
-                    <img :src="gameRoleComment.userInfo.headPortrait.imageUrl" class="rounded-circle" style="weight:52px;height:52px;" />
+                  <div class="col-auto text-center">
+                    <!-- <img :src="gameRoleComment.userInfo.headPortrait.imageUrl" class="rounded-circle" style="weight:52px;height:52px;" />
                     <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="gameRoleComment.userInfo.name" style="max-width: 80px;">
                       {{gameRoleComment.userInfo.name}}
                     </span>
-                    <span :class="'badge hyld-bg-'+gameRoleComment.userInfo.grade+' rounded-pill'">Lv{{gameRoleComment.userInfo.grade}}</span>
+                    <span :class="'badge hyld-bg-'+gameRoleComment.userInfo.grade+' rounded-pill'">Lv{{gameRoleComment.userInfo.grade}}</span> -->
+                    <div class="vstack">
+                      <img :src="gameRoleComment.userInfo.headPortrait.imageUrl" class="rounded-circle" style="width: 3rem;" />
+                      <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                        :data-bs-content="gameRoleComment.userInfo.name" style="max-width: 3rem;">
+                        {{gameRoleComment.userInfo.name}}
+                      </span>
+                      <span :class="'badge hyld-bg-' + gameRoleComment.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ gameRoleComment.userInfo.grade }}</span>
+                    </div>
                   </div>
                   <div class="col">
                     <h3>{{gameRoleComment.rubric}}</h3>
@@ -249,22 +257,38 @@
                     <!-- 楼中楼 -->
                     <div class="container list-group list-group-item-primary" v-if="gameRoleComment.replyInfo!=null">
                       <div class="row align-items-start mt-1" v-for="(reply,i) in gameRoleComment.replyInfo" :key="i">
-                        <div class="col-1 text-center">
-                          <img :src="reply.userInfo.headPortrait.imageUrl" class="rounded-circle" style="weight:36px;height:36px;" />
+                        <div class="col-auto text-center">
+                          <!-- <img :src="reply.userInfo.headPortrait.imageUrl" class="rounded-circle" style="weight:36px;height:36px;" />
                           <span :class="'badge hyld-bg-'+reply.userInfo.grade+' rounded-pill'">Lv{{reply.userInfo.grade}}</span>
                           <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="reply.userInfo.name" style="max-width: 60px;">
                             {{reply.userInfo.name}}
-                          </span>
+                          </span> -->
+                          <div class="vstack">
+                            <img :src="reply.userInfo.headPortrait.imageUrl" class="rounded-circle" style="width: 3rem;" />
+                            <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                              :data-bs-content="reply.userInfo.name" style="max-width: 3rem;">
+                              {{reply.userInfo.name}}
+                            </span>
+                            <span :class="'badge hyld-bg-' + reply.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ reply.userInfo.grade }}</span>
+                          </div>
                         </div>
                         <div class="col-1 text-center" style="width:24px;padding:0px" v-if="gameRoleComment.id!=reply.parentId">
                           <font-awesome-icon icon="fa-solid fa-share" />
                         </div>
-                        <div class="col-1 text-center" v-if="gameRoleComment.id!=reply.parentId">
-                          <img :src="reply.replyUser.headPortrait.imageUrl" class="rounded-circle" style="weight:36px;height:36px;" />
+                        <div class="col-auto text-center" v-if="gameRoleComment.id!=reply.parentId">
+                          <!-- <img :src="reply.replyUser.headPortrait.imageUrl" class="rounded-circle" style="weight:36px;height:36px;" />
                           <span :class="'badge hyld-bg-'+reply.replyUser.grade+' rounded-pill'">Lv{{reply.replyUser.grade}}</span>
                           <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="reply.replyUser.name" style="max-width: 60px;">
                             {{reply.replyUser.name}}
-                          </span>
+                          </span> -->
+                          <div class="vstack">
+                            <img :src="reply.replyUser.headPortrait.imageUrl" class="rounded-circle" style="width: 3rem;" />
+                            <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                              :data-bs-content="reply.replyUser.name" style="max-width: 3rem;">
+                              {{reply.replyUser.name}}
+                            </span>
+                            <span :class="'badge hyld-bg-' + reply.replyUser.grade + ' rounded-pill mx-auto text-center'">Lv{{ reply.replyUser.grade }}</span>
+                          </div>
                         </div>
                         <div class="col">
                           <h4>{{reply.rubric}}</h4>
@@ -345,6 +369,7 @@ import { useRoute } from 'vue-router';
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
 import { checkToken } from "@/api/user";
+import { jsonp } from 'vue-jsonp';
 import { searchGameRoleInfoById } from "../api/gameRole";
 import { findByGameRoleId, saveGameRolePopularity } from "../api/gameRolePopularity";
 import { getGameRoleCommentData,saveReplyGameRoleCommentInfo } from "../api/gameRoleComment";
@@ -390,6 +415,7 @@ export default {
     this.searchGameRoleInfoById();
     this.findByGameRoleId();
     this.refreshGameRoleCommentData();
+    this.$refs.top.saveVisitLog("访问【角色信息("+this.gameRoleId+")】");
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
