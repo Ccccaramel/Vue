@@ -32,7 +32,21 @@
                     <a class="list-group-item list-group-item-action" id="list-credit-list"
                         data-bs-toggle="list" href="#list-credit" role="tab" aria-controls="list-credit"
                         @click="searchCreditBy()" v-if="this.power.indexOf('credit')!=-1">战队赛积分明细</a>
-                    
+                        
+                    <hr v-if="this.power.indexOf('blogCenter')!=-1"/>
+
+                    <a class="list-group-item text-center hyld-bg-32 btn" v-if="this.power.indexOf('blogCenter')!=-1"><font-awesome-icon icon="pen-to-square" />&ensp;<Strong>博客中心</Strong></a>
+                    <a class="list-group-item list-group-item-action" id="list-myBlog-list"
+                        data-bs-toggle="list" href="#list-myBlog" role="tab" aria-controls="list-myBlog"
+                        @click="searchMyBlog()" v-if="this.power.indexOf('myBlog')!=-1">我的博客</a>
+                        
+                    <hr v-if="this.power.indexOf('financeCenter')!=-1"/>
+
+                    <a class="list-group-item text-center hyld-bg-32 btn" v-if="this.power.indexOf('financeCenter')!=-1"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" />&ensp;<Strong>财务中心</Strong></a>
+                    <a class="list-group-item list-group-item-action" id="list-myBill-list"
+                        data-bs-toggle="list" href="#list-myBill" role="tab" aria-controls="list-myBill"
+                        @click="searchMyBill()" v-if="this.power.indexOf('myBill')!=-1">我的账单</a>
+
                     <hr v-if="this.power.indexOf('platformManage')!=-1"/>
 
                     <a class="list-group-item text-center hyld-bg-32 btn" v-if="this.power.indexOf('platformManage')!=-1"><font-awesome-icon icon="fa-solid fa-wrench" />&ensp;<Strong>平台管理</Strong></a>
@@ -281,8 +295,7 @@
                     <!-- 我的游戏账号 -->
                     <MyGameAccount ref="myGameAccount" @commonResponse="commonResponseChange($event)"></MyGameAccount>
                     <!-- 我的战队 -->
-                    <MyTeam ref="myTeam" @commonResponse="commonResponseChange($event)"
-                        @showTeamDataModal="showTeamDataModal($event)"></MyTeam>
+                    <MyTeam ref="myTeam" @commonResponse="commonResponseChange($event)" @showTrendModal="showTrendModal($event)"></MyTeam>
                     <!-- 战队成员 -->
                     <MyTeamMember ref="myTeamMember" @commonResponse="commonResponseChange($event)"></MyTeamMember>
                     <!-- 战队竞赛统计 -->
@@ -294,22 +307,27 @@
                     <!-- 回复我的 -->
                     <ReplyMe ref="replyMe" @commonResponse="commonResponseChange($event)"></ReplyMe>
 
+                    <!-- ****** 博客中心 ****** -->
+                    <!-- 我的博客 -->
+                    <MyBlog ref="myBlog" @commonResponse="commonResponseChange($event)"></MyBlog>
+
+                    <!-- ****** 财务中心 ****** -->
+                    <!-- 我的账单 -->
+                    <MyBill ref="myBill" @commonResponse="commonResponseChange($event)" @showTrendModal="showTrendModal($event)"></MyBill>
+
                     <!-- ****** 平台管理 ****** -->
                     <!-- 头像管理 -->
-                    <HeadPortraitManage ref="headPortraitManage" @commonResponse="commonResponseChange($event)">
-                    </HeadPortraitManage>
+                    <HeadPortraitManage ref="headPortraitManage" @commonResponse="commonResponseChange($event)"></HeadPortraitManage>
                     <!-- 用户管理 -->
                     <User ref="user" @commonResponse="commonResponseChange($event)"></User>
                     <!-- 游戏账号管理 -->
                     <Player ref="player" @commonResponse="commonResponseChange($event)"></Player>
                     <!-- 战队管理 -->
-                    <TeamManage ref="teamManage" @commonResponse="commonResponseChange($event)"
-                        @showTeamDataModal="showTeamDataModal($event)"></TeamManage>
+                    <TeamManage ref="teamManage" @commonResponse="commonResponseChange($event)"></TeamManage>
                     <!-- 关联游戏账号关联申请 -->
                     <PlayerExamine ref="playerExamine" @commonResponse="commonResponseChange($event)"></PlayerExamine>
                     <!-- 战队关联申请 -->
-                    <TeamRelationManage ref="teamRelationManage" @commonResponse="commonResponseChange($event)">
-                    </TeamRelationManage>
+                    <TeamRelationManage ref="teamRelationManage" @commonResponse="commonResponseChange($event)"></TeamRelationManage>
                     <!-- 话题管理 -->
                     <TopicManage ref="topicManage" @commonResponse="commonResponseChange($event)"></TopicManage>
 
@@ -326,18 +344,15 @@
 
                     <!-- ****** 游戏资源管理 ****** -->
                     <!-- 游戏角色管理 -->
-                    <GameRoleManage ref="gameRoleManage" @commonResponse="commonResponseChange($event)">
-                    </GameRoleManage>
+                    <GameRoleManage ref="gameRoleManage" @commonResponse="commonResponseChange($event)"></GameRoleManage>
                     <!-- 星徽之力管理 -->
-                    <StarPowerManage ref="starPowerManage" @commonResponse="commonResponseChange($event)">
-                    </StarPowerManage>
+                    <StarPowerManage ref="starPowerManage" @commonResponse="commonResponseChange($event)"></StarPowerManage>
                     <!-- 随身妙具管理 -->
                     <GadgetManage ref="gadgetManage" @commonResponse="commonResponseChange($event)"></GadgetManage>
                     <!-- 强化装备管理 -->
                     <GearManage ref="gearManage" @commonResponse="commonResponseChange($event)"></GearManage>
                     <!-- 官方版本更新日志管理 -->
-                    <OfficialVersionUpdateLogManage ref="officialVersionUpdateLogManage"
-                        @commonResponse="commonResponseChange($event)"></OfficialVersionUpdateLogManage>
+                    <OfficialVersionUpdateLogManage ref="officialVersionUpdateLogManage" @commonResponse="commonResponseChange($event)"></OfficialVersionUpdateLogManage>
 
 
 
@@ -384,6 +399,8 @@ import OfficialVersionUpdateLogManage from "@/components/OfficialVersionUpdateLo
 import ReplyMe from "@/components/ReplyMe.vue";
 import VisitLog from "@/components/VisitLog.vue";
 import SystemConfig from "@/components/SystemConfig.vue";
+import MyBill from "@/components/MyBill.vue";
+import MyBlog from "@/components/MyBlog.vue";
 import { Toast } from "bootstrap";
 import { decryptWeb } from "@/api/common";
 export default {
@@ -417,6 +434,8 @@ export default {
         ReplyMe,
         VisitLog,
         SystemConfig,
+        MyBlog,
+        MyBill,
         power: [],
     },
     data() {
@@ -463,6 +482,14 @@ export default {
         },
         searchMyTopic() { // 获取我的话题
             this.$refs.myTopic.searchMyTopicBtn();
+        },
+
+        searchMyBlog() { // 获取用户所有博客
+            this.$refs.myBlog.init(); // 父组件触发子组件的方法
+        },
+
+        searchMyBill() { // 获取用户所有账单
+            this.$refs.myBill.init();
         },
 
         searchDictionary() { // 触发子组件的方法 > 获取所有字典
@@ -523,7 +550,7 @@ export default {
         searchOfficialVersionUpdateLog() {// 获取官方版本更新日志
             this.$refs.officialVersionUpdateLogManage.searchOfficialVersionUpdateLogBtn();
         },
-        searchVisitLog() { // 获取所有登录日志
+        searchVisitLog() { // 获取所有平台访问日志
             this.$refs.visitLog.init();
         },
 
@@ -532,8 +559,8 @@ export default {
         commonResponseChange(event) { // 通用信息 Toast 提示气泡
             this.commonResponseData = event;
         },
-        showTeamDataModal(event) { // 战队数据 Modal 弹窗
-            this.$refs.top.showTeamDataModal(event);
+        showTrendModal(event) { // 战队数据 Modal 弹窗
+            this.$refs.top.showTrendModal(event);
         },
         logout() {
             logout().then(

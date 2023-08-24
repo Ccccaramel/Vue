@@ -3,9 +3,15 @@ import Home from "../views/Home.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/index",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/",
+    // name: "home",
+    // component: Home,
+    redirect: "/index"
   },
   // {
   //   path: "/login",
@@ -69,6 +75,30 @@ const routes = [
     name: "pointer",
     component: () =>
       import("../views/Pointer.vue"),
+  },
+  {
+    path: "/blog",
+    name: "blog",
+    component: () =>
+      import("../views/Blog.vue"),
+  },
+  {
+    path: "/music",
+    name: "music",
+    component: () =>
+      import("../views/Music.vue"),
+  },
+  {
+    path: "/editBlog&:blogId",
+    name: "editBlog",
+    component: () =>
+      import("../views/EditBlog.vue"),
+  },
+  {
+    path: "/showBlog&:blogId",
+    name: "showBlog",
+    component: () =>
+      import("../views/ShowBlog.vue"),
   },
   {
     path: "/gameRole",

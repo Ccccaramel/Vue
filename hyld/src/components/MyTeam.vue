@@ -41,22 +41,22 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">战队标签</th>
-                    <th scope="col">战队名称</th>
-                    <th scope="col">战队类型</th>
+                    <th scope="col">战队名</th>
+                    <th scope="col">类型</th>
                     <th scope="col">淘汰线</th>
                     <th scope="col">优等线</th>
                     <th scope="col" style="width: 20%;">战队简介</th>
-                    <th scope="col">你的职位</th>
+                    <th scope="col">职位</th>
                     <th scope="col">
                         <span tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
                             data-bs-placement="top"
-                            data-bs-content="录入积分时请如实记录,恶意数据将扣除信誉积分甚至封号,如果信誉积分低于100,那么你的战队将无法被他人搜索到">
+                            data-bs-content="录入积分时请如实记录,恶意数据将扣除信誉积分并封号;此外,如果信誉积分低于100,那么你的战队将无法被他人搜索到">
                             信誉积分
                             <font-awesome-icon icon="fa-regular fa-circle-question" />
                         </span>
                     </th>
                     <th scope="col">验证状态</th>
-                    <th scope="col">验证结果备注</th>
+                    <th scope="col">验证备注</th>
                     <th scope="col" style="width: 20%;">操作</th>
                 </tr>
             </thead>
@@ -98,6 +98,7 @@
                             data-bs-toggle="modal" data-bs-target="#teamInfoModal"
                             @click="editTeamBtn(uwtInfo)">编辑</span>
                         <span class="btn badge rounded-pill bg-primary ms-2" v-if="uwtInfo.checkStatus.id == 1402"
+                            data-bs-toggle="modal" data-bs-target="#trendModal" 
                             @click="getTeamData(uwtInfo)">综合数据</span>
                         <span class="btn badge rounded-pill bg-primary ms-2"
                             v-if="uwtInfo.checkStatus.id == 1402 && uwtInfo.playerPositionType.id == 1200"
@@ -108,7 +109,7 @@
                             data-bs-toggle="modal" data-bs-target="#teamTransferModal"
                             @click="teamTransferManage(uwtInfo)">战队转让</span>
                         <span class="btn badge rounded-pill bg-danger ms-2" v-if="uwtInfo.relation.id == 701"
-                            @click="relieveTeam(uwtInfo.id, 0)">解除关联</span>
+                            @click="relieveTeam(uwtInfo.id, uwtInfo.team.id, 0)">解除关联</span>
                     </td>
                 </tr>
             </tbody>
@@ -226,7 +227,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img src="../assets/eg1.jpg" class="rounded" style="height: 640px;" />
+                                <img src="../assets/eg1.png" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                         <div class="alert alert-primary text-center" role="alert">
@@ -234,7 +235,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img src="../assets/eg2.jpg" class="rounded" style="height: 640px;" />
+                                <img src="../assets/eg3.png" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                     </div>
@@ -365,7 +366,7 @@
                                                 <td>{{ viceCaptain.playerPositionType.name }}</td>
                                                 <td>
                                                     <span class="btn badge rounded-pill bg-danger ms-2"
-                                                        @click="relieveTeam(viceCaptain.id, 1)">解除关联</span>
+                                                        @click="relieveTeam(viceCaptain.id,viceCaptain.team.id, 1)">解除关联</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -455,10 +456,9 @@ export default {
     },
     data() {
         return {
-            teamModalData: { // 通用战队 Modal 弹窗数据
-                teamName: '',
-                competition: [],
-                task: []
+            trendModalData: { // 通用战队 Modal 弹窗数据
+                title: '',
+                data: []
             },
             commonResponse: {
                 success: true,
@@ -483,8 +483,8 @@ export default {
                 teamId: '', // team 的 id
                 teamScid: '',
                 teamName: '',
-                teamEliminationLine: 35,
-                teamExcellentLine: 20,
+                teamEliminationLine: 20,
+                teamExcellentLine: 35,
                 teamNote: '',
                 teamType: '',
                 playerPosition: '' // 职位
@@ -516,6 +516,7 @@ export default {
                 teamName: '',
             }, // 战队装让
             teamTransBtn: true,
+            teamId: 0,
         }
     },
     updated() { //更新之后.场景:获取更新真实DOM之后
@@ -611,10 +612,10 @@ export default {
             }
             else { // 队长
                 if (typeof(this.teamInfo.teamEliminationLine)!='number') {
-                    this.teamInfo.teamEliminationLine = 30;
+                    this.teamInfo.teamEliminationLine = 20;
                 } else {
                     if (this.teamInfo.teamEliminationLine<0 || this.teamInfo.teamEliminationLine>99) {
-                        this.teamInfo.teamEliminationLine = 30;
+                        this.teamInfo.teamEliminationLine = 20;
                     }
                 };
                 if (typeof(this.teamInfo.teamExcellentLine)!='number') {
@@ -645,9 +646,10 @@ export default {
             )
             this.refreshTeam();
         },
-        relieveTeam(id, flag) {
+        relieveTeam(id, teamId, flag) { // 解除战队关联
             relieveTeam(Object.assign({
-                id: id
+                id: id,
+                teamId: teamId
             })).then(
                 response => {
                     if (response.data.code == 1) {
@@ -656,7 +658,6 @@ export default {
                         } else {
                             this.refreshAllViceCaptain();
                         }
-
                     }
                     this.showToast(response);
                 }
@@ -666,8 +667,8 @@ export default {
             this.teamInfo.id = '';
             this.teamInfo.teamScid = '';
             this.teamInfo.teamName = '';
-            this.teamInfo.teamEliminationLine = 35,
-                this.teamInfo.teamExcellentLine = 20,
+            this.teamInfo.teamEliminationLine = 20,
+                this.teamInfo.teamExcellentLine = 35,
                 this.teamInfo.teamNote = '';
         },
         addTeamBtn() {
@@ -743,10 +744,20 @@ export default {
                 uwtId: uwtInfo.parentId == null ? uwtInfo.id : uwtInfo.parentId
             })).then(
                 response => {
-                    this.teamModalData.teamName = uwtInfo.team.name;
-                    this.teamModalData.competition = response.data.data.competition;
-                    this.teamModalData.task = response.data.data.task;
-                    this.$emit('showTeamDataModal', this.teamModalData);
+                    this.trendModalData.title = uwtInfo.team.name;
+                    // this.trendModalData.time = Date.parse(new Date());
+                    this.trendModalData.data = [];
+                    this.trendModalData.data.push({
+                        name: '战队联赛周',
+                        id: 1, // 待优化
+                        data: response.data.data.competition
+                    });
+                    this.trendModalData.data.push({
+                        name: '战队任务周',
+                        id: 2,
+                        data: response.data.data.task
+                    });
+                    this.$emit('showTrendModal', this.trendModalData);
                 }
             );
         },
@@ -830,6 +841,7 @@ export default {
             }
         },
         viceCaptainManage(team) { // 队长添加副队长
+            this.teamId = team.team.id;
             this.addViceCaptainModalInfo.id = team.id;
             this.addViceCaptainModalInfo.teamId = team.team.id;
             this.addViceCaptainModalInfo.teamName = team.team.name;

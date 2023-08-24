@@ -2,12 +2,32 @@
   <div>
     <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container mt-2 mb-2">
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">漫江碧透，百舸争流。</h4>
+        <hr/>
+        <!-- <p>以前招队员：总揽英雄，思贤如渴。</p> -->
+        <!-- <p>以前找战队：绕树三匝，何枝可依？</p> -->
+        <!-- <p>想加入一个优秀的战队？无论是国服还是国际服，活跃战队任你挑。</p> -->
+        <!-- <p>想让他人了解你的战队？入驻本平台录入战队赛，高手必不请自来。</p> -->
+        <p>注：搜索结果是依据战队管理者在本平台的活跃度来排序。</p>
+      </div>
+
       <div class="row justify-content-center">
         <div class="col-auto">
           <input type="text" class="form-control" v-model="uwtInfo.teamName" placeholder="战队名称"  maxlength="10">
         </div>
         <div class="col-auto">
           <input type="text" class="form-control" v-model="uwtInfo.teamScid" placeholder="战队SCID标签" maxlength="15">
+        </div>
+        <div class="col-auto">
+          <input type="number" class="form-control" v-model="uwtInfo.eliminationLine" placeholder="淘汰线" maxlength="2">
+        </div>
+        <!-- 战队类型 -->
+        <div class="col-auto">
+          <select class="form-select" v-model="uwtInfo.teamType">
+              <option v-for="teamType in teamTypeList" :key="teamType.id"
+                  :value="teamType.id">{{ teamType.name }}</option>
+          </select>
         </div>
         <div class="col-auto">
           <button type="button" class="btn btn-dark" @click="searchTeamInfo()">搜索</button>
@@ -26,8 +46,8 @@
                 <th scope="col">战队所在服</th>
                 <th scope="col">淘汰线</th>
                 <th scope="col">优高线</th>
-                <th scope="col">战队简介</th>
-                <th scope="col">操作</th>
+                <th scope="col" style="width: 50%;">战队简介</th>
+                <th scope="col">战队赛</th>
               </tr>
             </thead>
             <tbody>
@@ -38,13 +58,14 @@
                 <td>{{uwtInfo.team.type.name }}</td>
                 <td>{{uwtInfo.team.eliminationLine}}</td>
                 <td>{{uwtInfo.team.excellentLine}}</td>
-                <td>
+                <td>{{uwtInfo.team.note}}</td>
+                <!-- <td>
                   <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="uwtInfo.team.note" style="max-width: 300px;">
                     {{uwtInfo.team.note}}
                   </span>
-                </td>
+                </td> -->
                 <td>
-                  <span class="btn badge rounded-pill bg-primary" @click="getTeamData(uwtInfo)">综合数据</span>
+                  <span class="btn badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#trendModal" @click="getTeamData(uwtInfo)">综合数据</span>
                 </td>
               </tr>
             </tbody>
@@ -68,6 +89,7 @@ import { Popover } from "bootstrap";
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
 
+import { getTeamType } from "../api/dictionary";
 import { searchValidTeamInfo } from "../api/userWithTeam";
 import { getTeamData } from "../api/credit";
 export default {
@@ -82,10 +104,9 @@ export default {
         success: true,
         msg: '',
       },
-      teamModalData: { // 通用战队 Modal 弹窗数据
-        teamName: '',
-        competition: [],
-        task: []
+      trendModalData: { // 通用战队 Modal 弹窗数据
+        title: '',
+        data: []
       },
       page: { // 通用 Page
         size: 10,
@@ -96,19 +117,30 @@ export default {
       uwtInfo: {
         teamName: '',
         teamScid: '',
+        teamType: '',
       },
+      teamTypeList: [], // 战队类型
     }
   },
   watch: {
     uwtInfo: {
       handler: function (oldVal, newVal) {
-        console.log(JSON.stringify(oldVal)+","+JSON.stringify(newVal));
+        // console.log(JSON.stringify(oldVal)+","+JSON.stringify(newVal));
         this.checkUwtInfo();
       },
       deep: true
     },
   },
   mounted() {
+    getTeamType().then(
+      response => {
+        this.teamTypeList = response.data.data;
+        this.teamTypeList.unshift({
+            id: '',
+            name:'无限制'
+        });
+      }
+    );
     this.searchTeamInfoBtn();
     this.$refs.top.saveVisitLog("访问【搜索战队】");
     // var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -150,15 +182,28 @@ export default {
         uwtId: uwtInfo.id
       })).then(
         response => {
-          this.teamModalData.teamName = uwtInfo.team.name;
-          this.teamModalData.competition = response.data.data.competition;
-          this.teamModalData.task = response.data.data.task;
-          this.$refs.top.showTeamDataModal(this.teamModalData);
+          this.trendModalData.title = uwtInfo.team.name;
+          // this.trendModalData.time = Date.parse(new Date());
+          this.trendModalData.data = [];
+          this.trendModalData.data.push({
+              name: '战队联赛周',
+              id: 1, // 待优化
+              data: response.data.data.competition
+          });
+          this.trendModalData.data.push({
+              name: '战队任务周',
+              id: 2,
+              data: response.data.data.task
+          });
+          this.$refs.top.showTrendModal(this.trendModalData);
         }
       );
     },
     checkUwtInfo() {
-      this.uwtInfo.teamScid =this.uwtInfo.teamScid.toLocaleUpperCase();
+      this.uwtInfo.teamScid = this.uwtInfo.teamScid.toLocaleUpperCase();
+      if (this.uwtInfo.eliminationLine<0 || this.uwtInfo.eliminationLine>63) {
+        this.uwtInfo.eliminationLine = '';
+      }
     },
   },
 };

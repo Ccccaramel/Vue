@@ -610,7 +610,6 @@ export default {
                         this.allValidTeamMemberList[i].credit = 30;
                     }
                 }
-                console.log(">>>"+this.allValidTeamMemberList[i].credit);
                 if (this.allValidTeamMemberList[i].settlementTime == '' || this.allValidTeamMemberList[i].settlementTime == null || this.allValidTeamMemberList[i].credit===null || this.allValidTeamMemberList[i].credit==='') {
                     this.batchCreditAddSaveBtn = true;
                     return;

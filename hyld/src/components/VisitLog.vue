@@ -68,7 +68,7 @@
 
         <table class="table text-center table-hover caption-top">
             <caption class="text-center alert-primary" role="alert">
-                <h4><span class="badge rounded-pill bg-primary ">登录日志</span></h4>
+                <h4><span class="badge rounded-pill bg-primary ">平台访问日志</span></h4>
             </caption>
             <thead>
                 <tr>
@@ -136,7 +136,7 @@ export default {
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
       return new Popover(popoverTriggerEl)
     });
-  },
+    },
     methods: {
         commonPageChange(event) { // 通用分页
             this.page = event;

@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+.bg {
+  background:url("../assets/bg.png")  ;
+  background-size:cover;
+}
+
 /* 连续色系 */
 .hyld-bg-1 {
   --bs-bg-opacity: 1;
@@ -128,4 +133,12 @@
 .hyld-bg-32 {
   --bs-bg-opacity: 1;
   background-color:#cccccc;
+}
+.hyld-bg-33 {
+  --bs-bg-opacity: 1;
+  background-color:#dad4f6;
+}
+.hyld-bg-34 {
+  --bs-bg-opacity: 1;
+  background-color:#e6f6d4;
 }

@@ -37,6 +37,26 @@ function exToLvTools(lv, val, ex) { // 经验转换成等级,和当前等级溢�
     return map;
 }
 
+// 格式判断
+export function amountFormatCheck(i) {
+    if (i === 0) { // 是否为 0
+        return true;
+    }
+    var patt = /^[1-9]\d*$/;
+    if (patt.test(i)) { // 正整数
+        return true;
+    }
+    var patt = /^0\.\d*[1-9]$/;
+    if (patt.test(i)) { // 小于0且带小数
+        return true;
+    }
+    var patt = /^[1-9]\d*\.\d*[1-9]$/;
+    if (patt.test(i)) { // 大于0且带小数
+        return true;
+    }
+    return false;
+}
+
 
 import JSEncrypt from "jsencrypt"
 

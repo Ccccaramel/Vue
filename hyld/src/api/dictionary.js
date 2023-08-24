@@ -139,3 +139,45 @@ export function getGearRarity(){
         url: '/dictionary/getGearRarity',
     })
 }
+
+export function getBlogPower(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getBlogPower',
+    })
+}
+
+export function getBlogType(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getBlogType',
+    })
+}
+
+export function getBillType(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getBillType',
+    })
+}
+
+export function getBillWeight(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getBillWeight',
+    })
+}
+
+export function getCurrencyType(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getCurrencyType',
+    })
+}
+
+export function getBillStatus(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getBillStatus',
+    })
+}

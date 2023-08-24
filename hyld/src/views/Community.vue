@@ -308,7 +308,7 @@ export default {
       var that = this;
       reader.onload = function () {
         file.src = this.result;
-        console.log(">>>"+file);
+        // console.log(">>>"+file);
         that.imgList.push({
           file
         });

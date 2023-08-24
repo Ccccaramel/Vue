@@ -177,7 +177,7 @@ export default {
                           }, 2000);
                         };
 
-                        console.log("new!");
+                        // console.log("new!");
                       }
                     );
                   // 先将信息保存至变量
@@ -197,9 +197,9 @@ export default {
             );
           }
         })
-        console.log('qq成功登录!')
+        // console.log('qq成功登录!')
       } else {
-        console.log('qq登录失败!')
+        // console.log('qq登录失败!')
       }
   },
   methods: {

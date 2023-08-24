@@ -29,7 +29,7 @@
             </caption>
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">名称</th>
                     <th scope="col">头像</th>
                     <th scope="col">肖像</th>
@@ -47,8 +47,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(gameRole, index) in gameRoleList" :key="gameRole.id">
-                    <th scope="row">{{ index + 1 }}</th>
+                <tr v-for="gameRole in gameRoleList" :key="gameRole.id">
+                    <!-- <th scope="row">{{ index + 1 }}</th> -->
+                    <th scope="row">{{ gameRole.id }}</th>
                     <td>
                         <span class="d-inline-block text-truncate" data-bs-placement="top" data-bs-toggle="popover"
                             data-bs-trigger="hover focus" :data-bs-content="gameRole.name" style="max-width: 60px;">
@@ -1090,7 +1091,7 @@ export default {
             getGameRoleRarity().then(
                 response => {
                     this.gameRoleRarityList = response.data.data;
-                    this.gameRoleRarityListOfSearch = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝,否则值会随 checkStatusList 改变
+                    this.gameRoleRarityListOfSearch = JSON.parse(JSON.stringify(response.data.data)); // 深拷贝
                     this.gameRoleRarityListOfSearch.unshift({
                         id: '',
                         name:'无限制'

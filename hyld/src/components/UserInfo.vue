@@ -431,9 +431,7 @@ export default {
             var det = now - this.start;
             now.setTime(det);
             now.setHours(0);
-            console.log(det);
             this.countDown = 60 - now.getSeconds();
-            console.log("倒计时:"+this.countDown);
             if (this.countDown == 60) {
                 this.countDown = 0;
                 clearInterval(this.countDownObj);

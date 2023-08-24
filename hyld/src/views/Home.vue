@@ -7,7 +7,7 @@
         <div class="col">
           <div class="card text-center">
             <div class="card-header">
-              <h4>欢迎!</h4>
+              <h4>欢迎来到<Strong>芽芽office</Strong>!</h4>
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0">
@@ -115,7 +115,7 @@ export default {
       this.searchUpdateLog();
     },
     searchUpdateLog() {
-      searchUpdateLog().then(
+      searchUpdateLog(Object.assign(this.page)).then(
         response => {
           this.updateLogList = response.data.data.data;
           this.page.totalPage = response.data.data.totalPage;

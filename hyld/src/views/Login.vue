@@ -44,7 +44,7 @@ export default {
     userLogin() {
       var ip = returnCitySN['cip'];
       var cityName = returnCitySN['cname'];
-      console.log('ip:' + ip + ",cityName:" + cityname);
+      // console.log('ip:' + ip + ",cityName:" + cityname);
       login(this.userVo).then(
         response => {
           
