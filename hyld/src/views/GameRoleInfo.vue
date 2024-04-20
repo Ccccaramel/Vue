@@ -225,7 +225,7 @@
             </div>
             <div class="col-md mb-2">
                 <div class="form-floating text-center">
-                    <img src="../assets/null.jpg" class="rounded"/>
+                    <img src="../assets/hyld/null.jpg" class="rounded"/>
                 </div>
             </div>
           </div>
@@ -370,6 +370,7 @@ import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
 import { checkToken } from "@/api/user";
 import { jsonp } from 'vue-jsonp';
+import { saveVisitLog } from "../api/welcome";
 import { searchGameRoleInfoById } from "../api/gameRole";
 import { findByGameRoleId, saveGameRolePopularity } from "../api/gameRolePopularity";
 import { getGameRoleCommentData,saveReplyGameRoleCommentInfo } from "../api/gameRoleComment";
@@ -415,7 +416,7 @@ export default {
     this.searchGameRoleInfoById();
     this.findByGameRoleId();
     this.refreshGameRoleCommentData();
-    this.$refs.top.saveVisitLog("访问【角色信息("+this.gameRoleId+")】");
+    saveVisitLog(Object.assign({key:7,data:this.gameRoleId}));
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -548,26 +549,13 @@ export default {
       }
     },
     saveReplyGameRoleCommentInfo() {
-      // this.replyGameRoleCommentInfo.ip = returnCitySN['cip'];
-      // this.replyGameRoleCommentInfo.address = returnCitySN['cname'];
-
-      // 通过腾讯API获取地址
-      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-        output: 'jsonp'
-      }).then(res => {
-        var ad_info = res.result.ad_info;
-        this.replyGameRoleCommentInfo.ip = res.result.ip;
-        this.replyGameRoleCommentInfo.address = ad_info.nation + ad_info.province;
-      
-        saveReplyGameRoleCommentInfo(this.replyGameRoleCommentInfo).then(
-          response => {
-            document.getElementById("replyGameRoleCommentModalCloseBtn").click();
-            this.showToast(response);
-            this.refreshGameRoleCommentData();
-          }
-        )
-      });
+      saveReplyGameRoleCommentInfo(this.replyGameRoleCommentInfo).then(
+        response => {
+          document.getElementById("replyGameRoleCommentModalCloseBtn").click();
+          this.showToast(response);
+          this.refreshGameRoleCommentData();
+        }
+      )
     },
   },
 };

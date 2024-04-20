@@ -85,6 +85,7 @@ import { useRouter } from "vue-router"; //引入useRouter
 import Top from "@/components/Top.vue";
 import { searchGameRoleByClass } from "../api/gameRole";
 import { searchGameRolePopularity } from "../api/gameRolePopularity";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "gameRole",
   components: {
@@ -105,7 +106,7 @@ export default {
     this.searchGameRoleByClass();
     this.searchGameRolePopularity();
     this.searchGameRoleUnPopularity();
-    this.$refs.top.saveVisitLog("访问【游戏角色】");
+    saveVisitLog(Object.assign({key:6}));
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));

@@ -62,6 +62,7 @@
 </template>
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "tetris",
   components: {
@@ -295,7 +296,7 @@ export default {
   },
   mounted() {
     this.init();
-    this.$refs.top.saveVisitLog("访问【小游戏-俄罗斯方块】");
+    saveVisitLog(Object.assign({key:20}));
 
     /**
      * 监听键盘

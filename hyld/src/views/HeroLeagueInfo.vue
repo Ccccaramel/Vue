@@ -202,6 +202,7 @@
  
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "heroLeagueInfo",
   components: {
@@ -216,7 +217,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.top.saveVisitLog("访问【荣誉联赛星光奖励一览】");
+    saveVisitLog(Object.assign({key:11}));
   },
   methods: {
     commonPageChange(event) { // 通用分页

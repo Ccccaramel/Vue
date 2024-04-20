@@ -432,7 +432,11 @@ export default {
                         id: 1, // 待优化
                         data: response.data.data
                     });
+                    console.log(">>>"+JSON.stringify(this.trendModalData));
                     this.$emit('showTrendModal', this.trendModalData);
+                    // var toastLiveExample = document.getElementById('trendModal');
+                    // let toast = new Toast(toastLiveExample);
+                    // toast.show();
                 }
             );
         },

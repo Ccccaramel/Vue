@@ -107,6 +107,21 @@ export default {
       blogTypeList : []
     }
   },
+  setup() {
+    const router = useRouter();
+    let showBlog = (id) => {
+        let { href } = router.resolve({
+            name: "showBlog",
+            params: {
+                blogId: id
+            },
+        });
+        window.open(href, "_blank");
+    };
+    return {
+        showBlog
+    };
+  },
   mounted() {
     getBlogType().then(
         response => {
@@ -200,21 +215,6 @@ export default {
         return false;
       }
     },
-  },
-  setup() {
-    const router = useRouter();
-    let showBlog = (id) => {
-        let { href } = router.resolve({
-            name: "showBlog",
-            params: {
-                blogId: id
-            },
-        });
-        window.open(href, "_blank");
-    };
-    return {
-        showBlog
-    };
   },
 };
 </script>

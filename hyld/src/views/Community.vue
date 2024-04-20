@@ -128,6 +128,7 @@ import Page from '@/components/Page.vue';
 import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
 import { searchTopic, saveTopic } from "@/api/topic";
+import { saveVisitLog } from "../api/welcome";
 import { getCommunityNotice } from "@/api/systemConfig";
 export default {
   name: "community",
@@ -161,6 +162,42 @@ export default {
       addState: true, // 当图片达到一定数量时隐藏"添加图片"按钮
     }
   },
+  // vue3是在setup中进行的,且要引入 useRoute 和useRouter
+  setup() {
+    const router = useRouter();
+    let browseTopic = (id) => {
+      let { href } = router.resolve({
+        name: "topicInfo",
+        params: {
+          id: id,
+        },
+      });
+      window.open(href, "_blank");
+    };
+    // let params = () => {
+    //   $router.push({
+    //     name: "About",
+    //     params: {
+    //       id: 1,
+    //       aa: "nini",
+    //     },
+    //   });
+    // };
+    // let query = () => {
+    //   $router.push({
+    //     path: "/about",
+    //     query: {
+    //       id: 2,
+    //       age: 13,
+    //     },
+    //   });
+    // };
+    return {
+      // params,
+      // query,
+      browseTopic,
+    };
+  },
   mounted() {
     this.refresh();
     getCommunityNotice().then(
@@ -168,7 +205,7 @@ export default {
         this.communityNotice = response.data.data;
       }
     );
-    this.$refs.top.saveVisitLog("访问【社区】");
+    saveVisitLog(Object.assign({key:2}));
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -236,32 +273,19 @@ export default {
     },
     saveTopic() {
 
-      // 通过腾讯API获取地址
-      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-        output: 'jsonp'
-      }).then(res => {
-        // this.topicInfo.ip = returnCitySN['cip'];
-        // this.topicInfo.address = returnCitySN['cname'];
-        var ad_info = res.result.ad_info;
-        this.topicInfo.ip = res.result.ip;
-        this.topicInfo.address = ad_info.nation + ad_info.province;
+      var forms = new FormData();
+      forms.append('topicVoStr', JSON.stringify(this.topicInfo));
 
-        var forms = new FormData();
-        forms.append('topicVoStr', JSON.stringify(this.topicInfo));
+      for (let i = 0; i < this.imgList.length; i++){
+        forms.append('imageFiles', this.imgList[i].file);
+      }
 
-        for (let i = 0; i < this.imgList.length; i++){
-          forms.append('imageFiles', this.imgList[i].file);
+      saveTopic(forms).then(
+        response => {
+          document.getElementById("saveTopicModalCloseBtn").click();
+          this.showToast(response);
         }
-
-        saveTopic(forms).then(
-          response => {
-            document.getElementById("saveTopicModalCloseBtn").click();
-            this.showToast(response);
-          }
-        )
-      });
-
+      )
 
     },
     // browseTopic(id) { // 打开一个新页面
@@ -331,42 +355,6 @@ export default {
         this.addState = true;
       }
     },
-  },
-  // vue3是在setup中进行的,且要引入 useRoute 和useRouter
-  setup() {
-    const router = useRouter();
-    let browseTopic = (id) => {
-      let { href } = router.resolve({
-        name: "topicInfo",
-        params: {
-          id: id,
-        },
-      });
-      window.open(href, "_blank");
-    };
-    // let params = () => {
-    //   $router.push({
-    //     name: "About",
-    //     params: {
-    //       id: 1,
-    //       aa: "nini",
-    //     },
-    //   });
-    // };
-    // let query = () => {
-    //   $router.push({
-    //     path: "/about",
-    //     query: {
-    //       id: 2,
-    //       age: 13,
-    //     },
-    //   });
-    // };
-    return {
-      // params,
-      // query,
-      browseTopic,
-    };
   },
 };
 </script>

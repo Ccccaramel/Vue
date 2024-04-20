@@ -41,6 +41,7 @@
 import { Popover } from "bootstrap";
 import Page from '@/components/Page.vue';
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 import { searchGear } from "../api/gear";
 export default {
   name: "gear",
@@ -65,7 +66,7 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.searchGear();
-    this.$refs.top.saveVisitLog("访问【强化装备】");
+    saveVisitLog(Object.assign({key:8}));
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     /**

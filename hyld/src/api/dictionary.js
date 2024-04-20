@@ -181,3 +181,17 @@ export function getBillStatus(){
         url: '/dictionary/getBillStatus',
     })
 }
+
+export function getMusicStatus(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getMusicStatus',
+    })
+}
+
+export function getMusicLyricStatus(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getMusicLyricStatus',
+    })
+}

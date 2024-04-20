@@ -106,7 +106,7 @@
 <script>
 import Page from '@/components/Page.vue';
 import { Toast,Popover } from 'bootstrap';
-import { searchVisitLog,getStatisticalData } from "../api/visitLog";
+import { searchVisitLog,getStatisticalData } from "../api/welcome";
 export default {
     name: "visitLog",
     components: {

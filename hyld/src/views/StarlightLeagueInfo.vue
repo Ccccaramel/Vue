@@ -19,80 +19,80 @@
             </thead>
             <tbody>
               <tr>
-                <th><img src="../assets/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_01.png" class="rounded-2" style="height:36px;" />*500</td>
+                <th><img src="../assets/hyld/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_01.png" class="rounded-2" style="height:36px;" />*500</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_02.png" class="rounded-2" style="height:36px;" />*1000</td>
+                <th><img src="../assets/hyld/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_02.png" class="rounded-2" style="height:36px;" />*1000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*2000</td>
+                <th><img src="../assets/hyld/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*2000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_02.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*2500</td>
+                <th><img src="../assets/hyld/rank_icon_02.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*2500</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_02.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*3000</td>
+                <th><img src="../assets/hyld/rank_icon_02.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*3000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_02.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*3750</td>
+                <th><img src="../assets/hyld/rank_icon_02.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*3750</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_03.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*450</td>
+                <th><img src="../assets/hyld/rank_icon_03.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*450</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_03.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*5500</td>
+                <th><img src="../assets/hyld/rank_icon_03.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*5500</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_03.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*7000</td>
+                <th><img src="../assets/hyld/rank_icon_03.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*7000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_04.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*8750</td>
+                <th><img src="../assets/hyld/rank_icon_04.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*8750</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_04.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*10000</td>
+                <th><img src="../assets/hyld/rank_icon_04.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_03.png" class="rounded-2" style="height:36px;" />*10000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_04.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*12500</td>
+                <th><img src="../assets/hyld/rank_icon_04.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*12500</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_05.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*15000</td>
+                <th><img src="../assets/hyld/rank_icon_05.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*15000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_05.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*17500</td>
+                <th><img src="../assets/hyld/rank_icon_05.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*17500</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_05.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*20000</td>
+                <th><img src="../assets/hyld/rank_icon_05.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_04.png" class="rounded-2" style="height:36px;" />*20000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_06.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*25000</td>
+                <th><img src="../assets/hyld/rank_icon_06.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*25000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_06.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*30000</td>
+                <th><img src="../assets/hyld/rank_icon_06.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*30000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_06.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
-                <td><img src="../assets/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*40000</td>
+                <th><img src="../assets/hyld/rank_icon_06.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /><font-awesome-icon icon="fa-solid fa-i" /></th>
+                <td><img src="../assets/hyld/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*40000</td>
               </tr>
               <tr>
-                <th><img src="../assets/rank_icon_07.png" class="rounded-2" style="height:36px;" /></th>
-                <td><img src="../assets/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*50000</td>
+                <th><img src="../assets/hyld/rank_icon_07.png" class="rounded-2" style="height:36px;" /></th>
+                <td><img src="../assets/hyld/pack_star_points_05.png" class="rounded-2" style="height:36px;" />*50000</td>
               </tr>
             </tbody>
           </table>
@@ -105,6 +105,7 @@
  
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "starlightLeagueInfo",
   components: {
@@ -119,7 +120,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.top.saveVisitLog("访问【星光联赛奖励一览】");
+    saveVisitLog(Object.assign({key:19}));
   },
   methods: {
     commonPageChange(event) { // 通用分页

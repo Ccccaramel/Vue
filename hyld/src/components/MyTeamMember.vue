@@ -8,7 +8,7 @@
             </div>
             <div class="col-md mb-2">
                 <div class="form-floating text-center" style="height: 640px;">
-                    <img src="../assets/null.jpg" class="rounded" style="height: 640px;" />
+                    <img src="../assets/hyld/null.jpg" class="rounded" style="height: 640px;" />
                 </div>
             </div>
         </div>

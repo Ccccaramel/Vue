@@ -53,6 +53,7 @@ import { Popover } from "bootstrap";
 import Page from '@/components/Page.vue';
 import Top from "@/components/Top.vue";
 import { searchOfficialVersionUpdateLog } from "../api/officialVersionUpdateLog";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "officialVersionUpdateLog",
   components: {
@@ -77,7 +78,7 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.searchOfficialVersionUpdateLog();
-    this.$refs.top.saveVisitLog("访问【官方版本更新日志】");
+    saveVisitLog(Object.assign({key:13}));
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     /**

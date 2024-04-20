@@ -3,22 +3,9 @@ import Home from "../views/Home.vue";
 
 const routes = [
   {
-    path: "/index",
-    name: "home",
+    path: "/",
     component: Home,
   },
-  {
-    path: "/",
-    // name: "home",
-    // component: Home,
-    redirect: "/index"
-  },
-  // {
-  //   path: "/login",
-  //   name: "login",
-  //   component: () =>
-  //     import("../views/Login.vue"),
-  // },
   {
     path: "/userCenter",
     name: "userCenter",
@@ -30,7 +17,7 @@ const routes = [
   },
   {
     path: "/searchTeam",
-    name: "/searchTeam",
+    name: "searchTeam",
     component: () =>
       import("../views/SearchTeam.vue"),
   },
@@ -59,6 +46,18 @@ const routes = [
       import("../views/Tetris.vue"),
   },
   {
+    path: "/mineClearance",
+    name: "mineClearance",
+    component: () =>
+      import("../views/MineClearance.vue"),
+  },
+  {
+    path: "/fruitMachine",
+    name: "fruitMachine",
+    component: () =>
+      import("../views/FruitMachine.vue"),
+  },
+  {
     path: "/topicInfo&:id",
     name: "topicInfo",
     component: () =>
@@ -83,7 +82,13 @@ const routes = [
       import("../views/Blog.vue"),
   },
   {
-    path: "/music",
+    path: "/musicList",
+    name: "musicList",
+    component: () =>
+      import("../views/MusicList.vue"),
+  },
+  {
+    path: "/music&:musicId",
     name: "music",
     component: () =>
       import("../views/Music.vue"),
@@ -165,6 +170,24 @@ const routes = [
     name: "starlightLeagueInfo",
     component: () =>
       import("../views/StarlightLeagueInfo.vue"),
+  },
+  {
+    path: "/chat",
+    name: "chat",
+    component: () =>
+      import("../views/Chat.vue"),
+  },
+  {
+    path: "/chineseChess",
+    name: "chineseChess",
+    component: () =>
+      import("../views/ChineseChess.vue"),
+  },
+  {
+    path: "/test",
+    name: "Test",
+    component: () =>
+      import("../views/Test.vue"),
   },
 ];
 

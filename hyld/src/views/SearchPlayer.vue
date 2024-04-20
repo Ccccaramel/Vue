@@ -111,6 +111,7 @@ import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
 import { searchPlayerInfo } from "../api/player";
 import { searchCreditBy } from "../api/credit";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "searchTeam",
   components: {
@@ -155,7 +156,7 @@ export default {
   },
   mounted() {
     this.searchPlayerInfo();
-    this.$refs.top.saveVisitLog("访问【搜索玩家】");
+    saveVisitLog(Object.assign({key:16}));
   },
   methods: {
     commonPageChange(event) {

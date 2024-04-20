@@ -46,6 +46,13 @@
                     <a class="list-group-item list-group-item-action" id="list-myBill-list"
                         data-bs-toggle="list" href="#list-myBill" role="tab" aria-controls="list-myBill"
                         @click="searchMyBill()" v-if="this.power.indexOf('myBill')!=-1">我的账单</a>
+                        
+                    <hr v-if="this.power.indexOf('financeCenter')!=-1"/>
+
+                    <a class="list-group-item text-center hyld-bg-32 btn" v-if="this.power.indexOf('musicCenter')!=-1"><font-awesome-icon :icon="['fas', 'headphones-simple']" />&ensp;<Strong>Music中心</Strong></a>
+                    <a class="list-group-item list-group-item-action" id="list-musicManage-list"
+                        data-bs-toggle="list" href="#list-musicManage" role="tab" aria-controls="list-musicManage"
+                        @click="searchMusic()" v-if="this.power.indexOf('musicManage')!=-1">Music管理</a>
 
                     <hr v-if="this.power.indexOf('platformManage')!=-1"/>
 
@@ -130,162 +137,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <font-awesome-icon icon="fa-solid fa-bars" />&ensp;个人中心
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action active" id="list-userInfo-list"
-                                    data-bs-toggle="list" href="#list-userInfo" role="tab" aria-controls="list-userInfo"
-                                    @click="getCurrentUserInfo()">个人信息</a>
-                                <a class="list-group-item list-group-item-action" id="list-myGameAccount-list"
-                                    data-bs-toggle="list" href="#list-myGameAccount" role="tab"
-                                    aria-controls="list-myGameAccount" @click="searchMyGameAccount()">我的游戏账号</a>
-                                <a class="list-group-item list-group-item-action" id="list-myTeam-list"
-                                    data-bs-toggle="list" href="#list-myTeam" role="tab" aria-controls="list-myTeam"
-                                    @click="searchMyTeam()">我的战队</a>
-                                <a class="list-group-item list-group-item-action" id="list-myTeamMember-list"
-                                    data-bs-toggle="list" href="#list-myTeamMember" role="tab"
-                                    aria-controls="list-myTeamMember" @click="searchMyTeamMember()">战队成员</a>
-                                <a class="list-group-item list-group-item-action" id="list-myTopic-list"
-                                    data-bs-toggle="list" href="#list-myTopic" role="tab" aria-controls="list-myTopic"
-                                    @click="searchMyTopic()">我的话题</a>
-                                <a class="list-group-item list-group-item-action" id="list-replyMe-list"
-                                    data-bs-toggle="list" href="#list-replyMe" role="tab" aria-controls="list-replyMe"
-                                    @click="searchReplyMe()">回复我的</a>
-                                <a class="list-group-item list-group-item-action" id="list-teamMemberScoreboard-list"
-                                    data-bs-toggle="list" href="#list-teamMemberScoreboard" role="tab"
-                                    aria-controls="list-teamMemberScoreboard"
-                                    @click="getTeamMemberScoreboard()">战队竞赛统计</a>
-                                <a class="list-group-item list-group-item-action" id="list-credit-list"
-                                    data-bs-toggle="list" href="#list-credit" role="tab" aria-controls="list-credit"
-                                    @click="searchCreditBy()">战队赛积分明细</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <font-awesome-icon icon="fa-solid fa-bars" />&ensp;平台管理
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionExample">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action" id="list-headPortraitManage-list"
-                                    data-bs-toggle="list" href="#list-headPortraitManage" role="tab"
-                                    aria-controls="list-headPortraitManage" @click="searchHeadPortrait()">头像管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-user-list"
-                                    data-bs-toggle="list" href="#list-user" role="tab" aria-controls="list-user"
-                                    @click="searchUser()">用户管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-player-list"
-                                    data-bs-toggle="list" href="#list-player" role="tab" aria-controls="list-player"
-                                    @click="searchPlayer()">游戏账号管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-teamManage-list"
-                                    data-bs-toggle="list" href="#list-teamManage" role="tab"
-                                    aria-controls="list-teamManage" @click="searchAllTeam()">战队管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-playerExamine-list"
-                                    data-bs-toggle="list" href="#list-playerExamine" role="tab"
-                                    aria-controls="list-playerExamine" @click="searchPlayerExamine()">关联游戏账号申请</a>
-                                <a class="list-group-item list-group-item-action" id="list-teamRelationManage-list"
-                                    data-bs-toggle="list" href="#list-teamRelationManage" role="tab"
-                                    aria-controls="list-teamRelationManage"
-                                    @click="searchTeamRelationManage()">战队关联管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-topicManage-list"
-                                    data-bs-toggle="list" href="#list-topicManage" role="tab"
-                                    aria-controls="list-topicManage" @click="searchAllTopic()">话题管理</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                <font-awesome-icon icon="fa-solid fa-bars" />&ensp;系统管理
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                            data-bs-parent="#accordionExample">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action" id="list-dictionary-list"
-                                    data-bs-toggle="list" href="#list-dictionary" role="tab"
-                                    aria-controls="list-dictionary" @click="searchDictionary()">字典表管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-role-list"
-                                    data-bs-toggle="list" href="#list-role" role="tab" aria-controls="list-role"
-                                    @click="getAllRole()">角色管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-menuManage-list"
-                                    data-bs-toggle="list" href="#list-menuManage" role="tab"
-                                    aria-controls="list-menuManage" @click="getMenuTree()">菜单管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-systemConfig-list"
-                                    data-bs-toggle="list" href="#list-systemConfig" role="tab"
-                                    aria-controls="list-systemConfig" @click="searchSystemConfig()">系统配置</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingFour">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                                <font-awesome-icon icon="fa-solid fa-bars" />&ensp;游戏资源管理
-                            </button>
-                        </h2>
-                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                            data-bs-parent="#accordionExample">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action" id="list-gameRoleManage-list"
-                                    data-bs-toggle="list" href="#list-gameRoleManage" role="tab"
-                                    aria-controls="list-gameRoleManage" @click="searchGameRole()">游戏角色管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-starPowerManage-list"
-                                    data-bs-toggle="list" href="#list-starPowerManage" role="tab"
-                                    aria-controls="list-starPowerManage" @click="searchStarPower()">星徽之力管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-gadgetManage-list"
-                                    data-bs-toggle="list" href="#list-gadgetManage" role="tab"
-                                    aria-controls="list-gadgetManage" @click="searchGadget()">随身妙具管理</a>
-                                <a class="list-group-item list-group-item-action" id="list-gearManage-list"
-                                    data-bs-toggle="list" href="#list-gearManage" role="tab"
-                                    aria-controls="list-gearManage" @click="searchGear()">强化装备管理</a>
-                                <a class="list-group-item list-group-item-action"
-                                    id="list-officialVersionUpdateLogManage-list" data-bs-toggle="list"
-                                    href="#list-officialVersionUpdateLogManage" role="tab"
-                                    aria-controls="list-officialVersionUpdateLogManage"
-                                    @click="searchOfficialVersionUpdateLog()">官方版本更新日志管理</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingFive">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
-                                <font-awesome-icon icon="fa-solid fa-bars" />&ensp;交互管理
-                            </button>
-                        </h2>
-                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                            data-bs-parent="#accordionExample">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action" id="list-updateLog-list"
-                                    data-bs-toggle="list" href="#list-updateLog" role="tab"
-                                    aria-controls="list-updateLog" @click="searchUpdateLog()">平台更新日志</a>
-                                <a class="list-group-item list-group-item-action" id="list-pointer-list"
-                                    data-bs-toggle="list" href="#list-pointer" role="tab" aria-controls="list-pointer"
-                                    @click="searchPointer()">用户反馈</a>
-                                <a class="list-group-item list-group-item-action" id="list-visitLog-list"
-                                    data-bs-toggle="list" href="#list-visitLog" role="tab" aria-controls="list-visitLog"
-                                    @click="searchVisitLog()">访问日志</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <hr />
-                <div class="d-grid gap-2 p-2">
-                    <button type="button" class="btn btn-outline-dark" @click="logout()">退出</button>
-                </div> -->
             </div>
             <div class="col-10">
                 <div class="tab-content" id="nav-tabContent">
@@ -313,7 +164,11 @@
 
                     <!-- ****** 财务中心 ****** -->
                     <!-- 我的账单 -->
-                    <MyBill ref="myBill" @commonResponse="commonResponseChange($event)" @showTrendModal="showTrendModal($event)"></MyBill>
+                    <MyBill ref="myBill" @commonResponse="commonResponseChange($event)"  @showTrendModal="showTrendModal($event)"></MyBill>
+
+                    <!-- ****** Music中心 ****** -->
+                    <!-- Music管理 -->
+                    <MusicManage ref="musicManage" @commonResponse="commonResponseChange($event)"></MusicManage>
 
                     <!-- ****** 平台管理 ****** -->
                     <!-- 头像管理 -->
@@ -400,6 +255,7 @@ import ReplyMe from "@/components/ReplyMe.vue";
 import VisitLog from "@/components/VisitLog.vue";
 import SystemConfig from "@/components/SystemConfig.vue";
 import MyBill from "@/components/MyBill.vue";
+import MusicManage from "@/components/MusicManage.vue";
 import MyBlog from "@/components/MyBlog.vue";
 import { Toast } from "bootstrap";
 import { decryptWeb } from "@/api/common";
@@ -436,6 +292,7 @@ export default {
         SystemConfig,
         MyBlog,
         MyBill,
+        MusicManage,
         power: [],
     },
     data() {
@@ -492,6 +349,10 @@ export default {
             this.$refs.myBill.init();
         },
 
+        searchMusic() { // 获取music信息
+            this.$refs.musicManage.init();
+        },
+
         searchDictionary() { // 触发子组件的方法 > 获取所有字典
             this.$refs.dictionary.searchDictionary();
         },
@@ -541,13 +402,13 @@ export default {
         searchStarPower() { // 获取所有星徽之力
             this.$refs.starPowerManage.searchStarPowerBtn();
         },
-        searchGadget() {// 获取随身妙具
+        searchGadget() { // 获取随身妙具
             this.$refs.gadgetManage.init();
         },
-        searchGear() {// 获取随身妙具
+        searchGear() { // 获取随身妙具
             this.$refs.gearManage.init();
         },
-        searchOfficialVersionUpdateLog() {// 获取官方版本更新日志
+        searchOfficialVersionUpdateLog() { // 获取官方版本更新日志
             this.$refs.officialVersionUpdateLogManage.searchOfficialVersionUpdateLogBtn();
         },
         searchVisitLog() { // 获取所有平台访问日志
@@ -560,6 +421,7 @@ export default {
             this.commonResponseData = event;
         },
         showTrendModal(event) { // 战队数据 Modal 弹窗
+            console.log(">"+JSON.stringify(event));
             this.$refs.top.showTrendModal(event);
         },
         logout() {

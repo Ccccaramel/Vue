@@ -106,6 +106,7 @@
 import { Modal, Toast, Popover } from 'bootstrap';
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
+import { saveVisitLog } from "../api/welcome";
 import { searchPointer, savePointer } from "../api/pointer";
 import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
@@ -137,7 +138,7 @@ export default {
   },
   mounted() {
     this.searchPointer();
-    this.$refs.top.saveVisitLog("访问【反馈与建议】");
+    saveVisitLog(Object.assign({key:14}));
   },
   methods: {
     commonPageChange(event) {
@@ -196,29 +197,13 @@ export default {
       }
     },
     savePointer() {
-      // this.pointerInfo.ip = returnCitySN['cip'];
-      // this.pointerInfo.address = returnCitySN['cname'];
-
-
-      // 通过腾讯API获取地址
-      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-        output: 'jsonp'
-      }).then(res => {
-        var ad_info = res.result.ad_info;
-        this.pointerInfo.ip = res.result.ip;
-        this.pointerInfo.address = ad_info.nation + ad_info.province;
-
-        savePointer(this.pointerInfo).then(
+      savePointer(this.pointerInfo).then(
           response => {
             document.getElementById("savePointerModalCloseBtn").click();
             this.showToast(response);
             this.refresh();
           }
         )
-      });
-
-
     },
   },
 };

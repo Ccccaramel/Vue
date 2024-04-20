@@ -62,7 +62,7 @@
       <div class="row justify-content-center">
         <div class="col">
           <div class="home">
-            <tinymce id="myedit" ref="editor" v-model="msg" :value="value" :disabled="disabled" @contentHasChanged="contentHasChanged()" @onClick="onClick"/>
+            <Tinymce id="myedit" ref="editor" v-model="msg" :value="value" :disabled="disabled" @contentHasChanged="contentHasChanged()" @onClick="onClick"/>
           </div>
         </div>
       </div>
@@ -88,10 +88,11 @@ import { Modal, Toast } from 'bootstrap';
 
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-import tinymce from "@/components/Tinymce.vue";
+import Tinymce from "@/components/Tinymce.vue";
 
 import { checkToken } from "@/api/user";
 import { searchPointer } from "../api/pointer";
+import { saveVisitLog } from "../api/welcome";
 
 import { getBlogPower,getBlogType } from "../api/dictionary";
 import { findBlogById,saveBlog } from "../api/blog";
@@ -100,7 +101,7 @@ export default {
   components: {
     Top,
     Page,
-    tinymce
+    Tinymce
   },
   data() {
     return {
@@ -182,7 +183,7 @@ export default {
     );
   },
   mounted() {
-    this.$refs.top.saveVisitLog("【写博客】");
+    saveVisitLog(Object.assign({key:3}));
     this.$refs.editor.blogId = this.blogId;
 
     window.addEventListener('beforeunload', this.closeWindows);

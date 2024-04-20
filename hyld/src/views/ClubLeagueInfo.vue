@@ -28,7 +28,7 @@
             <tbody>
               <tr>
                 <td>
-                  <img src="../assets/club_g_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_g_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td>990</td>
                 <td>968</td>
@@ -42,7 +42,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_f_3.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_f_3.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">953</td>
                 <td class="table-success">931</td>
@@ -56,7 +56,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_f_2.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_f_2.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">916</td>
                 <td class="table-success">895</td>
@@ -70,7 +70,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_f_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_f_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">879</td>
                 <td class="table-success">860</td>
@@ -84,7 +84,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_e_3.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_e_3.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">842</td>
                 <td class="table-success">824</td>
@@ -98,7 +98,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_e_2.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_e_2.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">807</td>
                 <td class="table-success">788</td>
@@ -112,7 +112,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_e_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_e_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">770</td>
                 <td class="table-success">752</td>
@@ -126,7 +126,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_d_3.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_d_3.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">733</td>
                 <td class="table-success">716</td>
@@ -140,7 +140,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_d_2.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_d_2.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">696</td>
                 <td class="table-success">680</td>
@@ -154,7 +154,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_d_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_d_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">660</td>
                 <td class="table-success">645</td>
@@ -168,7 +168,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_c_3.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_c_3.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">568</td>
                 <td class="table-success">555</td>
@@ -182,7 +182,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_c_2.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_c_2.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">493</td>
                 <td class="table-success">481</td>
@@ -196,7 +196,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_c_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_c_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">419</td>
                 <td class="table-success">407</td>
@@ -210,7 +210,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_b_3.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_b_3.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">346</td>
                 <td class="table-success">335</td>
@@ -224,7 +224,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_b_2.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_b_2.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">289</td>
                 <td class="table-success">280</td>
@@ -238,7 +238,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_b_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_b_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">234</td>
                 <td class="table-success">225</td>
@@ -252,7 +252,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_a_3.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_a_3.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">179</td>
                 <td class="table-success">172</td>
@@ -266,7 +266,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_a_2.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_a_2.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">141</td>
                 <td class="table-success">135</td>
@@ -280,7 +280,7 @@
               </tr>
               <tr>
                 <td>
-                  <img src="../assets/club_a_1.png" class="rounded-2" style="weight:36px;height:36px;" />
+                  <img src="../assets/hyld/club_a_1.png" class="rounded-2" style="weight:36px;height:36px;" />
                 </td>
                 <td class="table-success">104</td>
                 <td class="table-success">98</td>
@@ -343,6 +343,7 @@
  
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "clubLeagueInfo",
   components: {
@@ -357,7 +358,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.top.saveVisitLog("访问【战队竞赛奖励一览】");
+    saveVisitLog(Object.assign({key:1}));
   },
   methods: {
     commonPageChange(event) { // 通用分页

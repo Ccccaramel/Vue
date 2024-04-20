@@ -12,8 +12,6 @@
             <div class="card-body">
               <blockquote class="blockquote mb-0">
                 <p>在浏览或参考【游戏角色】、【强化装备】、【官方版本更新日志】等等资料时，请先阅读以下相关的问题</p>
-                <p>在数据收集方面，在此特别感谢一些个人/组织，他/她们提供了大量的数据资料，数据详细准确，分享快速又超前，我也丛中减少了不少工作量，再次感谢!</p>
-                <h5><span class="badge bg-primary">荒野乱斗国服官方</span>&emsp;<span class="badge bg-primary">荒野乱斗蓝鸟官方</span>&emsp;<span class="badge bg-primary">Supercell 官方资源库</span>&emsp;<span class="badge bg-primary">在贴吧搬运更新的小伙伴</span>&emsp;<span class="badge bg-primary">贴吧用户Noside</span></h5>
               </blockquote>
             </div>
           </div>
@@ -54,12 +52,12 @@
             <p>特殊情况下，例如瑞科的普通攻击，芽芽的普通攻击，艾德加的超级技能，在碰撞/跨越障碍物时，<strong>会超过正常情况下最大距离</strong>，这些情况将忽略，不会记录；</p>
             <p>值得一提的是，很多技能所显示的范围与实际可造成伤害的范围并不一致，没有明确可造成伤害的边界。</p>
           </blockquote>
-          <img src="../assets/explain1.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain2.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain3.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain4.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain5.png" class="rounded-2 mt-1" style="height:520px;" />
-          <img src="../assets/explain6.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/hyld/explain1.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/hyld/explain2.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/hyld/explain3.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/hyld/explain4.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/hyld/explain5.png" class="rounded-2 mt-1" style="height:520px;" />
+          <img src="../assets/hyld/explain6.png" class="rounded-2 mt-1" style="height:520px;" />
         </div>
       </div>
       <div class="card mb-1">
@@ -100,6 +98,7 @@
  
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "explain",
   components: {
@@ -114,7 +113,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.top.saveVisitLog("访问【参考前必读!】");
+    saveVisitLog(Object.assign({key:4}));
   },
   methods: {
     commonPageChange(event) { // 通用分页

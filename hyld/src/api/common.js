@@ -38,6 +38,15 @@ function exToLvTools(lv, val, ex) { // 经验转换成等级,和当前等级溢�
 }
 
 // 格式判断
+export function userIDCheck(i) {
+    var patt = /^[1-9]\d*$/;
+    if (patt.test(i)) { // 正整数
+        return true;
+    }
+    return false;
+}
+
+// 格式判断
 export function amountFormatCheck(i) {
     if (i === 0) { // 是否为 0
         return true;
@@ -145,6 +154,13 @@ export function getPublicKey() {
     return request({
         method: 'get',
         url: '/common/getPublicKey',
+    })
+}
+
+export function getWeather() {
+    return request({
+        method: 'get',
+        url: '/common/getWeather',
     })
 }
 

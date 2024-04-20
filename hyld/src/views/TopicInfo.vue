@@ -197,6 +197,7 @@ import { Modal, Toast, Popover } from 'bootstrap';
 import { jsonp } from 'vue-jsonp';
 import { useRoute } from 'vue-router';
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 import Page from '@/components/Page.vue';
 import { checkToken } from "@/api/user";
 import { getTopicData, saveReplyTopicInfo } from "@/api/topic";
@@ -250,7 +251,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.top.saveVisitLog("访问【话题("+this.topicId+")】");
+    saveVisitLog(Object.assign({key:21,data:this.topicId}));
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -336,25 +337,13 @@ export default {
         forms.append('imageFiles', this.imgList[i].file);
       }
 
-
-      // 通过腾讯API获取地址
-      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-        output: 'jsonp'
-      }).then(res => {
-        var ad_info = res.result.ad_info;
-        this.replyTopicInfo.ip = res.result.ip;
-        this.replyTopicInfo.address = ad_info.nation + ad_info.province;
-
-        saveReplyTopicInfo(forms).then(
-          response => {
-            document.getElementById("replyTopicModalCloseBtn").click();
-            this.showToast(response);
-            this.refresh();
-          }
-        )
-      });
-
+      saveReplyTopicInfo(forms).then(
+        response => {
+          document.getElementById("replyTopicModalCloseBtn").click();
+          this.showToast(response);
+          this.refresh();
+        }
+      )
 
     },
     addImage() {

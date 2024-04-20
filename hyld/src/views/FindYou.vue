@@ -6,7 +6,7 @@
       <div class="row align-items-center">
         <div class="col">
           <p class="fw-bold">
-            这是一个荒野乱斗群,里面全是大佬!
+            这是一个游戏群,里面全是大佬!
           </p>
           <p class="fw-bold">
             我们在群里等你!欢迎你的加入!
@@ -16,10 +16,10 @@
           </p>
         </div>
         <div class="col">
-          <img src="../assets/qqGroup.jpg" class="rounded-2" style="max-width: 20rem;">
+          <img src="../assets/findYou/qqGroup.jpg" class="rounded-2" style="max-width: 20rem;">
         </div>
         <div class="col">
-          <img src="../assets/bilibili.jpg" class="rounded-2" style="max-width: 30rem;">
+          <img src="../assets/findYou/bilibili.jpg" class="rounded-2" style="max-width: 30rem;">
         </div>
       </div>
     </div>
@@ -27,6 +27,7 @@
 </template>
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "findYou",
   components: {
@@ -39,14 +40,14 @@ export default {
           msg: '',
       },
       backgroundDiv: {
-        backgroundImage:'url(' + require('../assets/bg.jpg') + ')',
+        backgroundImage:'url(' + require('../assets/findYou/bg.jpg') + ')',
         backgroundRepeat:'no-repeat',
         backgroundSize:'100% 100%'
       }
     }
   },
   mounted() {
-    this.$refs.top.saveVisitLog("访问【找到你】");
+    saveVisitLog(Object.assign({key:5}));
   },
 };
 </script>

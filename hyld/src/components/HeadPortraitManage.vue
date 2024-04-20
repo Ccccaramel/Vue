@@ -185,7 +185,6 @@ export default {
             forms.append('headPortraitFile', this.headPortraitFile);
             forms.append('id', this.headPortrait.id);
             forms.append('add', this.headPortrait.add);
-            forms.append('id', this.headPortrait.id);
             forms.append('image', this.headPortrait.image);
             forms.append('name', this.headPortrait.name);
             forms.append('note', this.headPortrait.note);

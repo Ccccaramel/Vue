@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img src="../assets/eg1.png" class="rounded" style="height: 640px;" />
+                                <img src="../assets/hyld/eg1.png" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                         <div class="alert alert-primary text-center" role="alert">
@@ -152,7 +152,7 @@
                         </div>
                         <div class="col-md mb-2">
                             <div class="form-floating text-center" style="height: 640px;">
-                                <img src="../assets/eg2.png" class="rounded" style="height: 640px;" />
+                                <img src="../assets/hyld/eg2.png" class="rounded" style="height: 640px;" />
                             </div>
                         </div>
                     </div>

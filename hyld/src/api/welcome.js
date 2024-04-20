@@ -3,7 +3,7 @@ import request from '../utils/request'
 export function searchVisitLog(params){
     return request({
         method: 'get',
-        url: '/vL/searchVisitLog',
+        url: '/welcome/searchVisitLog',
         params:params
     })
 }
@@ -11,7 +11,7 @@ export function searchVisitLog(params){
 export function saveVisitLog(params){
     return request({
         method: 'post',
-        url: '/vL/sVL',
+        url: '/welcome/myHumbleAbode',
         data:params
     })
 }
@@ -19,6 +19,6 @@ export function saveVisitLog(params){
 export function getStatisticalData(){
     return request({
         method: 'get',
-        url: '/vL/getStatisticalData'
+        url: '/welcome/getStatisticalData'
     })
 }

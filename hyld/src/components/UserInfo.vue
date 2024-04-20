@@ -42,6 +42,12 @@
                     </div>
                 </div>
             </div>
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-1 col-form-label">代币</label>
+                <div class="col-6">
+                    <label class="col-6 col-form-label">{{currentUserInfo.coin}}</label>
+                </div>
+            </div>
             <hr/>
             <div class="col-auto">
                 <button type="button" class="btn btn-primary me-3 mb-3" @click="updateUserInfo()">保存修改</button>
@@ -205,7 +211,8 @@ export default {
                 name: '',
                 qq: '',
                 note: '',
-                headPortraitUrl:''
+                headPortraitUrl: '',
+                coin:0,
 
             },
             userPasswordInfo: {
@@ -282,23 +289,25 @@ export default {
                             this.$router.push("/")
                         }, 2000);
                     }
-                    this.currentUserInfo.id = response.data.data.id;
-                    this.currentUserInfo.name = response.data.data.name;
-                    this.currentUserInfo.qq = response.data.data.qq;
-                    this.currentUserInfo.note = response.data.data.note;
-                    this.currentUserInfo.headPortraitUrl = response.data.data.headPortrait.imageUrl;
-                    this.currentUserInfo.ex = response.data.data.ex;
-                    this.currentUserInfo.email = response.data.data.email;
+                    var userData =response.data.data;
+                    this.currentUserInfo.id = userData.id;
+                    this.currentUserInfo.name = userData.name;
+                    this.currentUserInfo.qq = userData.qq;
+                    this.currentUserInfo.note = userData.note;
+                    this.currentUserInfo.headPortraitUrl = userData.headPortrait.imageUrl;
+                    this.currentUserInfo.ex = userData.ex;
+                    this.currentUserInfo.email = userData.email;
                     // 转移到后台处理
                     // var res = exToLv(response.data.data.ex);
                     // this.currentUserInfo.grade = res.grade;
                     // this.currentUserInfo.exEx = res.exEx;
                     // this.currentUserInfo.currentLvMaxEx = res.currentLvMaxEx;
                     // this.currentUserInfo.proportion =this.currentUserInfo.exEx*100/this.currentUserInfo.currentLvMaxEx < 50 ? 10 : this.currentUserInfo.exEx*100/this.currentUserInfo.currentLvMaxEx;
-                    this.currentUserInfo.grade = response.data.data.grade;
-                    this.currentUserInfo.exEx = response.data.data.exEx;
-                    this.currentUserInfo.currentLvMaxEx = response.data.data.currentLvMaxEx;
-                    this.currentUserInfo.proportion = response.data.data.proportion;
+                    this.currentUserInfo.grade = userData.grade;
+                    this.currentUserInfo.exEx = userData.exEx;
+                    this.currentUserInfo.currentLvMaxEx = userData.currentLvMaxEx;
+                    this.currentUserInfo.proportion = userData.proportion;
+                    this.currentUserInfo.coin = userData.coin;
                 }
             );
         },
@@ -395,34 +404,26 @@ export default {
             getPublicKey().then( // 获取加密密钥
                 response => {
                     this.publicKey = response.data.data.publicKey;
-                    jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-                        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-                        output: 'jsonp'
-                    }).then(res => {
-                        var ad_info = res.result.ad_info;
-                        this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-                        this.visitLogInfo.ip = res.result.ip;
-                        this.emailCode.title = "绑定邮箱";
-                        this.emailCode.email = this.bindEmailInfo.email;
-                        this.emailCode.fingerprint = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
-                        this.emailCode.data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
-                        sendEmailCode(this.emailCode).then(
-                            response => {
-                                if (response.data.code == 1) {
-                                    this.bindEmailReadonly = true;
-                                    this.start = new Date();
-                                    this.countDown = 60;
-                                    this.countDownBtnInfo = '验证码已发送-';
-                                    this.sendEmailCodeBtn = true;
-                                    var that = this;
-                                    this.countDownObj = setInterval(function () {
-                                        that.timer()
-                                    }, 1000);
-                                }
-                                this.showToast(response);
+                    this.emailCode.title = "绑定邮箱";
+                    this.emailCode.email = this.bindEmailInfo.email;
+                    this.emailCode.fingerprint = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
+                    this.emailCode.data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
+                    sendEmailCode(this.emailCode).then(
+                        response => {
+                            if (response.data.code == 1) {
+                                this.bindEmailReadonly = true;
+                                this.start = new Date();
+                                this.countDown = 60;
+                                this.countDownBtnInfo = '验证码已发送-';
+                                this.sendEmailCodeBtn = true;
+                                var that = this;
+                                this.countDownObj = setInterval(function () {
+                                    that.timer()
+                                }, 1000);
                             }
-                        )
-                    });
+                            this.showToast(response);
+                        }
+                    )
                 }
             )
         },

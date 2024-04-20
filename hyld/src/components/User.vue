@@ -296,7 +296,7 @@ export default {
             getPublicKey().then( // 获取加密密钥
                 response => {
                     this.publicKey = response.data.data.publicKey;
-                    this.userPasswordInfo.password = encrypt(JSON.stringify(this.userPasswordInfo.password), this.publicKey);
+                    this.userPasswordInfo.password = encrypt(this.userPasswordInfo.password, this.publicKey);
 
                     saveUserPassword(this.userPasswordInfo).then(
                         response => {

@@ -6,7 +6,7 @@
 
     <figure class="text-center">
       <blockquote class="blockquote">
-        <img src="../assets/qq_250x300.png" class="rounded-2" style="height:64px;" />
+        <img src="../assets/qq/qq_250x300.png" class="rounded-2" style="height:64px;" />
         <p>还差最后一步,设置密码就完成了\^o^/</p>
       </blockquote>
     </figure>
@@ -86,6 +86,7 @@ import { getPublicKey, encrypt,encryptWeb } from "@/api/common";
 import { jsonp } from 'vue-jsonp';
 import Top from "@/components/Top.vue";
 import { qqLogin } from '@/api/user';
+import { saveVisitLog } from "../api/welcome";
 import { qqUserInfoRecord } from '@/api/qqUser';
 export default {
   name: "qqLogin",
@@ -117,7 +118,7 @@ export default {
     },
   },
   mounted() {
-    this.$refs.top.saveVisitLog("QQ注册/登录中");
+    saveVisitLog(Object.assign({key:15}));
   },
   created() {
     // this.visitLogInfo.ip = returnCitySN['cip'];
@@ -141,45 +142,26 @@ export default {
             getPublicKey().then( // 获取加密密钥
               response => {
                 that.publicKey = response.data.data.publicKey;
-                // this.userRegisterInfo.password = encrypt(this.userRegisterInfo.password, this.publicKey); // 加密
                 that.userInfo.no = encrypt(localStorage.getItem('browserId'), that.publicKey); // 指纹
 
-                /**
-                 * 获得 openId ,通过 openId 尝试登录,存在以下两种情况:
-                 *   1.该QQ用户已注册,那么直接登录并跳转至首页
-                 *   2.该QQ用户还未注册,停留在当前页面,使用QQ昵称作为本平台昵称并要求设置密码,设置完密码后跳转至首页
-                 */
-
-                // 通过腾讯API获取地址
-                jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-                  key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-                  output: 'jsonp'
-                }).then(res => {
-                  var ad_info = res.result.ad_info;
-                  that.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-                  that.visitLogInfo.ip = res.result.ip;
-                  that.visitLogInfo.address = ad_info.nation + ad_info.province;
-
-                  qqLogin(
-                    Object.assign(
-                      that.userInfo,
-                      {
-                        data: encrypt(JSON.stringify(that.visitLogInfo), that.publicKey)
-                      },
-                    )).then(
-                      response => {
-                        if (response.data.code == 1) { // 一键登录成功!
-                          localStorage.setItem('authorization', response.data.data.token);
-                          localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
-                          that.showToast(response);
-                          setTimeout(() => {
-                            that.$router.push("/")
-                          }, 2000);
-                        };
-
-                        // console.log("new!");
-                      }
-                    );
+                qqLogin(
+                  Object.assign(
+                    that.userInfo,
+                    {
+                      data: encrypt(JSON.stringify(that.visitLogInfo), that.publicKey)
+                    },
+                  )).then(
+                    response => {
+                      if (response.data.code == 1) { // 一键登录成功!
+                        localStorage.setItem('authorization', response.data.data.token);
+                        localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
+                        that.showToast(response);
+                        setTimeout(() => {
+                          that.$router.push("/")
+                        }, 2000);
+                      };
+                    }
+                  );
                   // 先将信息保存至变量
                   // ret 返回码,0: 正确返回,其它: 失败。错误码说明详见公共返回码说明
                   // msg 如果ret<0，会有相应的错误信息提示，返回数据全部用UTF-8编码
@@ -192,7 +174,6 @@ export default {
                     // 失败回调
                     alert('获取用户信息失败！')
                   });
-                });
               }
             );
           }

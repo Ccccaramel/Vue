@@ -94,76 +94,6 @@ export default {
             blogTypeList : []
         }
     },
-    mounted() {
-    },
-    methods: {
-        init() {
-            getBlogType().then(
-                response => {
-                    this.blogTypeList = response.data.data;
-                    this.blogTypeList.unshift({
-                        id: '',
-                        name:'无限制',
-                    });
-                    this.blogInfo.type = '';
-                    this.searchMyBlog();
-                }
-            );
-        },
-        commonPageChange(event) {
-            this.page = event;
-            this.searchMyBlog();
-        },
-        showToast(response) { // 通用信息展示
-            if(response.data.code==0){
-                this.commonResponse.success= false;
-            }else{
-                this.commonResponse.success = true;
-            }
-            this.commonResponse.msg= response.data.msg;
-            this.$emit('commonResponse', this.commonResponse);
-            var toastLiveExample = document.getElementById('commonToast');
-            var toast = new Toast(toastLiveExample);
-            toast.show();
-        },
-        cleanSearchBlogBtn() {
-            this.blogInfo = {
-                name: '',
-                type: '',
-                label: '',
-                typeName: '',
-            }
-        },
-        searchBlogBtn() {
-            this.page.currentPage = 1;
-            this.searchMyBlog();
-        },
-        searchMyBlog() {
-            searchMyBlog(Object.assign(this.page,this.blogInfo)).then(
-                response => {
-                    this.blogList = response.data.data.data;
-                    this.page.totalPage = response.data.data.totalPage;
-                }
-            )
-        },
-        strToArr(str) {
-            if (str == null) {
-                return ''
-            } else {
-                return str.split(",");
-            }
-        },
-        deleteBlog(blogId) {
-            deleteBlog(Object.assign({
-                id:blogId
-            })).then(
-                response =>{
-                    this.showToast(response);
-                    this.searchMyBlog();
-                }
-            )
-        }
-    },
     setup() {
         const router = useRouter();
         let writeBlog = (id) => {
@@ -201,6 +131,76 @@ export default {
         return {
             writeBlog,showBlog
         };
+    },
+    mounted() {
+    },
+    methods: {
+        init() {
+            getBlogType().then(
+                response => {
+                    this.blogTypeList = response.data.data;
+                    this.blogTypeList.unshift({
+                        id: '',
+                        name:'无限制',
+                    });
+                    this.blogInfo.type = '';
+                    this.searchMyBlog();
+                }
+            );
+        },
+        commonPageChange(event) {
+            this.page = event;
+            this.searchMyBlog();
+        },
+        showToast(response) { // 通用信息展示
+            if(response.data.code==0){
+                this.commonResponse.success= false;
+            }else{
+                this.commonResponse.success = true;
+            }
+            this.commonResponse.msg= response.data.msg;
+            this.$emit('commonResponse', this.commonResponse);
+            var toastLiveExample = document.getElementById('commonToast');
+            var toast = new Toast(toastLiveExample);
+            toast.show();
+        },
+        cleanSearchBlogBtn() {
+            this.blogInfo = {
+                title:'',
+                type: '',
+                label: '',
+                typeName: '',
+            }
+        },
+        searchBlogBtn() {
+            this.page.currentPage = 1;
+            this.searchMyBlog();
+        },
+        searchMyBlog() {
+            searchMyBlog(Object.assign(this.page,this.blogInfo)).then(
+                response => {
+                    this.blogList = response.data.data.data;
+                    this.page.totalPage = response.data.data.totalPage;
+                }
+            )
+        },
+        strToArr(str) {
+            if (str == null) {
+                return ''
+            } else {
+                return str.split(",");
+            }
+        },
+        deleteBlog(blogId) {
+            deleteBlog(Object.assign({
+                id:blogId
+            })).then(
+                response =>{
+                    this.showToast(response);
+                    this.searchMyBlog();
+                }
+            )
+        }
     },
 }
 </script>

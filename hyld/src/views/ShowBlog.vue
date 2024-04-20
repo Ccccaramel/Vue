@@ -59,7 +59,7 @@
       <div class="row justify-content-center">
         <div class="col">
           <div class="home">
-            <tinymce ref="remarkAuthor" v-model="msg" :disabled="disabled" @onClick="onClick"/>
+            <Tinymce ref="remarkAuthor" v-model="msg" :disabled="disabled" @onClick="onClick"/>
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <tinymce ref="reply" v-model="msg" :disabled="disabled" @onClick="onClick"/>
+              <Tinymce ref="reply" v-model="msg" :disabled="disabled" @onClick="onClick"/>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="replyModalCloseBtn">取消</button>
@@ -180,8 +180,9 @@ import { Modal, Toast, Popover } from 'bootstrap';
 
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-import tinymce from "@/components/Tinymce.vue";
+import Tinymce from "@/components/Tinymce.vue";
 
+import { saveVisitLog } from "../api/welcome";
 import { checkToken } from "@/api/user";
 import { searchPointer, savePointer } from "../api/pointer";
 
@@ -194,7 +195,7 @@ export default {
   components: {
     Top,
     Page,
-    tinymce
+    Tinymce
   },
   data() {
     return {
@@ -266,7 +267,7 @@ export default {
     this.refresh();
   },
   mounted() {
-    this.$refs.top.saveVisitLog("【浏览博客】"+this.blogId);
+    saveVisitLog(Object.assign({key:18,data:this.blogId}));
   },
   methods: {
     commonPageChange(event) {

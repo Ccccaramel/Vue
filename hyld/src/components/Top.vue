@@ -4,18 +4,22 @@
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <a href="/">
-            <img src="../assets/home.jpg" class="rounded-2" style="weight:30px;height:30px;" />
+            <img src="../assets/home.png" class="rounded-2" style="weight:42px;height:42px;" />
           </a>
 
           <ul class="nav col-12 col-lg-auto me-lg-auto ms-4 mb-2 justify-content-center mb-md-0">
-            <li><a href="/community" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-comments"/>&ensp;社区</a></li>
+            <!-- <li><a href="/community" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-comments"/>&ensp;社区</a></li>
             <li><a href="/searchTeam" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-users-line" />&ensp;搜索战队</a></li>
-            <li><a href="/searchPlayer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-user"/>&ensp;搜索玩家</a></li>
+            <li><a href="/searchPlayer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-user"/>&ensp;搜索玩家</a></li> -->
             <!-- <font-awesome-icon icon="fa-solid fa-shield-halved" /> -->
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font-awesome-icon icon="fa-solid fa-book" />&ensp;档案馆</a>
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font-awesome-icon :icon="['fas', 'skull']" style="color: #f1b31e;" />&ensp;BS区</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item text-black" href="/explain"><font-awesome-icon icon="fa-solid fa-book-open-reader" />&ensp;参考前必读!</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-black" href="/community"><font-awesome-icon icon="fa-regular fa-comments"/>&ensp;社区</a></li>
+                <li><a class="dropdown-item text-black" href="/searchTeam"><font-awesome-icon icon="fa-solid fa-users-line" />&ensp;搜索战队</a></li>
+                <li><a class="dropdown-item text-black" href="/searchPlayer"><font-awesome-icon icon="fa-regular fa-user"/>&ensp;搜索玩家</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-black" href="/gameRole"><font-awesome-icon icon="fa-solid fa-skull" />&ensp;游戏角色</a></li>
                 <li><a class="dropdown-item text-black" href="/gear"><font-awesome-icon icon="fa-solid fa-shield-halved" />&ensp;强化装备</a></li>
@@ -28,19 +32,37 @@
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font-awesome-icon icon="fa-solid fa-gamepad"/>&ensp;小游戏</a>
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font-awesome-icon icon="fa-solid fa-gamepad" style="color: #9797ff;"/>&ensp;小游戏</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item text-black" href="/gluttonousSnake"><font-awesome-icon icon="fa-solid fa-staff-snake" />&ensp;贪吃蛇</a></li>
                 <li><a class="dropdown-item text-black" href="/tetris"><font-awesome-icon icon="fa-solid fa-cubes-stacked" />&ensp;俄罗斯方块</a></li>
+                <li><a class="dropdown-item text-black" href="/mineClearance"><font-awesome-icon :icon="['fas', 'land-mine-on']" />&ensp;扫雷</a></li>
+                <li><a class="dropdown-item text-black" href="/fruitMachine"><font-awesome-icon :icon="['far', 'lemon']" />&ensp;水果机</a></li>
+                <li><a class="dropdown-item text-black" href="/chineseChess"><font-awesome-icon :icon="['far', 'chess-knight']" />&ensp;中国象棋</a></li>
                 <!-- <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-black" href="#">more...</a></li> -->
               </ul>
             </li>
-            <li><a href="/pointer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-comment-dots" />&ensp;反馈与建议</a></li>
-            <li><a href="/findYou" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-location-crosshairs" />&ensp;找到你</a></li>
-            <li><a href="/blog" class="nav-link px-2 text-white"><font-awesome-icon icon="blog" />&ensp;博客</a></li>
-            <li><a href="/music" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-music" />&ensp;Music</a></li>
-            <!-- <font-awesome-icon icon="fa-solid fa-circle-question" /> -->
+            <li><a href="/pointer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-lightbulb" style="color: #ffec59;" />&ensp;反馈与建议</a></li>
+            <li><a href="/findYou" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-location-crosshairs" style="color: #f85555;" />&ensp;找到你</a></li>
+            <li><a href="/blog" class="nav-link px-2 text-white"><font-awesome-icon icon="blog" style="color: #66ccff;" />&ensp;博客</a></li>
+            <li><a href="/musicList" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-music" style="color: #ff9494;" />&ensp;Music</a></li>
+            <li><a href="/chat" class="nav-link px-2 text-white"><font-awesome-icon :icon="['fas', 'comment-dots']" style="color: #c0ff61;" />&ensp;聊天室</a></li>
+            <li v-if="weatherFlag==1"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'smog']" fade style="color: #dbdbdb;" /></a></li>
+            <li v-if="weatherFlag==2"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud']" fade style="color: #7cd7fe;" /></a></li>
+            <li v-if="weatherFlag==3"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'bolt']" fade style="color: #a680ff;" /></a></li>
+            <li v-if="weatherFlag==4"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'sun']" fade style="color: #ffe252;" /></a></li>
+            <li v-if="weatherFlag==5"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'wind']" fade style="color: #a08231;" /></a></li>
+            <li v-if="weatherFlag==6"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'tornado']" fade style="color: #90b1c1;" /></a></li>
+            <li v-if="weatherFlag==7"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'snowflake']" fade style="color: #ffc2c2;" /></a></li>
+            <li v-if="weatherFlag==8"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud-rain']" fade style="color: #cefd86;" /></a></li>
+            <li v-if="weatherFlag==9"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud-meatball']" fade style="color: #a3ffcb;" /></a></li>
+            <li v-if="weatherFlag==10"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'meteor']" fade style="color: #fe7171;" /></a></li>
+            <li v-if="weatherFlag==11"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'moon']" fade style="color: #fef595;" /></a></li>
+            <li v-if="weatherFlag==12"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud-moon']" fade style="color: #3e6ec1;" /></a></li>
+            <li v-if="weatherFlag==13"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud-bolt']" fade style="color: #87229b;" /></a></li>
+            <li v-if="weatherFlag==14"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud-moon-rain']" fade style="color: #695d83;" /></a></li>
+            <li v-if="weatherFlag==15"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud-showers-water']" fade style="color: #376ecd;" /></a></li>
           </ul>
           <div class="text-end hide">
             <button type="button" v-if="!isLogin" class="btn btn-outline-light me-2" data-bs-toggle="modal"
@@ -276,15 +298,85 @@
       </div>
     </div>
 
-    <p hidden="hidden">164office,芽芽office,164office.cn,荒野乱斗玩家的聚集地,记录荒野乱斗所有英雄最详细属性,完善的战队赛管理系统,协助你管理你的战队,荒野乱斗社区交流无障碍,一站式荒野社区平台,致力于为广大玩家提供详尽的荒野乱斗资讯等相关内容</p>
+    <!-- 天气详情弹窗 -->
+    <div class="modal fade" id="weatherModal" tabindex="-1" aria-labelledby="weatherModal" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5"><span class="badge rounded-pill bg-primary ">{{weatherLocationInfo.name}}</span>天气详情</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container text-center">
+              <div class="row align-items-center">
+                <div class="col-2">
+                  <h5><span class="badge bg-primary">当前天气</span>&ensp;{{weatherNowInfo.text}}</h5>
+                </div>
+                <div class="col-2">
+                  <h5><span class="badge bg-success">当前温度</span>&ensp;{{weatherNowInfo.temp}}</h5>
+                </div>
+                <div class="col-2">
+                  <h5><span class="badge bg-success">当前体感温度</span>&ensp;{{weatherNowInfo.feels_like}}</h5>
+                </div>
+                <div class="col-2">
+                  <h5><span class="badge bg-info">当前相对湿度</span>&ensp;{{weatherNowInfo.rh}}</h5>
+                </div>
+                <div class="col-2">
+                  <h5><span class="badge bg-warning">当前风力等级</span>&ensp;{{weatherNowInfo.wind_class}}</h5>
+                </div>
+                <div class="col-2">
+                  <h5><span class="badge bg-warning">当前风向</span>&ensp;{{weatherNowInfo.wind_dir}}</h5>
+                </div>
+                <div class="col-12">
+                  <table class="table text-center table-hover caption-top">
+                    <caption class="text-center alert-primary" role="alert">
+                        <h4><span class="badge rounded-pill bg-primary ">未来五天天气预报</span></h4>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">日期</th>
+                            <th scope="col">星期</th>
+                            <th scope="col">白天天气</th>
+                            <th scope="col">夜晚天气</th>
+                            <th scope="col">最高气温</th>
+                            <th scope="col">最低气温</th>
+                            <th scope="col">白天风力等级</th>
+                            <th scope="col">夜晚风力等级</th>
+                            <th scope="col">白天风向</th>
+                            <th scope="col">夜晚风向</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(info, index) in weatherForecastsInfo" :key="index">
+                            <th scope="row">{{ info.date }}</th>
+                            <td>{{ info.week }}</td>
+                            <td>{{ info.text_day }}</td>
+                            <td>{{ info.text_night }}</td>
+                            <td>{{ info.high }}</td>
+                            <td>{{ info.low }}</td>
+                            <td>{{ info.wc_day }}</td>
+                            <td>{{ info.wc_night }}</td>
+                            <td>{{ info.wd_day }}</td>
+                            <td>{{ info.wd_night }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p hidden="hidden">芽芽office,164office,164office.cn,个人网站,包含博客区,音乐区,小游戏区,荒野乱斗社区等,内置简易账单模块,欢迎使用。</p>
   </div>
 </template>
 
 <script>
 import bootstrap, { Modal, Toast, Popover } from 'bootstrap';
 import { register, login, checkToken,updatePassword } from '@/api/user';
-import { saveVisitLog } from "../api/visitLog";
-import { getPublicKey, encrypt, encryptWeb, decryptWeb, getExploreName } from "@/api/common";
+import { getPublicKey, encrypt, encryptWeb, decryptWeb, getExploreName,getWeather } from "@/api/common";
 import { sendEmailCode,emailVerify } from '@/api/emailCode';
 import { jsonp } from 'vue-jsonp';
 import Fingerprint2 from 'fingerprintjs2';
@@ -320,6 +412,10 @@ export default {
         data:[] // 数据允许多个折线图,每个元素内包含 labelId labelsList dataList
       },
       updatePasswordBtn: true,
+      weatherForecastsInfo: [],  // 五天预报
+      weatherLocationInfo: {},  // 位置信息
+      weatherNowInfo:{},  // 实时信息
+      weatherFlag:1,
     }
   },
   props: ["commonResponse"],
@@ -331,6 +427,7 @@ export default {
   },
   mounted() {
     this.checkToken();
+    this.getWeather();
   },
   watch: {
     userLoginInfo: {
@@ -371,14 +468,16 @@ export default {
       var toast = new Toast(toastLiveExample);
       toast.show();
     },
-    showTrendModal(event) {
-      this.trendData = event;
+    showTrendModal(data) {
+      this.trendData = data;
+      console.log(">"+JSON.stringify(this.trendData));
       this.$nextTick(() => {
           this.updateTrendData();
       });
     },
     updateTrendData() {
       for (var i = 0; i < this.trendData.data.length; i++) {
+        console.log(this.trendData.data[i].id+","+this.trendData.data[i].data.nameList+","+this.trendData.data[i].data.creditList);
         this.setChartData(this.trendData.data[i].id, this.trendData.data[i].data.nameList, this.trendData.data[i].data.creditList);
       }
     },
@@ -451,37 +550,27 @@ export default {
       });
     },
     login() {
-      jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-        key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-        output: 'jsonp'
-      }).then(res => {
-        var ad_info = res.result.ad_info;
-        this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-        this.visitLogInfo.ip = res.result.ip;
-        this.visitLogInfo.address = ad_info.nation + ad_info.province;
 
-        this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
+      this.userLoginInfo.password = encrypt(this.userLoginInfo.password, this.publicKey); // 加密
         login(
           Object.assign(
-            this.userLoginInfo,
-            {
-              data: encrypt(JSON.stringify(this.visitLogInfo), this.publicKey)
-            }
+            this.userLoginInfo
         )).then( // 调用登录接口
           response => {
             if (response.data.code == 1) {
               this.isLogin = true;
               localStorage.setItem('authorization', response.data.data.token);
-              localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密
+              localStorage.setItem('power', encryptWeb(response.data.data.power)); // 加密,加密后大小有4KB,Cookie无法满足
+              document.cookie = 'power:'+localStorage.getItem('power');
               document.getElementById("closeLoginModal").click(); // 关闭 Modal
               this.refreshUserLoginInfo();
+              this.refreshChat();
             } else {
               this.userLoginInfo.password = "";
             }
             this.showToast(response);
           }
         );
-      });
     },
     checkUserLoginInfo() {
       this.userLoginBtn = true;
@@ -589,34 +678,25 @@ export default {
       getPublicKey().then( // 获取加密密钥
         response => {
           this.publicKey = response.data.data.publicKey;
-          jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-              key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-              output: 'jsonp'
-          }).then(res => {
-            var ad_info = res.result.ad_info;
-            this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-            this.visitLogInfo.ip = res.result.ip;
-            this.visitLogInfo.address = ad_info.nation + ad_info.province;
-            this.emailVerifyInfo.title = "找回账号|重置密码";
-            this.emailVerifyInfo.fingerprint = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
-            this.emailVerifyInfo.data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
-            sendEmailCode(this.emailVerifyInfo).then(
-              response => {
-                if (response.data.code == 1) {
-                  this.bindEmailReadonly = true;
-                  this.start = new Date();
-                  this.countDown = 60;
-                  this.countDownBtnInfo = '验证码已发送-';
-                  this.sendEmailCodeBtn = true;
-                  var that = this;
-                  this.countDownObj = setInterval(function () {
-                    that.timer()
-                  }, 1000);
-                }
-                this.showToast(response);
+
+          this.emailVerifyInfo.title = "找回账号|重置密码";
+          this.emailVerifyInfo.fingerprint = encrypt(localStorage.getItem('browserId'), this.publicKey); // 指纹
+          sendEmailCode(this.emailVerifyInfo).then(
+            response => {
+              if (response.data.code == 1) {
+                this.bindEmailReadonly = true;
+                this.start = new Date();
+                this.countDown = 60;
+                this.countDownBtnInfo = '验证码已发送-';
+                this.sendEmailCodeBtn = true;
+                var that = this;
+                this.countDownObj = setInterval(function () {
+                  that.timer()
+                }, 1000);
               }
-            )
-          });
+              this.showToast(response);
+            }
+          )
         }
       )
     },
@@ -662,30 +742,88 @@ export default {
         }
       )
     },
-    // 公共接口,为其它页面提供
-    saveVisitLog(info) {
-      getPublicKey().then( // 获取加密密钥
+    refreshChat() {  // 如果当前页面是 chat 则需要刷新 chat 页面
+      if (this.$router.currentRoute.value.name == "chat") {
+        this.$emit('refreshData');
+      }
+    },
+    getWeather() {
+      getWeather().then(
         response => {
-          this.publicKey = response.data.data.publicKey;
-          jsonp('https://apis.map.qq.com/ws/location/v1/ip', {
-            key: 'VQPBZ-GZIKU-QNPV7-B7MD5-PPA2F-TMBES',
-            output: 'jsonp'
-          }).then(res => {
-            var ad_info = res.result.ad_info;
-            this.visitLogInfo.trueAddress = ad_info.nation + ad_info.province + ad_info.city + ad_info.district;
-            this.visitLogInfo.ip = res.result.ip;
-            this.visitLogInfo.address = ad_info.nation + ad_info.province;
-            this.visitLogInfo.note = info;
-            var data = encrypt(JSON.stringify(this.visitLogInfo), this.publicKey);
-            saveVisitLog(
-              data
-            ).then(
-              response => {
-              }
-            );
-          })
+          var weatherInfo = response.data.data.weatherInfo.result;
+          this.weatherForecastsInfo = weatherInfo.forecasts;
+          this.weatherLocationInfo = weatherInfo.location;
+          this.weatherNowInfo = weatherInfo.now;
+          this.weatherFlagUpdate(weatherInfo.now);
         }
       )
+    },
+    weatherFlagUpdate(now) {  // 详见 https://lbs.baidu.com/faq/api?title=webapi/download 天气取值对照表
+      var time = new Date();
+      var h = time.getHours;
+      if (['雾','轻雾','浓雾','强浓雾','霾','中度霾','重度霾','大雾','特强浓雾'].includes(now.text)) {
+        this.weatherFlag = 1;  // 云+雾
+      }
+      else if (['多云','阴'].includes(now.text)) {
+        if (h>18||h<6) {
+          this.weatherFlag = 12;  // 月亮+云
+        }
+        else {
+          this.weatherFlag = 2;  // 云
+        }
+      }
+      else if (['闪电'].includes(now.text)) {
+        this.weatherFlag = 3;  // 闪电
+      }
+      else if (['晴'].includes(now.text)) {
+        if (h>18||h<6) {
+          this.weatherFlag = 11;  // 月亮
+        }
+        else {
+          this.weatherFlag = 4;  // 太阳
+        }
+      }
+      else if (['沙尘暴','浮尘','扬沙','强沙尘暴'].includes(now.text)) {
+        this.weatherFlag = 5;  // 风
+      }
+      else if (['龙卷风',''].includes(now.text)) {
+        this.weatherFlag = 6;  // 龙卷风
+      }
+      else if (['雪','阵雪','小雪','中雪','大雪','暴雪','小到中雪','中到大雪','大到暴雪','弱高吹雪'].includes(now.text)) {
+        this.weatherFlag = 7;  // 雪花
+      }
+      else if (['小雨','中雨','冻雨','小到中雨','中到大雨','雨'].includes(now.text)) {
+        if (h>18||h<6) {
+          this.weatherFlag = 14;  // 雨+月亮
+        }
+        else {
+          this.weatherFlag = 8;  // 云+雨
+        }
+      }
+      else if (['雨夹雪'].includes(now.text)) {
+        this.weatherFlag = 9;  // 云+雪+冰雹
+      }
+      else if (['火球'].includes(now.text)) {
+        this.weatherFlag = 10;  // 火球
+      }
+      else if (['月亮'].includes(now.text)) {
+        this.weatherFlag = 11;  // 月亮
+      }
+      else if (['月亮+云'].includes(now.text)) {
+        this.weatherFlag = 12;  // 月亮+云
+      }
+      else if (['阵雨','雷阵雨','雷阵雨伴有冰雹'].includes(now.text)) {
+        this.weatherFlag = 13;  // 云+闪电
+      }
+      else if (['雨+月亮'].includes(now.text)) {
+        this.weatherFlag = 14;  // 雨+月亮
+      }
+      else if (['大雨','暴雨','大暴雨','特大暴雨'].includes(now.text)) {
+        this.weatherFlag = 15;  // 大雨+波浪
+      }
+      else {
+        this.weatherFlag = 10;
+      }
     },
   }
 };

@@ -39,6 +39,7 @@
 </template>
 <script>
 import Top from "@/components/Top.vue";
+import { saveVisitLog } from "../api/welcome";
 export default {
   name: "gluttonousSnake",
   components: {
@@ -92,8 +93,7 @@ export default {
   },
   mounted() {
     this.init();
-
-    this.$refs.top.saveVisitLog("访问【贪吃蛇】");
+    saveVisitLog(Object.assign({key:9}));
     /**
      * 监听键盘
      * 37:左,38:上,39:右,40:下

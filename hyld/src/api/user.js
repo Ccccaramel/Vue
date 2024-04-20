@@ -120,3 +120,18 @@ export function updatePassword(params){
         data: params
     })
 }
+
+export function getCoin(params){
+    return request({
+        method: 'get',
+        url: '/user/getCoin'
+    })
+}
+
+export function generate(params){
+    return request({
+        method: 'post',
+        url: '/user/generate',
+        data: params
+    })
+}

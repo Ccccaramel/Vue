@@ -88,7 +88,7 @@
 import { Popover } from "bootstrap";
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-
+import { saveVisitLog } from "../api/welcome";
 import { getTeamType } from "../api/dictionary";
 import { searchValidTeamInfo } from "../api/userWithTeam";
 import { getTeamData } from "../api/credit";
@@ -142,7 +142,7 @@ export default {
       }
     );
     this.searchTeamInfoBtn();
-    this.$refs.top.saveVisitLog("访问【搜索战队】");
+    saveVisitLog(Object.assign({key:17}));
     // var popoverTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
     // var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     //   return new Popover(popoverTriggerEl)
