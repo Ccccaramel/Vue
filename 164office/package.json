@@ -1,5 +1,5 @@
 {
-  "name": "hyld",
+  "name": "164office",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -39,7 +39,7 @@
     "jsencrypt": "^3.3.0",
     "jsrsasign": "^10.6.0",
     "node-rsa": "^1.1.1",
-    "node-sass": "^7.0.1",
+    "sass":"^1.77.1",
     "qs": "^6.11.0",
     "sass-loader": "^13.0.2",
     "tinymce": "^6.5.1",

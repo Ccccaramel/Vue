@@ -369,7 +369,7 @@
       </div>
     </div>
 
-    <p hidden="hidden">芽芽office,164office,164office.cn,个人网站,包含博客区,音乐区,小游戏区,荒野乱斗社区等,内置简易账单模块,欢迎使用。</p>
+    <p hidden="hidden">ding!office!,164office,164office.cn,个人网站,包含博客区,音乐区,小游戏区,荒野乱斗社区等,内置简易账单模块,欢迎使用。</p>
   </div>
 </template>
 

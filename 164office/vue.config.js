@@ -4,7 +4,7 @@ module.exports = defineConfig({
 	transpileDependencies: true,
 	chainWebpack(config) {
 		config.plugin('html').tap((args) => { //标题
-			args[0].title = '芽芽office！(●\'◡\'●)';
+			args[0].title = 'ding!office！(●\'◡\'●)';
 			return args;
 		})
 	},
@@ -12,9 +12,9 @@ module.exports = defineConfig({
 	outputDir: process.env.outputDir,
 	devServer: {
 		open: true, // 启动成功自动在浏览器中打开
-		host: 'hyld.office.com',
+		host: 'ding.office.com',
 		allowedHosts: [
-			"hyld.office.com"
+			"ding.office.com"
 		],
 		port: 80, // 指定端口
 		hot: true,
