@@ -3,25 +3,17 @@
         <br/>
         <div class="container text-center">
             <div class="row justify-content-center">
-                <div class="col-3">
-                    <div class="alert hyld-bg-16" role="alert">
-                        <strong>本月注册人次：</strong>{{statisticalData.numberOfRegistrantsInThisMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">本月注册人次：{{statisticalData.numberOfRegistrantsInThisMonth}}</span></h5>
                 </div>
-                <div class="col-3">
-                    <div class="alert hyld-bg-30" role="alert">
-                        <strong>本月登录人次：</strong>{{statisticalData.numberOfLoginInThisMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">本月登录人次：{{statisticalData.numberOfLoginInThisMonth}}</span></h5>
                 </div>
-                <div class="col-3">
-                    <div class="alert hyld-bg-20" role="alert">
-                        <strong>本月访问首页人次：</strong>{{statisticalData.numberOfVisitInThisMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">本月访问首页人次：{{statisticalData.numberOfVisitInThisMonth}}</span></h5>
                 </div>
-                <div class="col-3">
-                    <div class="alert hyld-bg-26" role="alert">
-                        <strong>访问首页总人次：</strong>{{statisticalData.totalVisits}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">访问首页总人次：{{statisticalData.totalVisits}}</span></h5>
                 </div>
             </div>
         </div>
@@ -67,9 +59,9 @@
         </form>
 
         <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert">
+            <!-- <caption class="text-center alert-primary" role="alert">
                 <h4><span class="badge rounded-pill bg-primary ">平台访问日志</span></h4>
-            </caption>
+            </caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -82,7 +74,7 @@
                     <th scope="col">备注</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(visitLog, index) in visitLogList" :key="visitLog.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ visitLog.user == null ? "" : visitLog.user.id }}</td>

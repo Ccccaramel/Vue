@@ -46,7 +46,7 @@
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="gameRole in gameRoleList" :key="gameRole.id">
                     <!-- <th scope="row">{{ index + 1 }}</th> -->
                     <th scope="row">{{ gameRole.id }}</th>
@@ -320,7 +320,7 @@
                                                     <th scope="col">操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                             <tbody class="table-group-divider">
                                                 <tr v-for="(normalAttack, index) in normalAttackList" :key="normalAttack.id">
                                                     <th scope="row">{{ index + 1 }}</th>
                                                     <td>{{ normalAttack.name }}</td>
@@ -454,7 +454,7 @@
                                                     <th scope="col">操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                             <tbody class="table-group-divider">
                                                 <tr v-for="(normalAttackAttribute, index) in normalAttackAttributeList" :key="normalAttackAttribute.id">
                                                     <th scope="row">{{ index + 1 }}</th>
                                                     <td>{{ normalAttackAttribute.name }}</td>
@@ -588,7 +588,7 @@
                                                     <th scope="col">操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                             <tbody class="table-group-divider">
                                                 <tr v-for="(superSkill, index) in superSkillList" :key="superSkill.id">
                                                     <th scope="row">{{ index + 1 }}</th>
                                                     <td>{{ superSkill.name }}</td>
@@ -722,7 +722,7 @@
                                                     <th scope="col">操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                             <tbody class="table-group-divider">
                                                 <tr v-for="(superSkillAttribute, index) in superSkillAttributeList" :key="superSkillAttribute.id">
                                                     <th scope="row">{{ index + 1 }}</th>
                                                     <td>{{ superSkillAttribute.name }}</td>
@@ -856,7 +856,7 @@
                                                     <th scope="col">操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                             <tbody class="table-group-divider">
                                                 <tr v-for="(gameRoleComment, index) in gameRoleCommentList" :key="gameRoleComment.id">
                                                     <th scope="row">{{ index + 1 }}</th>
                                                     <td>{{ gameRoleComment.userInfo.name }}</td>

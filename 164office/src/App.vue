@@ -8,9 +8,9 @@
 
 <!-- 移除右侧滚动条 -->
 <style lang="scss">
-::-webkit-scrollbar {
-  width: 0 !important;
-}
+// ::-webkit-scrollbar {
+//   width: 0 !important;
+// }
 ::-webkit-scrollbar {
   width: 0 !important;height: 0;
 }

@@ -32,11 +32,11 @@
                 </div>
             </div>
         </form>
-        <!-- <div class="dropdown-divider"></div> -->
+        <!-- <hr/> -->
         <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert">
-                <h4><span class="badge rounded-pill bg-primary ">我的战队</span></h4>
-            </caption>
+            <!-- <caption class="text-center" role="alert">
+                <h4><span class="badge rounded-pill text-bg-primary">我的战队</span></h4>
+            </caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -60,7 +60,7 @@
                     <th scope="col" style="width: 20%;">操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
                 <tr v-if="uwtInfoList.length == 0">
                     <td colspan="14">
                         <div class="container">
@@ -358,7 +358,7 @@
                                                 <th scope="col">操作</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                         <tbody class="table-group-divider">
                                             <tr v-for="(viceCaptain, i) in viceCaptainList" :key="i">
                                                 <th scope="row">{{ i + 1 }}</th>
                                                 <td>{{ viceCaptain.user.id }}</td>
@@ -437,7 +437,6 @@
             </div>
         </div>
         <!-- 分页 -->
-        <div class="dropdown-divider"></div>
         <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
 </template>

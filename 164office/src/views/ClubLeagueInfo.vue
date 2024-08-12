@@ -25,7 +25,7 @@
                 <th scope="col">任务周最高奖励</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr>
                 <td>
                   <img src="../assets/hyld/club_g_1.png" class="rounded-2" style="weight:36px;height:36px;" />
@@ -315,7 +315,7 @@
                 <th scope="col" class="table-success">获胜</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr>
                 <td>与随机玩家组队</td>
                 <td class="table-danger">1</td>
@@ -358,6 +358,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-战队竞赛奖励一览";
     saveVisitLog(Object.assign({key:1}));
   },
   methods: {

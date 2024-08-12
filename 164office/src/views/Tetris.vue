@@ -295,6 +295,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "俄罗斯方块";
     this.init();
     saveVisitLog(Object.assign({key:20}));
 
@@ -787,7 +788,7 @@ export default {
         return;
       }
       this.level--;
-      updateLv();
+      this.updateLv();
     },
     updateLv() {
       document.getElementById("level").innerHTML = this.level;

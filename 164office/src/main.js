@@ -2,11 +2,12 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 
-import VueJsonp from 'vue-jsonp'
-
 import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap";
-import "../src/assets/hyld.css"; // 导入自定义 css
+import "../src/assets/ding.css"; // 导入自定义 css
+// import "../public/cover/cover.css"; // 首页封面样式,暂不使用
+import "../src/assets/sidebars/sidebars.css"; // 个人中心的左侧菜单栏样式
+
 // import "../public/cheatsheet";
 // import "../public/cheatsheet.css";
 // import "bootstrap/dist/js/bootstrap.bundle"; // 不要打开!否则打开 modal 对多一个黑色透明帘,使用 Toggle between modals 时帘关不掉!所以我为什么要导入
@@ -53,4 +54,4 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(fas,far,fab)
 
-createApp(App).use(router,VueJsonp).component('font-awesome-icon', FontAwesomeIcon).mount("#app");
+createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount("#app");

@@ -21,25 +21,25 @@
             <!-- 在 form 中的 button 其 type 默认为 submit ,所以必须指定类型 button
                 或使用 event.prevent 取消默认事件, vue: @click.stop="delRow()" -->
         </form>
-        <!-- <div class="dropdown-divider"></div> -->
+        <!-- <hr/> -->
         <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert">
+            <!-- <caption class="text-center alert-primary" role="alert">
                 <h4><span class="badge rounded-pill bg-primary ">我的战队</span></h4>
-            </caption>
+            </caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">战队标签</th>
-                    <th scope="col">战队名称</th>
-                    <th scope="col">战队类型</th>
-                    <th scope="col">淘汰线</th>
-                    <th scope="col">优等线</th>
-                    <th scope="col">战队状态</th>
+                    <th scope="col" style="width:10%;">战队标签</th>
+                    <th scope="col" style="width:10%;">战队名称</th>
+                    <th scope="col" style="width:10%;">战队类型</th>
+                    <th scope="col" style="width:10%;">淘汰线</th>
+                    <th scope="col" style="width:10%;">优等线</th>
+                    <th scope="col" style="width:10%;">战队状态</th>
                     <th scope="col">备注</th>
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-if="teamList.length==0">
                     <td colspan="14">
                         <div class="container">
@@ -140,7 +140,6 @@
             </div>
         </div>
         <!-- 分页 -->
-        <div class="dropdown-divider"></div>
         <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
 </template>

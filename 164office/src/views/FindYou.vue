@@ -47,6 +47,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "找到你";
     saveVisitLog(Object.assign({key:5}));
   },
 };

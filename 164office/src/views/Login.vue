@@ -12,7 +12,7 @@
                 <input type="password" class="form-control" v-model.lazy="loginForm.password" id="password" placeholder="name@example.com">
                 <label for="floatingInput">密码</label>
             </div>
-            <div class="dropdown-divider"></div>
+            <hr/>
             <button class="btn btn-primary" type="button" @click="userLogin()">登录</button>
           </div>
         </div>

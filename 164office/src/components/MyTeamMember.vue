@@ -57,9 +57,11 @@
                     </div>
                 </div>
             </form>
-            <!-- <div class="dropdown-divider"></div> -->
+            <!-- <hr/> -->
             <table class="table text-center table-hover caption-top">
-                <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary ">{{uwtInfo.team.name}}</span></h4></caption>
+                <!-- <caption class="text-center" role="alert">
+                    <h4><span class="badge rounded-pill text-bg-primary">{{uwtInfo.team.name}}</span></h4>
+                </caption> -->
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -73,7 +75,7 @@
                         <th scope="col" style="width:25%">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr v-if="teamMemberList.length==0">
                         <td colspan="9">
                             <div class="container">
@@ -232,7 +234,7 @@
                                         <th scope="col">备注信息</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                 <tbody class="table-group-divider">
                                     <tr v-for="teamMemberCredit in teamMemberCreditList" :key="teamMemberCredit.id">
                                         <th>{{teamMemberCredit.settlementTimeStr}}</th>
                                         <td>{{teamMemberCredit.credit}}</td>

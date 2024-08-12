@@ -50,7 +50,7 @@
                 <th scope="col">战队赛</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr v-for="(uwtInfo,i) in uwtInfoList" :key="i">
                 <th scope="row">{{i}}</th>
                 <td>{{uwtInfo.team.scid}}</td>
@@ -77,7 +77,6 @@
     <div class="container">
       <div class="row text-center">
         <div class="col">
-          <div class="dropdown-divider"></div>
           <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
         </div>
       </div>
@@ -132,6 +131,7 @@ export default {
     },
   },
   mounted() {
+    document.title = "荒野乱斗-战队搜索";
     getTeamType().then(
       response => {
         this.teamTypeList = response.data.data;

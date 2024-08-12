@@ -113,6 +113,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-参考前必读!";
     saveVisitLog(Object.assign({key:4}));
   },
   methods: {

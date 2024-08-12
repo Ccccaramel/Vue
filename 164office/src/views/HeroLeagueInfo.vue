@@ -19,7 +19,7 @@
                 <th scope="col">联赛结束后奖杯数</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr>
                 <th scope="row" rowspan="2">20</th>
                 <td>501-524</td>
@@ -217,6 +217,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-荣誉联赛星光奖励一览";
     saveVisitLog(Object.assign({key:11}));
   },
   methods: {

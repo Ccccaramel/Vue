@@ -4,6 +4,7 @@ module.exports = defineConfig({
 	transpileDependencies: true,
 	chainWebpack(config) {
 		config.plugin('html').tap((args) => { //标题
+			console.log("???");
 			args[0].title = 'ding!office！(●\'◡\'●)';
 			return args;
 		})

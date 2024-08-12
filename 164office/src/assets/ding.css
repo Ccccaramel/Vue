@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+.bg {
+  background:url("../assets/music/bg.png")  ;
+  background-size:cover;
+}
+.chat-bg {
+  background:url("../assets/chat/chat-bg.png")  ;
+  background-size:cover;
+}
+
+/* 连续色系 */
+.ding-bg-0 {
+  --bs-bg-opacity: 1;
+  background-color:#eaf4ff;
+}
+.ding-bg-1 {
+  --bs-bg-opacity: 1;
+  background-color:#ff0000;
+}
+.ding-bg-2 {
+  --bs-bg-opacity: 1;
+  background-color:#ff5555;
+}
+.ding-bg-3 {
+  --bs-bg-opacity: 1;
+  background-color:#fc5000;
+}
+.ding-bg-4 {
+  --bs-bg-opacity: 1;
+  background-color:#fc8953;
+}
+.ding-bg-5 {
+  --bs-bg-opacity: 1;
+  background-color:#ffe600;
+}
+.ding-bg-6 {
+  --bs-bg-opacity: 1;
+  background-color:#fffa70;
+}
+.ding-bg-7 {
+  --bs-bg-opacity: 1;
+  background-color:#73ff00;
+}
+.ding-bg-8 {
+  --bs-bg-opacity: 1;
+  background-color:#b8ff7e;
+}
+.ding-bg-9 {
+  --bs-bg-opacity: 1;
+  background-color:#00ff2a;
+}
+.ding-bg-10 {
+  --bs-bg-opacity: 1;
+  background-color:#61ff7b;
+}
+.ding-bg-11 {
+  --bs-bg-opacity: 1;
+  background-color:#00ffb7;
+}
+.ding-bg-12 {
+  --bs-bg-opacity: 1;
+  background-color:#72ffd7;
+}
+.ding-bg-13 {
+  --bs-bg-opacity: 1;
+  background-color:#00fcfc;
+}
+.ding-bg-14 {
+  --bs-bg-opacity: 1;
+  background-color:#86ffff;
+}
+.ding-bg-15 {
+  --bs-bg-opacity: 1;
+  background-color:#00bbff;
+}
+.ding-bg-16 {
+  --bs-bg-opacity: 1;
+  background-color:#7adcff;
+}
+.ding-bg-17 {
+  --bs-bg-opacity: 1;
+  background-color:#007bff;
+}
+.ding-bg-18 {
+  --bs-bg-opacity: 1;
+  background-color:#5dabff;
+}
+.ding-bg-19 {
+  --bs-bg-opacity: 1;
+  background-color:#2f00ff;
+}
+.ding-bg-20 {
+  --bs-bg-opacity: 1;
+  background-color:#7b5efb;
+}
+.ding-bg-21 {
+  --bs-bg-opacity: 1;
+  background-color:#b381ff;
+}
+.ding-bg-22 {
+  --bs-bg-opacity: 1;
+  background-color:#d000ff;
+}
+.ding-bg-23 {
+  --bs-bg-opacity: 1;
+  background-color:#e46aff;
+}
+.ding-bg-24 {
+  --bs-bg-opacity: 1;
+  background-color:#fe3a9c;
+}
+.ding-bg-25 {
+  --bs-bg-opacity: 1;
+  background-color:#fc8088;
+}
+.ding-bg-26 {
+  --bs-bg-opacity: 1;
+  background-color:#ae85d4;
+}
+.ding-bg-27 {
+  --bs-bg-opacity: 1;
+  background-color:#5c7b9c;
+}
+.ding-bg-28 {
+  --bs-bg-opacity: 1;
+  background-color:#65588a;
+}
+.ding-bg-29 {
+  --bs-bg-opacity: 1;
+  background-color:#4d38aa;
+}
+.ding-bg-30 {
+  --bs-bg-opacity: 1;
+  background-color:#ff9b9b;
+}
+.ding-bg-31 {
+  --bs-bg-opacity: 1;
+  background-color:#aeaeae;
+}
+.ding-bg-32 {
+  --bs-bg-opacity: 1;
+  background-color:#cccccc;
+}
+.ding-bg-33 {
+  --bs-bg-opacity: 1;
+  background-color:#dad4f6;
+}
+.ding-bg-34 {
+  --bs-bg-opacity: 1;
+  background-color:#e6f6d4;
+}
+/* 实验颜色,用于测试效果 */
+.ding-text-test {
+  color:#6497bc
+}
+/* 字体颜色 */
+/* 系列1 */
+.ding-text-1 {
+  color:#ffadbb
+}
+.ding-text-2 {
+  color:#fdc7cd
+}
+.ding-text-3 {
+  color:#fed7da
+}
+.ding-text-4 {
+  color:#c9d4f7
+}
+.ding-text-5 {
+  color:#acbfeb
+}
+.ding-text-6 {
+  color:#f6d6c3
+}
+/* 系列8 */
+.ding-text-43 {
+  color:#feb2da
+}
+.ding-text-44 {
+  color:#d495e0
+}
+.ding-text-45 {
+  color:#ad8fdc
+}
+.ding-text-46 {
+  color:#8475c5
+}
+.ding-text-47 {
+  color:#86dcf4
+}
+.ding-text-48 {
+  color:#71bcec
+}
+/* 系列10 */
+.ding-text-43 {
+  color:#33DDAA
+}
+.ding-text-44 {
+  color:#FFEEAA
+}
+.ding-text-45 {
+  color:#DDBBFF
+}
+.ding-text-46 {
+  color:#FF88BB
+}
+.ding-text-47 {
+  color:#99DD88
+}
+.ding-text-48 {
+  color:#55DDEE
+}
+
+/* 好友 */
+.relationship-bg-3400 {
+  --bs-bg-opacity: 1;
+  background-color:#66ccff;
+}
+
+.relationship-bg-3402 {
+  --bs-bg-opacity: 1;
+  background-color:#ff88bb;
+}
+
+
+/* 美化文本,为普通文本添加阴影 */
+.ding-text {
+  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+}

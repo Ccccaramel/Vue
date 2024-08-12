@@ -30,7 +30,7 @@
                 <th scope="col" class="table-dark"><img src="../assets/hyld/brawl_pass.png" class="rounded-2" style="height:36px;" /></th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr>
                 <th scope="row">0</th>
                 <td><img src="../assets/hyld/box_3_3d.png" class="rounded-2" style="height:36px;" /></td>
@@ -608,6 +608,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-乱斗金券奖励一览";
     saveVisitLog(Object.assign({key:10}));
   },
   methods: {

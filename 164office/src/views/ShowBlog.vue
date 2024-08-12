@@ -3,15 +3,15 @@
     <Top ref="top" :commonResponse="commonResponseData"></Top>
 
     <div class="container">
-      <div class="row justify-content alert alert-success mb-0">
+      <div class="row justify-content alert ding-bg-0 mb-0">
         <div class="col-auto">
           <div class="vstack text-center">
-            <img :src="blogInfo.userInfo.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
+            <img :src="blogInfo.userInfo.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
             <span class="text-center" data-bs-toggle="popover" data-bs-trigger="hover focus"
               :data-bs-content="blogInfo.userInfo.name">
               {{blogInfo.userInfo.name}}
             </span>
-            <span :class="'badge hyld-bg-' + blogInfo.userInfo.grade + ' rounded-pill mx-auto text-center'" style="max-width: 3rem;">Lv{{ blogInfo.userInfo.grade }}</span>
+            <span :class="'badge ding-bg-' + blogInfo.userInfo.grade + ' rounded-pill mx-auto text-center'" style="max-width: 3rem;">Lv{{ blogInfo.userInfo.grade }}</span>
           </div>
         </div>
         <div class="col">
@@ -20,7 +20,8 @@
               <h3 class="alert-heading fw-bolder">{{blogInfo.title}}</h3>
               <div class="row justify-content">
                 <div class="col-auto">
-                  <p class="mb-1">{{blogInfo.type.name}}</p>
+                  <!-- <p class="mb-1">{{blogInfo.type.name}}</p> -->
+                  <span class="badge rounded-pill bg-secondary">{{blogInfo.type.name}}</span>
                 </div>
                 <div class="col-auto" v-for="blogLabel,i in strToArr(blogInfo.label)" v-bind:key="i">
                   <span class="badge bg-primary">{{blogLabel}}</span>
@@ -28,19 +29,27 @@
               </div>
               <div class="row justify-content">
                 <div class="col-auto">
-                  <p class="mb-1">浏览量：{{blogInfo.views}}</p>
+                  <font-awesome-icon :icon="['fas', 'eye']" style="color: #74C0FC;"/>&nbsp;{{blogInfo.views}}
                 </div>
                 <div class="col-auto">
-                  <p class="mb-1">发布于：{{blogInfo.address}}</p>
+                  <p class="mb-1">发布于:&nbsp;{{blogInfo.address}}</p>
                 </div>
                 <div class="col-auto">
-                  <p class="mb-1">状态：{{blogInfo.power.name}}</p>
+                  <p class="mb-1">状态:&nbsp;{{blogInfo.power.name}}</p>
                 </div>
                 <div class="col-auto">
-                  <p class="mb-1">创建时间：{{blogInfo.createTimeStr}}</p>
+                  <p class="mb-1">创建于:&nbsp;{{blogInfo.createTimeStr}}</p>
                 </div>
                 <div class="col-auto">
-                  <p class="mb-1">更新时间：{{blogInfo.updateTimeStr}}</p>
+                  <p class="mb-1">更新于:&nbsp;{{blogInfo.updateTimeStr}}</p>
+                </div>
+                <!-- 未收藏 -->
+                <div class="col-auto" v-if="!flag">
+                  <font-awesome-icon :icon="['far', 'star']" style="color: #70b5ff;cursor: pointer;" @click="collectionBlog(true)"/>
+                </div>
+                <!-- 已收藏 -->
+                <div class="col-auto" v-if="flag">
+                  <font-awesome-icon :icon="['fas', 'star']" style="color: #70b5ff;cursor: pointer;" @click="collectionBlog(false)"/>
                 </div>
               </div>
             </div>
@@ -48,7 +57,8 @@
         </div>
       </div>
 
-      <div class="row justify-content card">
+      <div class="row justify-content card tab-content shadow p-3 mb-5 bg-body-tertiary rounded" id="nav-tabContent">
+      <!-- <div class="row justify-content card"> -->
         <div class="col">
           <div class="card-body">
               <div class="blog-content" v-html="blogInfo.content"></div>
@@ -77,24 +87,25 @@
       </div>
 
 
+      <!-- 回复 -->
       <ul class="list-group mt-2">
         <li class="list-group-item" v-for="blogRemark in blogRemarkList" :key="blogRemark.id">
           <div class="container">
             <div class="row justify-content alert alert-primary mb-0">
               <div class="col-auto">
                 <div class="vstack text-center">
-                  <img :src="blogRemark.user.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
+                  <img :src="blogRemark.user.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
                 </div>
               </div>
               <div class="col">
                 <div class="ms-2 me-auto">
                   <div class="fw-bold">
                     {{blogRemark.user.name}}
-                    <span :class="'badge hyld-bg-' + blogRemark.user.grade + ' rounded-pill mx-auto text-center'" style="max-width: 3rem;">Lv{{ blogRemark.user.grade }}</span>
+                    <span :class="'badge ding-bg-' + blogRemark.user.grade + ' rounded-pill mx-auto text-center'" style="max-width: 3rem;">Lv{{ blogRemark.user.grade }}</span>
                   </div>
                   <div class="blog-content" v-html="blogRemark.remark"></div>
                 </div>
-                <div class="dropdown-divider"></div>
+                <hr/>
                 <div class="d-flex w-100 justify-content-between bt-6">
                   <div>
                     <small class="ms-1 me-1">{{blogRemark.createTimeStr}}</small>
@@ -113,21 +124,22 @@
                 <div class="row">
                   <div class="col-auto">
                     <div class="vstack text-center">
-                      <img :src="replyInfo.user.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
+                      <img :src="replyInfo.user.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
+                      <span :class="'badge ding-bg-' + replyInfo.user.grade + ' rounded-pill mx-auto text-center mt-1 ms-1 me-1'" style="max-width: 3rem;">Lv{{ replyInfo.user.grade }}</span>
                     </div>
                   </div>
                   <div class="col">
                     <div class="ms-2 me-auto">
                       <div class="fw-bold">
                         <span class="text ms-1 me-1">{{replyInfo.user.name}}</span>
-                        <span :class="'badge hyld-bg-' + replyInfo.user.grade + ' rounded-pill mx-auto text-center ms-1 me-1'" style="max-width: 3rem;">Lv{{ replyInfo.user.grade }}</span>
+                        <!-- <span :class="'badge ding-bg-' + replyInfo.user.grade + ' rounded-pill mx-auto text-center ms-1 me-1'" style="max-width: 3rem;">Lv{{ replyInfo.user.grade }}</span> -->
                         <span class="badge bg-primary ms-1 me-1" v-if="replyInfo.parentId!=blogRemark.id">回复</span>
                         <span class="text ms-1 me-1" v-if="replyInfo.parentId!=blogRemark.id">{{replyInfo.replyOfUser.name}}</span>
-                        <span v-if="replyInfo.parentId!=blogRemark.id" :class="'badge hyld-bg-' + replyInfo.replyOfUser.grade + ' rounded-pill mx-auto text-center ms-1 me-1'" style="max-width: 3rem;">Lv{{ replyInfo.replyOfUser.grade }}</span>
+                        <!-- <span v-if="replyInfo.parentId!=blogRemark.id" :class="'badge ding-bg-' + replyInfo.replyOfUser.grade + ' rounded-pill mx-auto text-center ms-1 me-1'" style="max-width: 3rem;">Lv{{ replyInfo.replyOfUser.grade }}</span> -->
                       </div>
                       <div class="blog-content" v-html="replyInfo.remark"></div>
                     </div>
-                    <div class="dropdown-divider"></div>
+                    <hr/>
                     <div class="d-flex w-100 justify-content-between bt-6">
                       <div>
                         <small class="ms-1 me-1">{{replyInfo.createTimeStr}}</small>
@@ -187,9 +199,9 @@ import { checkToken } from "@/api/user";
 import { searchPointer, savePointer } from "../api/pointer";
 
 import { getBlogPower, getBlogType } from "../api/dictionary";
-import { findBlogById,viewBlog } from "../api/blog";
+import { findBlogById, viewBlog } from "../api/blog";
+import { collectionBlog,collectionStatus } from "../api/blogCollection";
 import { saveBlogRemark,searchBlogRemark } from "../api/blogRemark";
-import { jsonp } from 'vue-jsonp';
 export default {
   name: "showBlog",
   components: {
@@ -217,7 +229,7 @@ export default {
       blogTypeList: [],
       blogLabelList: [],
       blogInfo: {
-        title: '',
+        title: '数据获取中',
         label: '',
         address: '',
         type: {
@@ -235,7 +247,8 @@ export default {
       blogRemarkVo: {
       },
       blogRemarkList: [],
-      replyVo: {}
+      replyVo: {},
+      flag:false
     }
   },
   watch: {
@@ -253,6 +266,7 @@ export default {
         } else {
           const info = response.data.data.blogInfo;
           this.blogInfo = response.data.data.blogInfo;
+          document.title = this.blogInfo.title;
           if (info.label != null) {
             this.blogInfo.label = info.label;
             this.blogLabelList = info.label.split(",");
@@ -265,6 +279,7 @@ export default {
     })).then({
     })
     this.refresh();
+    this.collectionStatus();
   },
   mounted() {
     saveVisitLog(Object.assign({key:18,data:this.blogId}));
@@ -401,6 +416,49 @@ export default {
         return ''
       } else {
         return str.split(",");
+      }
+    },
+    collectionBlog(val) {
+      if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) { 
+        collectionBlog(Object.assign({
+          blog: this.blogId,
+          collection:val
+        })).then(
+          response => {
+            this.flag = val;
+            this.showToast(response);
+          }
+        )
+      }
+      else {
+        var response = {
+          data: {
+            code: 0,
+            msg: '可是你还没有登录...',
+          },
+        }
+        this.showToast(response);
+      }
+    },
+    collectionStatus() {
+      if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) {
+        collectionStatus(Object.assign({
+          blog: this.blogId
+        })).then(
+          response => {
+            this.flag = response.data.data.status;
+          }
+        )
+      }
+      else {
+        console.log("未登录状态！");
+        // var response = {
+        //   data: {
+        //     code: 0,
+        //     msg: '可是你还没有登录...',
+        //   },
+        // }
+        // this.showToast(response);
       }
     }
   },

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 帖子详情 -->
     <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container">
       <div class="row justify-content-center">
@@ -12,45 +13,35 @@
 
                   <div class="col-auto text-center">
                     <div class="vstack text-center">
-                      <img :src="topic.userInfo.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="width: 3rem;" /> <!-- 头像 -->
+                      <img :src="topic.userInfo.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="width: 3rem;" /> <!-- 头像 -->
                       <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
                         :data-bs-content="topic.userInfo.name" style="max-width: 5rem;">
-                        <!-- 用户名 -->
                         {{ topic.userInfo.name }}
                       </span>
-                      <span :class="'badge hyld-bg-' + topic.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ topic.userInfo.grade }}</span>
+                      <span :class="'badge ding-bg-' + topic.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ topic.userInfo.grade }}</span>
                     </div>
                   </div>
 
                   <div class="col">
                     <h3>{{ topic.rubric }}</h3>
-                    <p class="fw-bold" style="white-space: pre-wrap">
-                      {{ topic.text }}
-                    </p>
+                    <p class="fw-bold" style="white-space: pre-wrap">{{ topic.text }}</p>
                     <div class="vstack">
                       <img class="rounded-3 mb-1" :src="image" style="max-width: 11rem;" v-for="(image,i) in topic.images" :key="i"/>
                     </div>
-                    <!-- <div class="container text-center">
-                      <div class="row align-items-start">
-                        <div class="col-auto" v-for="(image,i) in topic.images" :key="i">
-                          <img class="btn rounded" :src="image" style="max-width: 320px;" data-bs-toggle="modal" data-bs-target="#showImageModal" @click="showImage(image)"/>
-                        </div>
-                      </div>
-                    </div> -->
                     <small>{{ topic.createTimeStr }}&emsp;{{ topic.address }}</small>
 
                     <!-- 楼中楼 -->
-                    <div class="container list-group list-group-item-primary" v-if="topic.children != null">
+                    <div class="container list-group-item list-group-item-primary" v-if="topic.children != null">
                       <div class="row align-items-start mb-1" v-for="(reply, i) in topic.children" :key="i">
                         <div class="col-auto text-center pe-0">
                           <div class="vstack text-center ps-1 pt-1">
-                            <img :src="reply.userInfo.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 2.5rem;"/>
+                            <img :src="reply.userInfo.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 2.5rem;"/>
                             <span class="d-inline-block text-truncate" data-bs-toggle="popover"
                               data-bs-trigger="hover focus" :data-bs-content="reply.userInfo.name"
                               style="max-width: 5rem;">
                               {{ reply.userInfo.name }}
                             </span>
-                            <span :class="'badge hyld-bg-' + reply.userInfo.grade + ' rounded-pill text-center mx-auto'">Lv{{ reply.userInfo.grade }}</span>
+                            <span :class="'badge ding-bg-' + reply.userInfo.grade + ' rounded-pill text-center mx-auto'">Lv{{ reply.userInfo.grade }}</span>
                           </div>
                         </div>
 
@@ -60,13 +51,13 @@
 
                         <div class="col-auto text-center pe-0" v-if="topic.id != reply.parentId">
                           <div class="vstack text-center pt-1">
-                            <img :src="reply.replyUser.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 2.5rem;"/>
+                            <img :src="reply.replyUser.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 2.5rem;"/>
                             <span class="d-inline-block text-truncate" data-bs-toggle="popover"
                               data-bs-trigger="hover focus" :data-bs-content="reply.replyUser.name"
                               style="max-width: 5rem;">
                               {{ reply.replyUser.name }}
                             </span>
-                            <span :class="'badge hyld-bg-' + reply.replyUser.grade + ' rounded-pill text-center mx-auto'">Lv{{ reply.replyUser.grade }}</span>
+                            <span :class="'badge ding-bg-' + reply.replyUser.grade + ' rounded-pill text-center mx-auto'">Lv{{ reply.replyUser.grade }}</span>
                           </div>
                         </div>
 
@@ -194,7 +185,6 @@
 </template>
 <script>
 import { Modal, Toast, Popover } from 'bootstrap';
-import { jsonp } from 'vue-jsonp';
 import { useRoute } from 'vue-router';
 import Top from "@/components/Top.vue";
 import { saveVisitLog } from "../api/welcome";
@@ -287,6 +277,9 @@ export default {
       }, this.page)).then(
         response => {
           this.topicDataList = response.data.data.data;
+          if (this.topicDataList.length>0&&this.topicDataList[0].parentId==-1) {
+            document.title = this.topicDataList[0].rubric;
+          }
           this.page.totalPage = response.data.data.totalPage;
         }
       )

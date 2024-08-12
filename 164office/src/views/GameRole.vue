@@ -1,7 +1,6 @@
 <template>
   <div>
     <Top ref="top" :commonResponse="commonResponseData"></Top>
-    <!-- <img class="rounded-circle" src="http://127.0.0.1:8090/hyld/ppp.jpg"> 见后台资源处理器配置 -->
     <div class="container">
       <nav>
         <div class="nav nav-tabs mt-1" role="tablist">
@@ -103,6 +102,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-角色列表";
     this.searchGameRoleByClass();
     this.searchGameRolePopularity();
     this.searchGameRoleUnPopularity();

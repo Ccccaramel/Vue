@@ -17,7 +17,7 @@
                 <th scope="col">星光点数奖励(2022/12/14 记录)</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr>
                 <th><img src="../assets/hyld/rank_icon_01.png" class="rounded-2" style="height:36px;" />&ensp;<font-awesome-icon icon="fa-solid fa-i" /></th>
                 <td><img src="../assets/hyld/pack_star_points_01.png" class="rounded-2" style="height:36px;" />*500</td>
@@ -120,6 +120,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-星光联赛奖励一览";
     saveVisitLog(Object.assign({key:19}));
   },
   methods: {

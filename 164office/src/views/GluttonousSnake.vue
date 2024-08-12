@@ -92,6 +92,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "贪吃蛇";
     this.init();
     saveVisitLog(Object.assign({key:9}));
     /**

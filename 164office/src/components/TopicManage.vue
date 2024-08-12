@@ -14,30 +14,30 @@
             </div>
         </form>
         <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert">
+            <!-- <caption class="text-center alert-primary" role="alert">
                 <h4><span class="badge rounded-pill bg-primary "></span></h4>
-            </caption>
+            </caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">话题创建者</th>
+                    <th scope="col">创建者</th>
                     <th scope="col">标题</th>
                     <th scope="col">正文</th>
                     <th scope="col">图片</th>
                     <th scope="col">发表时间</th>
                     <th scope="col">状态</th>
                     <th scope="col">备注</th>
-                    <th scope="col">操作</th>
+                    <th scope="col" style="width: 10%;">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(topic, index) in topicList" :key="topic.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ topic.userInfo.name }}</td>
                     <td>
                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover"
                             data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="topic.rubric==''?'<无>':topic.rubric"
-                            style="max-width: 300px;">
+                            style="max-width: 100px;">
                             {{ topic.rubric }}
                         </span>
                     </td>
@@ -77,9 +77,9 @@
                     </div>
                     <div class="modal-body">
                         <table class="table text-center table-hover caption-top">
-                            <caption class="text-center alert-primary" role="alert">
+                            <!-- <caption class="text-center alert-primary" role="alert">
                                 <h4><span class="badge rounded-pill bg-primary "></span></h4>
-                            </caption>
+                            </caption> -->
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -91,7 +91,7 @@
                                     <th scope="col">操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                             <tbody class="table-group-divider">
                                 <tr v-for="(topicReplyInfo, index) in topicReplyInfoList" :key="topicReplyInfo.id">
                                     <th scope="row">{{ index + 1 }}</th>
                                     <td>{{ topicReplyInfo.userInfo.name }}</td>
@@ -125,7 +125,7 @@
 
         <!-- 查看完整话题 -->
         <div class="modal fade" id="showCompleteTopicModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-dialog modal-dialog-centered modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5">查看话题</h1>
@@ -138,7 +138,7 @@
                                 <div class="container">
                                     <div class="row align-items-start">
                                         <div class="col-1 text-center">
-                                            <img :src="topic.userInfo.headPortrait.imageUrl" class="rounded-circle"
+                                            <img :src="topic.userInfo.headPortrait.fileNameUrl" class="rounded-circle"
                                                 style="weight:52px;height:52px;" />
                                             <span class="d-inline-block text-truncate" data-bs-toggle="popover"
                                                 data-bs-trigger="hover focus" :data-bs-content="topic.userInfo.name"
@@ -164,7 +164,7 @@
                                                 <div class="row align-items-start" v-for="(reply,i) in topic.children"
                                                     :key="i">
                                                     <div class="col-1 text-center">
-                                                        <img :src="reply.userInfo.headPortrait.imageUrl"
+                                                        <img :src="reply.userInfo.headPortrait.fileNameUrl"
                                                             class="rounded-circle" style="weight:36px;height:36px;" />
                                                         <span class="d-inline-block text-truncate"
                                                             data-bs-toggle="popover" data-bs-trigger="hover focus"
@@ -178,7 +178,7 @@
                                                         <font-awesome-icon icon="fa-solid fa-share" />
                                                     </div>
                                                     <div class="col-1 text-center" v-if="topic.id!=reply.parentId">
-                                                        <img :src="reply.replyUser.headPortrait.imageUrl"
+                                                        <img :src="reply.replyUser.headPortrait.fileNameUrl"
                                                             class="rounded-circle" style="weight:36px;height:36px;" />
                                                         <span class="d-inline-block text-truncate"
                                                             data-bs-toggle="popover" data-bs-trigger="hover focus"
@@ -199,10 +199,10 @@
                                                         </div>
                                                         <small>{{reply.createTimeStr}}&emsp;{{reply.address}}</small>
                                                     </div>
-                                                    <div class="col-auto ms-md-auto">
+                                                    <!-- <div class="col-auto ms-md-auto">
                                                         <span class="badge bg-primary rounded-pill ms-1"
                                                             @click="replyTopic(reply.id,false,topic.floor)">回复</span>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                             <!-- 楼中楼 END -->
@@ -210,8 +210,8 @@
                                         </div>
                                         <div class="col-auto ms-md-auto">
                                             <span class="badge bg-success rounded-pill">#{{topic.floor}}</span>
-                                            <span class="badge bg-primary rounded-pill ms-1" v-if="topic.floor>1"
-                                                @click="replyTopic(topic.id,false,topic.floor)">回复</span>
+                                            <!-- <span class="badge bg-primary rounded-pill ms-1" v-if="topic.floor>1"
+                                                @click="replyTopic(topic.id,false,topic.floor)">回复</span> -->
                                         </div>
                                     </div>
                                 </div>

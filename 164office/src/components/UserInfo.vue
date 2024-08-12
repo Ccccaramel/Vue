@@ -5,7 +5,7 @@
             <div class="mb-3 row">
                 <img class="col-auto rounded-circle" :src="currentUserInfo.headPortraitUrl"
                  data-bs-toggle="modal" data-bs-target="#changeHeadPortraitModal" @click="changeHeadPortrait()"
-                 style="weight:164px;height:164px">
+                 style="weight:164px;height:164px;cursor: pointer;">
             </div>
             <div class="mb-3 row">
                 <label class="col-1 col-form-label">ID</label>
@@ -34,11 +34,11 @@
             </div>
             <div class="mb-3 row align-items-center">
                 <div class="col-1">
-                    <span :class="'badge hyld-bg-'+currentUserInfo.grade+' rounded-pill'">Lv{{currentUserInfo.grade}}</span>
+                    <span :class="'badge ding-bg-'+currentUserInfo.grade+' rounded-pill'">Lv{{currentUserInfo.grade}}</span>
                 </div>
                 <div class="col-6">
                     <div class="progress">
-                        <div :class="'progress-bar hyld-bg-'+currentUserInfo.grade" role="progressbar" aria-label="Info example" :style="'width:'+ currentUserInfo.proportion +'%'" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{currentUserInfo.exEx}}/{{currentUserInfo.currentLvMaxEx}}</div>
+                        <div :class="'progress-bar ding-bg-'+currentUserInfo.grade" role="progressbar" aria-label="Info example" :style="'width:'+ currentUserInfo.proportion +'%'" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{currentUserInfo.exEx}}/{{currentUserInfo.currentLvMaxEx}}</div>
                     </div>
                 </div>
             </div>
@@ -132,42 +132,24 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="d-flex align-items-center">
-                            <h4 class="modal-title align-items-center">{{userHeadPortraitInfo.title}}</h4>
+                            <h4 class="modal-title align-items-center">{{userImageInfo.title}}</h4>
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" id="changeHeadPortraitModalCloseBtn" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container text-center">
                             <div class="row row-cols-12">
-                                <div class="col col-lg-1" v-for="headPortraitInfo in allHeadPortraitList" :key="headPortraitInfo.id">
+                                <div class="col col-lg-1" v-for="headPortraitInfo in headPortraitList" :key="headPortraitInfo.id">
                                     <div class="vstack">
-                                        <img class="rounded-circle" :src="headPortraitInfo.imageUrl" @dblclick="saveHeadPortrait(headPortraitInfo.id)">
+                                        <img class="rounded-circle" :src="headPortraitInfo.fileNameUrl" @dblclick="saveHeadPortrait(headPortraitInfo.id)">
                                         <p>{{headPortraitInfo.name}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- 分页 -->
-                        <Page :commonPage="modalPage" @commonPageChange="commonModalPageChange($event)"></Page>
+                        <Page :commonPage="headPortraitPage" @commonPageChange="commonModalPageChange($event)"></Page>
                         <div class="alert alert-warning d-flex align-items-center justify-content-center" role="alert">
-                            <!-- 显隐+缩放 交替 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat-fade /> -->
-                            <!-- 向上跳动 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" bounce /> -->
-                            <!-- 显隐交替 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" fade /> -->
-                            <!-- y轴旋转 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" flip /> -->
-                            <!-- 原点左右摆动 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" shake /> -->
-                            <!-- 原点顺时针旋转 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin /> -->
-                            <!-- 原点逆时针旋转 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin spin-reverse /> -->
-                            <!-- 原点顺时针每帧60°旋转 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" spin-pulse /> -->
-                            <!-- 缩放交替 -->
-                            <!-- <font-awesome-icon icon="fa-solid fa-triangle-exclamation" size="1x" beat/> -->
                             <font-awesome-icon icon="fa-solid fa-circle-question" size="1x" bounce/>
                             <div>
                                 ⭐双击即可修改哦!
@@ -183,9 +165,8 @@
 import Page from '@/components/Page.vue';
 import { Toast } from 'bootstrap';
 import { getCurrentUserInfo,updateUserInfo,saveUserPassword,saveHeadPortrait,bindEmail,unbindEmail } from "@/api/user";
-import { searchHeadPortrait } from '@/api/headPortrait';
+import { searchResource } from '@/api/resource';
 import { sendEmailCode } from '@/api/emailCode';
-import { jsonp } from 'vue-jsonp';
 import Fingerprint2 from 'fingerprintjs2';
 import { getPublicKey, encrypt, exToLv } from "@/api/common";
 export default {
@@ -195,7 +176,7 @@ export default {
     },
     data() {
         return {
-            modalPage: {
+            headPortraitPage: {
                 size: 48,
                 currentPage:1, // 偏移量,数据库从0开始
                 totalPage: 0,
@@ -211,7 +192,7 @@ export default {
                 name: '',
                 qq: '',
                 note: '',
-                headPortraitUrl: '',
+                imageUrl: '',
                 coin:0,
 
             },
@@ -221,11 +202,11 @@ export default {
                 password: ''
             },
             saveUserPasswordBtn: true,
-            userHeadPortraitInfo: {
+            userImageInfo: {
                 title: '',
-                newHeadPortraitId:'',
+                newImageId:'',
             },
-            allHeadPortraitList: [],
+            headPortraitList: [],
             publicKey: '',
             bindEmailInfo: {
                 title: '绑定邮箱',
@@ -264,7 +245,7 @@ export default {
     },
     methods: {
         commonModalPageChange(event) { // 修改头像 modal 的分页
-            this.modalPage = event;
+            this.headPortraitPage = event;
             this.searchHeadPortrait();
         },
         showToast(response) { // 通用信息展示
@@ -294,7 +275,7 @@ export default {
                     this.currentUserInfo.name = userData.name;
                     this.currentUserInfo.qq = userData.qq;
                     this.currentUserInfo.note = userData.note;
-                    this.currentUserInfo.headPortraitUrl = userData.headPortrait.imageUrl;
+                    this.currentUserInfo.headPortraitUrl = userData.headPortrait.fileNameUrl;
                     this.currentUserInfo.ex = userData.ex;
                     this.currentUserInfo.email = userData.email;
                     // 转移到后台处理
@@ -377,20 +358,22 @@ export default {
             }
         },
         changeHeadPortrait() {
-            this.userHeadPortraitInfo.title = "修改头像";
+            this.userImageInfo.title = "修改头像";
             this.searchHeadPortrait();
         },
         searchHeadPortrait() {
-            searchHeadPortrait(this.modalPage).then(
+            searchResource(
+                Object.assign({ type: 3800 },
+                    this.headPortraitPage)).then(
                 response => {
-                    this.allHeadPortraitList = response.data.data.data;
-                    this.modalPage.totalPage = response.data.data.totalPage;
+                    this.headPortraitList = response.data.data.data;
+                    this.headPortraitPage.totalPage = response.data.data.totalPage;
                 }
             )
         },
-        saveHeadPortrait(headPortraitId) {
+        saveHeadPortrait(imageId) {
             saveHeadPortrait(Object.assign({
-                headPortraitId:headPortraitId
+                headPortraitId:imageId
             })).then(
                 response => {
                     document.getElementById("changeHeadPortraitModalCloseBtn").click();

@@ -84,9 +84,9 @@
             </div>
         </form>
         <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert">
-                <h4><span class="badge rounded-pill bg-primary ">我的游戏账号</span></h4>
-            </caption>
+            <!-- <caption class="text-center alert-primary" role="alert">
+                <h4><span class="badge rounded-pill alert-primary ">我的游戏账号</span></h4>
+            </caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -98,7 +98,7 @@
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
                 <tr v-if="relationPlayerInfoList.length==0">
                     <td colspan="14">
                         <div class="container">
@@ -228,7 +228,6 @@
             </div>
         </div>
         <!-- 分页 -->
-        <div class="dropdown-divider"></div>
         <Page :commonPage="page" @commonPageChange="commonPageChange($event)"></Page>
     </div>
 </template>

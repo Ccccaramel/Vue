@@ -76,6 +76,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-官方版本更新日志";
     this.page.currentPage = 1;
     this.searchOfficialVersionUpdateLog();
     saveVisitLog(Object.assign({key:13}));

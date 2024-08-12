@@ -16,7 +16,7 @@
 
               <li class="nav-item" role="presentation" v-for="relationshipInfo,i in relationshipInfoList" :key="i">  <!-- 好友列表 -->
                 <button class="nav-link" data-bs-toggle="pill" :data-bs-target="'#pills-contact-'+relationshipInfo.id" type="button" role="tab" :aria-controls="'pills-contact-'+relationshipInfo.id" aria-selected="false" @click="switchObj(relationshipInfo.self?relationshipInfo.another.id:relationshipInfo.user.id,(i+1))">  <!-- i=0是对应大厅 -->
-                  <img :src="relationshipInfo.self?relationshipInfo.another.headPortrait.imageUrl:relationshipInfo.user.headPortrait.imageUrl" class="rounded-circle border border-1" style="weight:42px;height:42px;" />
+                  <img :src="relationshipInfo.self?relationshipInfo.another.headPortrait.fileNameUrl:relationshipInfo.user.headPortrait.fileNameUrl" class="rounded-circle border border-1" style="weight:42px;height:42px;" />
                 </button>
               </li>
 
@@ -27,8 +27,9 @@
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
+
+              <!-- 群聊 -->
               <div class="tab-pane fade show active" role="tabpanel" id="pills-home" tabindex="0">
-                
                 <div class="container text-center">
                   <div class="row align-items-center">
                     <div class="col-2 align-middle text-center">
@@ -45,7 +46,8 @@
                         </div>
                         <div :class="'row justify-content-'+(chatInfo.self?'end':'start')+' text-start'" v-for="chatInfo,j in chatList[0]" :id="'chat-0-'+j" :key="j">
                           <div class="col-1" v-if="!chatInfo.self">
-                            <img :src="chatInfo.recipient.headPortrait.imageUrl" class="rounded-circle border border-1" style="weight:42px;height:42px;" />
+                            <img :src="chatInfo.recipient.headPortrait.fileNameUrl" class="rounded-circle border border-1" style="weight:42px;height:42px;"
+                              tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="chatInfo.sender.name"/>
                           </div>
                           <div class="col">
                             <div :class="'alert alert-'+(chatInfo.self?'primary':'success')" role="alert">
@@ -54,7 +56,7 @@
                             </div>
                           </div>
                           <div class="col-1" v-if="chatInfo.self">
-                            <img :src="chatInfo.sender.headPortrait.imageUrl" class="rounded-circle border border-1" style="weight:42px;height:42px;" />
+                            <img :src="chatInfo.sender.headPortrait.fileNameUrl" class="rounded-circle border border-1" style="weight:42px;height:42px;" />
                           </div>
                         </div>
                       </div>
@@ -72,24 +74,26 @@
                     </div>
                   </div>
                 </div>
-                <hr/>
+
+                <!-- <hr/>
                 <div class="container text-center">
                   <div class="row justify-content-center">
                     <div class="col-auto">
-                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#chatModal">对话</button>
+                      <font-awesome-icon :icon="['fas', 'face-smile-wink']" size="xl" style="color: #74C0FC;cursor: pointer; " data-bs-toggle="modal" data-bs-target="#emoModal"/>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
               </div>
 
+              <!-- 私聊 -->
               <div class="tab-pane fade" role="tabpanel" tabindex="0" v-for="relationshipInfo,i in relationshipInfoList" :key="i" :id="'pills-contact-'+relationshipInfo.id" >
                 <div class="container text-center">
                   <div class="row align-items-center">
                     <div class="col-2 align-middle text-center">
                       <div class="vstack align-items-center">
-                        <img :src="relationshipInfo.self?relationshipInfo.another.headPortrait.imageUrl:relationshipInfo.user.headPortrait.imageUrl" class="rounded-circle" style="max-width:64px;" />
-                        <span :class="'mt-1 badge hyld-bg-' + (relationshipInfo.self?relationshipInfo.another.grade:relationshipInfo.user.grade) + ' rounded-pill mx-auto text-center'" style="max-width: 64px;">Lv{{ relationshipInfo.self?relationshipInfo.another.grade:relationshipInfo.user.grade }}</span>
+                        <img :src="relationshipInfo.self?relationshipInfo.another.headPortrait.fileNameUrl:relationshipInfo.user.headPortrait.fileNameUrl" class="rounded-circle" style="max-width:64px;" />
+                        <span :class="'mt-1 badge ding-bg-' + (relationshipInfo.self?relationshipInfo.another.grade:relationshipInfo.user.grade) + ' rounded-pill mx-auto text-center'" style="max-width: 64px;">Lv{{ relationshipInfo.self?relationshipInfo.another.grade:relationshipInfo.user.grade }}</span>
                         <span>{{ relationshipInfo.self?relationshipInfo.another.name:relationshipInfo.user.name }}</span>
                         <span class="d-inline-block text-truncate" data-bs-toggle="popover"
                           data-bs-trigger="hover focus" :data-bs-content="relationshipInfo.self?relationshipInfo.another.note:relationshipInfo.user.note"
@@ -126,16 +130,9 @@
                     </div>
                   </div>
                 </div>
-                <hr/>
-                <div class="container text-center">
-                  <div class="row justify-content-center">
-                    <div class="col-auto">
-                      <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#chatModal" @click="chatBtn()">对话</button>
-                    </div>
-                  </div>
-                </div>
               </div>
 
+              <!-- 好友申请 -->
               <div class="tab-pane fade" role="tabpanel" id="pills-profile" tabindex="0">
                 <div class="container text-center mt-2">
                   <div class="row justify-content-center">
@@ -164,7 +161,7 @@
                             <th scope="col">操作</th>
                           </tr>
                         </thead>
-                        <tbody>
+                         <tbody class="table-group-divider">
                           <tr v-for="(relationshipInfo,i) in applicationList" :key="i">
                             <td>{{relationshipInfo.another.name}}</td>
                             <td>{{relationshipInfo.type.name }}</td>
@@ -182,17 +179,97 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- <Page :commonPage="page"  @commonPageChange="commonPageChange($event)"></Page> -->
+
               </div>
 
             </div>
+
+            <br/>
+            <div class="container text-center" v-if="this.showInput">
+              <div class="row justify-content-center">
+                <!-- 富文本 -->
+                <div class="col-auto">
+                  <font-awesome-icon :icon="['fas', 'feather-pointed']" size="xl" style="color: #6473e8;cursor: pointer;"
+                    data-bs-toggle="collapse" data-bs-target="#chatTinymceCollapse" aria-expanded="false" aria-controls="chatTinymceCollapse"/>
+                </div>
+                <!-- 表情 -->
+                <div class="col-auto">
+                  <font-awesome-icon :icon="['fas', 'face-smile-wink']" size="xl" style="color: #74C0FC;cursor: pointer; " data-bs-toggle="modal" data-bs-target="#emoticonModal" @click="getEmoticon()"/>
+                </div>
+              </div>
+            </div>
+
+            <br/>
+
+            <div class="collapse" id="chatTinymceCollapse">
+              <div class="card card-body p-0" style="border: 0;">
+
+                <!-- 富文本组件 -->
+                <div class="row justify-content-center">
+                  <div class="col">
+                    <div class="home">
+                      <ChatTinymce ref="chat" v-model="msg" @onClick="onClick"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="container text-center mt-3">
+                  <div class="row justify-content-between">
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-outline-danger me-1" @click="clear()">清空</button>
+                    </div>
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-outline-success" @click="sendMessage()">发送</button>
+                    </div>
+                  </div>
+                </div>
+                <br/>
+
+              </div>
+            </div>
+
+
+
+            <!-- 表情包弹窗 -->
+            <div class="modal fade" id="emoticonModal" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">表情</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="emoticonModalCloseBtn" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+
+                    <div class="container text-center">
+                      <div class="row justify-content-start">
+                        <div class="col-auto" v-for="emoticon in emoticonList" :key="emoticon.id">
+                          <img class="rounded" style="height: 84px" :src="emoticon.fileNameUrl" @click="sendEmoticon(emoticon.fileNameUrl)"
+                            tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" :data-bs-content="emoticon.alias">
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 表情包分页 -->
+                    <div class="row justify-content-center">
+                      <div class="col">
+                        <Page :commonPage="emoticonPage" @commonPageChange="emoticonPageChange($event)"></Page>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
       </div>
     </div>
 
+    <!-- 禁止以弹窗形式展现富文本组件 -->
     <!-- 回复弹窗 -->
-    <div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <!-- <div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
@@ -208,7 +285,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -220,6 +297,7 @@ import ChatTinymce from "@/components/ChatTinymce.vue";
 import Page from '@/components/Page.vue';
 import { getMyRelationship, addRelationship, getMyApplicationList, revoke, refuse, agree } from "../api/relationship";
 import { sendMessage, searchChat } from "../api/chat";
+import { searchResource } from "../api/resource";
 export default {
   name: "chat",
   components: {
@@ -237,6 +315,11 @@ export default {
         size: 10,
         currentPage: 1, // 偏移量,数据库从0开始
         totalPage: 0,
+      },
+      emoticonPage: {  // 表情包
+          size: 28,
+          currentPage:1, // 偏移量,数据库从0开始
+          totalPage: 0,
       },
       relationshipInfoList: [],
       applicationList: [],
@@ -256,9 +339,14 @@ export default {
       ws: null,  // WS连接
       hallInfoList: [],  // 大厅消息通知
       refreshLock: false,  // 是否自动滚到最新消息处,只有当前窗口在最底部时才自动滚动至最新消息处
+      disabledOrEnableLabel: '禁用',
+      disabled: false,
+      emoticonList: [],  // 表情
+      showInput:true,  // 是否显示富文本,表情
     }
   },
   mounted() {
+    document.title = "聊天室";
     this.init();
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
@@ -273,7 +361,11 @@ export default {
   methods: {
     commonPageChange(event) {
       this.page = event;
-      this.searchPointer();
+      this.getMyApplicationList();
+    },
+    emoticonPageChange(event) {
+      this.page = event;
+      this.getEmoticon();
     },
     showToast(response) { // 通用信息展示
       if (response.data.code == 0) {
@@ -300,6 +392,7 @@ export default {
       this.switchObj(null,0);  // 获取大厅聊天信息,即使用户没有登录
       this.getMyRelationship();
       this.createWS();
+      // this.getEmoticon();
     },
     getMyRelationship() {
       if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) {
@@ -334,6 +427,7 @@ export default {
       }
     },
     getMyApplicationList() {
+      this.showInput = false;
       this.currentRecipient = null;
       if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) {
         getMyApplicationList().then(
@@ -374,6 +468,18 @@ export default {
         )
       }
     },
+    sendEmoticon(img) {
+      if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) {
+        this.chatVo.recipient = this.currentRecipient;
+        this.chatVo.content = '<img class="rounded" style="height: 84px" src="'+img+'">';
+        this.chatVo.currentWindows = this.currentWindows;
+        this.ws.send(JSON.stringify(this.chatVo));
+        document.getElementById("emoticonModalCloseBtn").click();
+      }
+      else {
+        this.commonTip(0, "请先登录!");
+      }
+    },
     sendMessage() {
       if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) {
         this.chatVo.recipient = this.currentRecipient;
@@ -386,6 +492,7 @@ export default {
       }
     },
     switchObj(id, index) {  // 切换聊天对象
+      this.showInput = true;
       this.currentRecipient = id;
       this.currentWindows = index;
       if (this.chatList[this.currentWindows].length == 0) {  // 切换聊天窗口时,只有当数据为空时才会去请求
@@ -462,7 +569,7 @@ export default {
         var url;
         if (process.env.VUE_APP_MODE === "development") {
           console.log("development");
-          url = "ws://hyld.office.com/wsLink/linkChat/"+localStorage.getItem('authorization');  // 开发
+          url = "ws://ding.office.com/wsLink/linkChat/"+localStorage.getItem('authorization');  // 开发
         } else if (process.env.VUE_APP_MODE==="test") {
           // test
           console.log("test");
@@ -483,7 +590,7 @@ export default {
           else {  // 聊天消息
             var targetWindow = res.chatInfo.recipient.id == res.chatInfo.sender.id ? 0 : (res.chatInfo.self?res.chatInfo.recipient.id:res.chatInfo.sender.id);
             this.chatList[this.mapList.indexOf(targetWindow)].push(res.chatInfo);
-            document.getElementById("chatModalCloseBtn").click();
+            // document.getElementById("chatModalCloseBtn").click();  // 富文本组件嵌套在弹窗中时需要将其取消注解
             this.$refs.chat.textContent = "";
             this.$nextTick(() => {
               this.bottom2(this.mapList.indexOf(targetWindow));
@@ -510,6 +617,28 @@ export default {
     chatBtn() {
       console.log();
       this.$refs.chat.recipient = this.mapList[this.currentWindows];
+    },
+    disabledOrEnable(){
+      this.disabled = !this.disabled;
+      if (this.disabled) {
+        this.disabledOrEnableLabel = '启用';
+      } else {
+        this.disabledOrEnableLabel = '禁用';
+      }
+    },
+    // 清空内容
+    clear () {
+      this.$refs.chat.clear();
+    },
+    getEmoticon(){
+      searchResource(
+          Object.assign({ type: 3801 },
+              this.emoticonPage)).then(
+          response => {
+              this.emoticonList = response.data.data.data;
+              this.emoticonPage.totalPage = response.data.data.totalPage;
+          }
+      )
     },
   },
 };

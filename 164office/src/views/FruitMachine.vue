@@ -30,7 +30,7 @@
                     <img src="../assets/fruitMachine/fm-16.jpg" id="0" style="width: 80px;height: 80px;margin: 2px;border-radius: 12px;border-color: rgba(255, 129, 129, 1);border-width: 2px;border-style: solid;">
                     <img src="../assets/fruitMachine/fm-5.png" id="1" class="fm-node">
                     <img src="../assets/fruitMachine/fm-8-1.jpeg" id="2" class="fm-node">
-                    <img src="../assets/fruitMachine/fm-8.jpg" id="3" @click="bgmBtn()" class="fm-node">  <!-- 背景音乐 -->
+                    <img src="../assets/fruitMachine/fm-8.jpg" id="3" @click="bgmBtn()" class="fm-node" style="cursor: pointer;">  <!-- 背景音乐 -->
                     <img src="../assets/fruitMachine/fm-11.jpg" id="4" class="fm-node">
                     <img src="../assets/fruitMachine/fm-11-2.png" id="5" class="fm-node">
                     <img src="../assets/fruitMachine/fm-12.jpg" id="6" class="fm-node">
@@ -44,10 +44,10 @@
                     </div>
                     <div style="width: 420px;display: flex;align-items: center;justify-content: center;">  <!-- 显示总硬币 -->
                         <div>
-                            <span class="fm-coin btn" @click="showTip()">{{this.myCoin}}</span>
+                            <span class="fm-coin" @click="showTip()" style="cursor: pointer;">{{this.myCoin}}</span>
                         </div>
-                        <div class="btn">
-                            <img src="../assets/fruitMachine/fm-coin.jpeg" class="fm-node" style="width: 80px;height: 80px;margin: 2px;border-radius: 24px;" @click="startBtn()">
+                        <div>
+                            <img src="../assets/fruitMachine/fm-coin.jpeg" class="fm-node" style="width: 80px;height: 80px;margin: 2px;border-radius: 24px;cursor: pointer;" @click="startBtn()">
                         </div>
                     </div>
                     <div style="width: 84px;">
@@ -67,58 +67,58 @@
                     <img src="../assets/fruitMachine/fm-16.jpg" id="11" class="fm-node">
                 </div>
                 <hr>
-                <div class="btn">  <!-- 投注图标 -->
+                <div>  <!-- 投注图标 -->
                     <img src="../assets/fruitMachine/fm-8.jpg" class="fm-node" usemap="#map-1">
-                    <map name="map-1">
+                    <map name="map-1" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(0)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(0)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(0)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(0)">
                     </map>
                     <img src="../assets/fruitMachine/fm-9.jpg" class="fm-node" usemap="#map-2">
-                    <map name="map-2">
+                    <map name="map-2" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(1)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(1)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(1)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(1)">
                     </map>
                     <img src="../assets/fruitMachine/fm-2.png" class="fm-node" usemap="#map-3">
-                    <map name="map-3">
+                    <map name="map-3" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(2)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(2)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(2)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(2)">
                     </map>
                     <img src="../assets/fruitMachine/fm-6.png" class="fm-node" usemap="#map-4">
-                    <map name="map-4">
+                    <map name="map-4" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(3)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(3)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(3)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(3)">
                     </map>
                     <img src="../assets/fruitMachine/fm-5.png" class="fm-node" usemap="#map-5">
-                    <map name="map-5">
+                    <map name="map-5" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(4)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(4)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(4)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(4)">
                     </map>
                     <img src="../assets/fruitMachine/fm-12.jpg" class="fm-node" usemap="#map-6">
-                    <map name="map-6">
+                    <map name="map-6" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(5)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(5)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(5)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(5)">
                     </map>
                     <img src="../assets/fruitMachine/fm-16.jpg" class="fm-node" usemap="#map-7">
-                    <map name="map-7">
+                    <map name="map-7" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(6)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(6)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(6)">
                         <area shape="rect" coords="40px,40px,80px,80px" @click="subCoining(6)">
                     </map>
                     <img src="../assets/fruitMachine/fm-11.jpg" class="fm-node" usemap="#map-8">
-                    <map name="map-8">
+                    <map name="map-8" style="cursor: pointer;">
                         <area shape="rect" coords="0,0,40px,40px" @click="addTenCoining(7)">
                         <area shape="rect" coords="40px,0,80px,40px" @click="addCoining(7)">
                         <area shape="rect" coords="0,40px,40px,80px" @click="subTenCoining(7)">
@@ -319,6 +319,7 @@ export default {
     },
 
     mounted() {
+        document.title = "水果机";
 
         saveVisitLog(Object.assign({key:22}));
         // document.getElementById("main").className = "fm-bg h-100 fm-bg-"+Math.floor(Math.random()*10+1);

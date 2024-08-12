@@ -1,44 +1,39 @@
 <template>
-  <div>
+  <div id="top" style="height: 10%;">
     <header class="p-3 bg-dark text-white">
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           <a href="/">
-            <img src="../assets/home.png" class="rounded-2" style="weight:42px;height:42px;" />
+            <img src="../assets/home.png" class="rounded-2" style="width:42px;height:42px;" />
           </a>
 
           <ul class="nav col-12 col-lg-auto me-lg-auto ms-4 mb-2 justify-content-center mb-md-0">
-            <!-- <li><a href="/community" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-comments"/>&ensp;社区</a></li>
-            <li><a href="/searchTeam" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-users-line" />&ensp;搜索战队</a></li>
-            <li><a href="/searchPlayer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-regular fa-user"/>&ensp;搜索玩家</a></li> -->
-            <!-- <font-awesome-icon icon="fa-solid fa-shield-halved" /> -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font-awesome-icon :icon="['fas', 'skull']" style="color: #f1b31e;" />&ensp;BS区</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item text-black" href="/explain"><font-awesome-icon icon="fa-solid fa-book-open-reader" />&ensp;参考前必读!</a></li>
+                <li><a class="dropdown-item text-black" href="/explain"><font-awesome-icon icon="fa-solid fa-book-open-reader" style="color: #5091ce;" />&ensp;参考前必读!</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-black" href="/community"><font-awesome-icon icon="fa-regular fa-comments"/>&ensp;社区</a></li>
-                <li><a class="dropdown-item text-black" href="/searchTeam"><font-awesome-icon icon="fa-solid fa-users-line" />&ensp;搜索战队</a></li>
-                <li><a class="dropdown-item text-black" href="/searchPlayer"><font-awesome-icon icon="fa-regular fa-user"/>&ensp;搜索玩家</a></li>
+                <li><a class="dropdown-item text-black" href="/searchTeam"><font-awesome-icon icon="fa-solid fa-users-line" style="color: #50b3ce;" />&ensp;搜索战队</a></li>
+                <li><a class="dropdown-item text-black" href="/searchPlayer"><font-awesome-icon icon="fa-regular fa-user" style="color: #50bbce;"/>&ensp;搜索玩家</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-black" href="/gameRole"><font-awesome-icon icon="fa-solid fa-skull" />&ensp;游戏角色</a></li>
-                <li><a class="dropdown-item text-black" href="/gear"><font-awesome-icon icon="fa-solid fa-shield-halved" />&ensp;强化装备</a></li>
-                <li><a class="dropdown-item text-black" href="/honorRoadInfo"><font-awesome-icon icon="fa-solid fa-code-commit" />&ensp;荣誉之路奖励一览</a></li>
-                <li><a class="dropdown-item text-black" href="/heroLeagueInfo"><font-awesome-icon icon="fa-solid fa-award" />&ensp;荣誉联赛星光奖励一览</a></li>
-                <li><a class="dropdown-item text-black" href="/starlightLeagueInfo"><font-awesome-icon icon="fa-solid fa-medal" />&ensp;星光联赛奖励一览</a></li>
-                <li><a class="dropdown-item text-black" href="/goldCouponRewardInfo"><font-awesome-icon icon="fa-solid fa-timeline" />&ensp;乱斗金券奖励一览</a></li>
-                <li><a class="dropdown-item text-black" href="/clubLeagueInfo"><font-awesome-icon icon="fa-solid fa-ranking-star" />&ensp;战队竞赛奖励一览</a></li>
-                <li><a class="dropdown-item text-black" href="/officialVersionUpdateLog"><font-awesome-icon icon="fa-solid fa-clipboard" />&ensp;官方版本更新日志</a></li>
+                <li><a class="dropdown-item text-black" href="/gameRole"><font-awesome-icon icon="fa-solid fa-skull" style="color: #56c0f1;" />&ensp;游戏角色</a></li>
+                <li><a class="dropdown-item text-black" href="/gear"><font-awesome-icon icon="fa-solid fa-shield-halved"  style="color: #5956f1;"/>&ensp;强化装备</a></li>
+                <li><a class="dropdown-item text-black" href="/honorRoadInfo"><font-awesome-icon icon="fa-solid fa-code-commit" style="color: #8aaee2;" />&ensp;荣誉之路</a></li>
+                <li><a class="dropdown-item text-black" href="/heroLeagueInfo"><font-awesome-icon icon="fa-solid fa-award" style="color: #8ac6e2;" />&ensp;荣誉联赛星光</a></li>
+                <li><a class="dropdown-item text-black" href="/starlightLeagueInfo"><font-awesome-icon icon="fa-solid fa-medal" style="color: #ed4545;" />&ensp;星光联赛</a></li>
+                <li><a class="dropdown-item text-black" href="/goldCouponRewardInfo"><font-awesome-icon icon="fa-solid fa-timeline" style="color: #f8f563;" />&ensp;乱斗金券</a></li>
+                <li><a class="dropdown-item text-black" href="/clubLeagueInfo"><font-awesome-icon icon="fa-solid fa-ranking-star" style="color: #c47ced;" />&ensp;战队竞赛</a></li>
+                <li><a class="dropdown-item text-black" href="/officialVersionUpdateLog"><font-awesome-icon icon="fa-solid fa-clipboard" style="color: #6497bc;" />&ensp;官方版本更新日志</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><font-awesome-icon icon="fa-solid fa-gamepad" style="color: #9797ff;"/>&ensp;小游戏</a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item text-black" href="/gluttonousSnake"><font-awesome-icon icon="fa-solid fa-staff-snake" />&ensp;贪吃蛇</a></li>
-                <li><a class="dropdown-item text-black" href="/tetris"><font-awesome-icon icon="fa-solid fa-cubes-stacked" />&ensp;俄罗斯方块</a></li>
-                <li><a class="dropdown-item text-black" href="/mineClearance"><font-awesome-icon :icon="['fas', 'land-mine-on']" />&ensp;扫雷</a></li>
-                <li><a class="dropdown-item text-black" href="/fruitMachine"><font-awesome-icon :icon="['far', 'lemon']" />&ensp;水果机</a></li>
-                <li><a class="dropdown-item text-black" href="/chineseChess"><font-awesome-icon :icon="['far', 'chess-knight']" />&ensp;中国象棋</a></li>
+                <li><a class="dropdown-item text-black" href="#" @click="goGluttonousSnake()"><font-awesome-icon icon="fa-solid fa-staff-snake" style="color: #71289b;"/>&ensp;贪吃蛇</a></li>
+                <li><a class="dropdown-item text-black" href="#" @click="goTetris()"><font-awesome-icon icon="fa-solid fa-cubes-stacked" style="color: #a15c2e;"/>&ensp;俄罗斯方块</a></li>
+                <li><a class="dropdown-item text-black" href="#" @click="goMineClearance()"><font-awesome-icon :icon="['fas', 'land-mine-on']" style="color: #555555;"/>&ensp;扫雷</a></li>
+                <li><a class="dropdown-item text-black" href="#" @click="goFruitMachine()"><font-awesome-icon :icon="['far', 'lemon']" style="color: #ffec5f;"/>&ensp;水果机</a></li>
+                <li><a class="dropdown-item text-black" href="#"  @click="goChineseChess()"><font-awesome-icon :icon="['far', 'chess-knight']" style="color: #ff5f5f;"/>&ensp;中国象棋</a></li>
                 <!-- <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-black" href="#">more...</a></li> -->
               </ul>
@@ -46,8 +41,10 @@
             <li><a href="/pointer" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-lightbulb" style="color: #ffec59;" />&ensp;反馈与建议</a></li>
             <li><a href="/findYou" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-location-crosshairs" style="color: #f85555;" />&ensp;找到你</a></li>
             <li><a href="/blog" class="nav-link px-2 text-white"><font-awesome-icon icon="blog" style="color: #66ccff;" />&ensp;博客</a></li>
-            <li><a href="/musicList" class="nav-link px-2 text-white"><font-awesome-icon icon="fa-solid fa-music" style="color: #ff9494;" />&ensp;Music</a></li>
+            <li><a href="#" class="nav-link px-2 text-white" @click="goMusic()"><font-awesome-icon icon="fa-solid fa-music" style="color: #ff9494;" />&ensp;Music</a></li>
             <li><a href="/chat" class="nav-link px-2 text-white"><font-awesome-icon :icon="['fas', 'comment-dots']" style="color: #c0ff61;" />&ensp;聊天室</a></li>
+            <li><a href="/superBag" class="nav-link px-2 text-white"><font-awesome-icon :icon="['fab', 'get-pocket']" style="color: #009fe7;" />&ensp;百宝袋</a></li>
+            <li><a href="/community" class="nav-link px-2 text-white"><font-awesome-icon :icon="['fas', 'comments']" style="color: #73a1fc;" />&ensp;社区</a></li>
             <li v-if="weatherFlag==1"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'smog']" fade style="color: #dbdbdb;" /></a></li>
             <li v-if="weatherFlag==2"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'cloud']" fade style="color: #7cd7fe;" /></a></li>
             <li v-if="weatherFlag==3"><a href="/" class="nav-link px-2 text-white" data-bs-toggle="modal" data-bs-target="#weatherModal"><font-awesome-icon :icon="['fas', 'bolt']" fade style="color: #a680ff;" /></a></li>
@@ -99,11 +96,11 @@
                 忘记了账号与密码?<label class="blockquote-footer">通过邮箱找回账号并修改密码</label>
             </div>
             <hr/>
-            <div class="col-md mb-2">
+            <!-- <div class="col-md mb-2">
               <div class="form-floating">
                 <Strong>第三方注册/登录</Strong>
               </div>
-            </div>
+            </div> -->
             <div class="col-md mb-2">
               <div class="d-grid gap-2">
                 <button type="button" class="btn btn-outline-dark" @click="qqLogin()"><font-awesome-icon icon="fa-brands fa-qq"/>&ensp;使用QQ注册/登录</button>
@@ -303,35 +300,53 @@
       <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5"><span class="badge rounded-pill bg-primary ">{{weatherLocationInfo.name}}</span>天气详情</h1>
+            <h1 class="modal-title fs-5"><span class="badge rounded-pill bg-primary ">{{weatherLocationInfo.name}}天气</span></h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="container text-center">
               <div class="row align-items-center">
                 <div class="col-2">
-                  <h5><span class="badge bg-primary">当前天气</span>&ensp;{{weatherNowInfo.text}}</h5>
+                  <h5>
+                    <font-awesome-icon :icon="['fas', 'cloud-sun-rain']" style="color: #ff8624;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="当前天气"/>
+                    &ensp;{{weatherNowInfo.text}}
+                  </h5>
                 </div>
                 <div class="col-2">
-                  <h5><span class="badge bg-success">当前温度</span>&ensp;{{weatherNowInfo.temp}}</h5>
+                  <h5>
+                    <font-awesome-icon :icon="['fas', 'temperature-three-quarters']" style="color: #fc7373;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="当前温度"/>
+                    &ensp;{{weatherNowInfo.temp}}°
+                  </h5>
                 </div>
                 <div class="col-2">
-                  <h5><span class="badge bg-success">当前体感温度</span>&ensp;{{weatherNowInfo.feels_like}}</h5>
+                  <h5>
+                    <font-awesome-icon :icon="['fas', 'face-grin-beam']" style="color: #B197FC;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="当前体感温度"/>
+                    &ensp;{{weatherNowInfo.feels_like}}°
+                  </h5>
                 </div>
                 <div class="col-2">
-                  <h5><span class="badge bg-info">当前相对湿度</span>&ensp;{{weatherNowInfo.rh}}</h5>
+                  <h5>
+                    <font-awesome-icon :icon="['fas', 'droplet']" style="color: #a6e665;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="当前相对湿度"/>
+                    &ensp;{{weatherNowInfo.rh}}
+                  </h5>
                 </div>
                 <div class="col-2">
-                  <h5><span class="badge bg-warning">当前风力等级</span>&ensp;{{weatherNowInfo.wind_class}}</h5>
+                  <h5>
+                    <font-awesome-icon :icon="['fas', 'wind']" style="color: #a7b5fb;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="当前风力等级"/>
+                    &ensp;{{weatherNowInfo.wind_class}}
+                  </h5>
                 </div>
                 <div class="col-2">
-                  <h5><span class="badge bg-warning">当前风向</span>&ensp;{{weatherNowInfo.wind_dir}}</h5>
+                  <h5>
+                    <font-awesome-icon :icon="['fas', 'flag']" style="color: #74C0FC;" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="当前风向"/>
+                    &ensp;{{weatherNowInfo.wind_dir}}
+                  </h5>
                 </div>
                 <div class="col-12">
                   <table class="table text-center table-hover caption-top">
-                    <caption class="text-center alert-primary" role="alert">
-                        <h4><span class="badge rounded-pill bg-primary ">未来五天天气预报</span></h4>
-                    </caption>
+                    <!-- <caption class="text-center bg-primary" role="alert">
+                        <h4><span class="badge rounded-pill text-bg-primary ">未来五天天气预报</span></h4>
+                    </caption> -->
                     <thead>
                         <tr>
                             <th scope="col">日期</th>
@@ -346,14 +361,14 @@
                             <th scope="col">夜晚风向</th>
                         </tr>
                     </thead>
-                    <tbody>
+                     <tbody class="table-group-divider">
                         <tr v-for="(info, index) in weatherForecastsInfo" :key="index">
                             <th scope="row">{{ info.date }}</th>
                             <td>{{ info.week }}</td>
                             <td>{{ info.text_day }}</td>
                             <td>{{ info.text_night }}</td>
-                            <td>{{ info.high }}</td>
-                            <td>{{ info.low }}</td>
+                            <td>{{ info.high }}°</td>
+                            <td>{{ info.low }}°</td>
                             <td>{{ info.wc_day }}</td>
                             <td>{{ info.wc_night }}</td>
                             <td>{{ info.wd_day }}</td>
@@ -378,8 +393,8 @@ import bootstrap, { Modal, Toast, Popover } from 'bootstrap';
 import { register, login, checkToken,updatePassword } from '@/api/user';
 import { getPublicKey, encrypt, encryptWeb, decryptWeb, getExploreName,getWeather } from "@/api/common";
 import { sendEmailCode,emailVerify } from '@/api/emailCode';
-import { jsonp } from 'vue-jsonp';
 import Fingerprint2 from 'fingerprintjs2';
+import { useRouter } from "vue-router"; //引入useRouter
 export default {
   name: "top",
   data() {
@@ -417,6 +432,48 @@ export default {
       weatherNowInfo:{},  // 实时信息
       weatherFlag:1,
     }
+  },
+  setup() {
+    const router = useRouter();
+    let goMusic = () => {
+      let { href } = router.resolve({
+          name: "musicList",
+      });
+      window.open(href, "_blank");
+    };
+    let goGluttonousSnake = () => {
+      let { href } = router.resolve({
+          name: "gluttonousSnake",
+      });
+      window.open(href, "_blank");
+    };
+    let goTetris = () => {
+      let { href } = router.resolve({
+          name: "tetris",
+      });
+      window.open(href, "_blank");
+    };
+    let goMineClearance = () => {
+      let { href } = router.resolve({
+          name: "mineClearance",
+      });
+      window.open(href, "_blank");
+    };
+    let goFruitMachine = () => {
+      let { href } = router.resolve({
+          name: "fruitMachine",
+      });
+      window.open(href, "_blank");
+    };
+    let goChineseChess = () => {
+      let { href } = router.resolve({
+          name: "chineseChess",
+      });
+      window.open(href, "_blank");
+    };
+    return {
+      goMusic,goGluttonousSnake,goTetris,goMineClearance,goFruitMachine,goChineseChess
+    };
   },
   props: ["commonResponse"],
   updated() { //更新之后.场景:获取更新真实DOM之后
@@ -511,6 +568,9 @@ export default {
         },
       })
     },
+    // goMusic() {
+      
+    // },
     checkToken() { // 检查状态,如果存在token则请求后台检测token是否有效
       if (localStorage.getItem('authorization') != "undefined" && localStorage.getItem('authorization') != null) {
         checkToken().then( // 头部已携带
@@ -760,12 +820,13 @@ export default {
     },
     weatherFlagUpdate(now) {  // 详见 https://lbs.baidu.com/faq/api?title=webapi/download 天气取值对照表
       var time = new Date();
-      var h = time.getHours;
+      var h = time.getHours();
+      console.log("h:"+h+" w:"+now.text);
       if (['雾','轻雾','浓雾','强浓雾','霾','中度霾','重度霾','大雾','特强浓雾'].includes(now.text)) {
         this.weatherFlag = 1;  // 云+雾
       }
       else if (['多云','阴'].includes(now.text)) {
-        if (h>18||h<6) {
+        if (h>=18||h<=6) {
           this.weatherFlag = 12;  // 月亮+云
         }
         else {
@@ -776,7 +837,7 @@ export default {
         this.weatherFlag = 3;  // 闪电
       }
       else if (['晴'].includes(now.text)) {
-        if (h>18||h<6) {
+        if (h>=18||h<=6) {
           this.weatherFlag = 11;  // 月亮
         }
         else {
@@ -793,7 +854,7 @@ export default {
         this.weatherFlag = 7;  // 雪花
       }
       else if (['小雨','中雨','冻雨','小到中雨','中到大雨','雨'].includes(now.text)) {
-        if (h>18||h<6) {
+        if (h>=18||h<=6) {
           this.weatherFlag = 14;  // 雨+月亮
         }
         else {

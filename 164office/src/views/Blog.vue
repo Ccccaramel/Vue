@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="dropdown-divider"></div>
+      <hr/>
     </div>
 
     
@@ -43,19 +43,20 @@
       <div class="list-group">
         <a class="list-group-item list-group-item-action" aria-current="true" v-for="blog in blogList" :key="blog.id">
           <div class="d-flex w-100 justify-content-between btn" @click="showBlog(blog.id)">
-            <h5 class="mb-1">{{blog.title}}</h5>
-            <small>浏览量:{{blog.views}}</small>
+            <h5 class="mb-1" style="text-align: left;">{{blog.title}}</h5>
+            <small><font-awesome-icon :icon="['fas', 'eye']" style="color: #74C0FC;"/> {{blog.views}}</small>
           </div>
           <div class="row justify-content">
             <div class="col-auto">
-              <p class="mb-1">{{blog.type.name}}</p>
+              <!-- <p class="mb-1">{{blog.type.name}}</p> -->
+              <span class="badge rounded-pill bg-secondary">{{blog.type.name}}</span>
             </div>
             <div class="col-auto" v-for="blogLabel,i in strToArr(blog.label)" v-bind:key="i">
               <span class="badge bg-primary">{{blogLabel}}</span>
             </div>
           </div>
           <div class="d-flex w-100 justify-content-between">
-            <small>发布时间:{{blog.createTimeStr}}</small>
+            <small>发布于:&nbsp;{{blog.createTimeStr}}</small>
           </div>
         </a>
       </div>
@@ -78,7 +79,6 @@ import { useRouter } from "vue-router"; //引入useRouter
 import Page from '@/components/Page.vue';
 import { initBlog, searchBlog } from "../api/blog";
 import { getBlogType } from "../api/dictionary";
-import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
 export default {
   name: "blog",
@@ -123,16 +123,17 @@ export default {
     };
   },
   mounted() {
+    document.title = "博客空间";
     getBlogType().then(
-        response => {
-            this.blogTypeList = response.data.data;
-            this.blogTypeList.unshift({
-                id: '',
-                name:'无限制',
-            });
-            this.blogVo.type = '';
-            this.searchBlog();
-        }
+      response => {
+          this.blogTypeList = response.data.data;
+          this.blogTypeList.unshift({
+              id: '',
+              name:'无限制',
+          });
+          this.blogVo.type = '';
+          this.searchBlog();
+      }
     );
   },
   methods: {

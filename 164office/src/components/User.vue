@@ -32,7 +32,7 @@
         </form>
         <table class="table text-center table-hover caption-top">
 
-            <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary"></span></h4></caption>
+            <!-- <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary"></span></h4></caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -46,7 +46,7 @@
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(userInfo, index) in userInfoList" :key="userInfo.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ userInfo.id }}</td>

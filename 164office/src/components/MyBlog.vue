@@ -25,35 +25,39 @@
                 <button type="button" class="btn btn-dark" @click="searchBlogBtn()">搜索</button>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-success"  @click="writeBlog(-1)"><font-awesome-icon icon="pen-to-square" />写博客</button>
+                <button type="button" class="btn btn-success" @click="writeBlog(-1)"><font-awesome-icon icon="pen-to-square" />写博客</button>
             </div>
         </form>
 
         <div class="list-group">
-            <a :class="blog.power.id==2301?'list-group-item list-group-item-action hyld-bg-33':'list-group-item list-group-item-action hyld-bg-34'" 
+            <a :class="blog.power.id==2301?'list-group-item list-group-item-action ding-bg-33':'list-group-item list-group-item-action ding-bg-0'" 
             aria-current="true" v-for="blog in blogList" :key="blog.id">
                 <div class="d-flex w-100 justify-content-between btn" @click="showBlog(blog.id)">
-                    <h5 class="mb-1">{{blog.title}}</h5>
-                    <small>浏览量:{{blog.views}}</small>
+                    <h5 class="mb-1" style="text-align: left;">{{blog.title}}</h5>
+                    <small><font-awesome-icon :icon="['fas', 'eye']" style="color: #74C0FC;"/> {{blog.views}}</small>
                 </div>
                 <!-- 富文本字符串转义 -->
                 <!-- <div class="blog-content" v-html="blog.content"></div> -->
                 <div class="row justify-content">
                     <div class="col-auto">
-                        <p class="mb-1">{{blog.type.name}}</p>
+                        <span class="badge rounded-pill bg-secondary">{{blog.type.name}}</span>
+                        <!-- <p class="mb-1">{{blog.type.name}}</p> -->
                     </div>
                     <div class="col-auto">
-                        <p class="mb-1">{{blog.power.name}}</p>
+                        <span class="badge rounded-pill bg-success">{{blog.power.name}}</span>
+                        <!-- <p class="mb-1">{{blog.power.name}}</p> -->
                     </div>
                     <div class="col-auto" v-for="blogLabel,i in strToArr(blog.label)" v-bind:key="i">
                         <span class="badge bg-primary">{{blogLabel}}</span>
                     </div>
                 </div>
                 <div class="d-flex w-100 justify-content-between">
-                    <small>创建时间:{{blog.createTimeStr}}</small>
+                    <small>创建于:&nbsp;{{blog.createTimeStr}}&nbsp;&nbsp;&nbsp;更新于:&nbsp;{{blog.updateTimeStr}}</small>
+                    <small></small>
                     <div>
-                        <span class="badge bg-warning text-dark btn me-2" @click="writeBlog(blog.id)">编辑</span>
-                        <span class="badge bg-danger btn" @click="deleteBlog(blog.id)">删除</span>
+                        <font-awesome-icon :icon="['fas', 'pen-to-square']" style="color: #92e665;cursor: pointer;" @click="writeBlog(blog.id)"/>
+                        &nbsp;
+                        <font-awesome-icon :icon="['fas', 'trash']" style="color: #878787;cursor: pointer;" @click="deleteBlog(blog.id)"/>
                     </div>
                 </div>
             </a>

@@ -83,7 +83,6 @@
 import { Modal, Toast, Popover } from 'bootstrap';
 import Fingerprint2 from 'fingerprintjs2';
 import { getPublicKey, encrypt,encryptWeb } from "@/api/common";
-import { jsonp } from 'vue-jsonp';
 import Top from "@/components/Top.vue";
 import { qqLogin } from '@/api/user';
 import { saveVisitLog } from "../api/welcome";
@@ -118,6 +117,7 @@ export default {
     },
   },
   mounted() {
+    document.title = "第三方登录-QQ登录";
     saveVisitLog(Object.assign({key:15}));
   },
   created() {

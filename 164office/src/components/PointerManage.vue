@@ -20,12 +20,12 @@
                     <th scope="col">反馈时间</th>
                     <th scope="col">回复反馈</th>
                     <th scope="col">回复时间</th>
-                    <th scope="col">反馈状态</th>
-                    <th scope="col">备注</th>
-                    <th scope="col">操作</th>
+                    <th scope="col" style="width:10%">反馈状态</th>
+                    <th scope="col" style="width:10%">备注</th>
+                    <th scope="col" style="width:15%">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(pointer, index) in pointerList" :key="pointer.id" :class="pointer.status==1601 ?'table-danger':''">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ pointer.userInfo.id }}</td>

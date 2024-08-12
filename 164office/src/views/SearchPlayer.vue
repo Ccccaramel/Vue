@@ -31,7 +31,7 @@
                 <th scope="col">操作</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr v-for="(playerInfo,i) in playerInfoList" :key="i">
                 <th scope="row">{{i}}</th>
                 <td>{{playerInfo.scid}}</td>
@@ -68,7 +68,7 @@
                   <th scope="col">备注信息</th>
                 </tr>
               </thead>
-              <tbody>
+               <tbody class="table-group-divider">
                 <tr v-for="playerCredit in playerCreditList" :key="playerCredit.id">
                   <th>{{playerCredit.settlementTimeStr}}</th>
                   <td>{{playerCredit.credit}}</td>
@@ -155,6 +155,7 @@ export default {
     },
   },
   mounted() {
+    document.title = "荒野乱斗-玩家搜索";
     this.searchPlayerInfo();
     saveVisitLog(Object.assign({key:16}));
   },

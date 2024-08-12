@@ -10,7 +10,8 @@ const routes = [
     path: "/userCenter",
     name: "userCenter",
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      title:'34435'
     },
     component: () =>
       import("../views/UserCenter.vue"),
@@ -88,7 +89,7 @@ const routes = [
       import("../views/MusicList.vue"),
   },
   {
-    path: "/music&:musicId",
+    path: "/music&:musicId&:type",
     name: "music",
     component: () =>
       import("../views/Music.vue"),
@@ -184,10 +185,16 @@ const routes = [
       import("../views/ChineseChess.vue"),
   },
   {
-    path: "/test",
-    name: "Test",
+    path: "/updateLog",
+    name: "updateLog",
     component: () =>
-      import("../views/Test.vue"),
+      import("../views/UpdateLog.vue"),
+  },
+  {
+    path: "/superBag",
+    name: "superBag",
+    component: () =>
+      import("../views/SuperBag.vue"),
   },
 ];
 

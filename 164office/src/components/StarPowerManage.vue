@@ -22,25 +22,25 @@
                     <th scope="col">#</th>
                     <th scope="col">所属英雄</th>
                     <th scope="col">名称</th>
-                    <th scope="col">标识图</th>
-                    <th scope="col">效果</th>
-                    <th scope="col">上线时间</th>
-                    <th scope="col">创建时间</th>
+                    <th scope="col" style="width:10%">标识图</th>
+                    <th scope="col" style="width:40%">效果</th>
+                    <th scope="col" style="width:10%">上线时间</th>
+                    <th scope="col" style="width:10%">创建时间</th>
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(starPower, index) in starPowerList" :key="starPower.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ starPower.gameRole.name }}</td>
                     <td>{{ starPower.name }}</td>
-                    <td style="width:10%">
+                    <td>
                         <img class="rounded" :src="starPower.imageUrl" style="height:64px"/>
                     </td>
-                    <td style="width:40%">{{ starPower.details }}</td>
-                    <td style="width:10%">{{ starPower.launchTimeStr }}</td>
-                    <td style="width:10%">{{ starPower.createTimeStr }}</td>
-                    <td>{{ starPower.note }}</td>
+                    <td>{{ starPower.details }}</td>
+                    <td>{{ starPower.launchTimeStr }}</td>
+                    <td>{{ starPower.createTimeStr }}</td>
+                    <!-- <td>{{ starPower.note }}</td> -->
                     <td>
                         <span class="btn badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#starPowerInfoModal" @click="editStarPower(starPower)">编辑</span>
                     </td>

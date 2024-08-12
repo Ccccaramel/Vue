@@ -195,3 +195,17 @@ export function getMusicLyricStatus(){
         url: '/dictionary/getMusicLyricStatus',
     })
 }
+
+export function getMusicType(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getMusicType',
+    })
+}
+
+export function getResourceType(){
+    return request({
+        method: 'get',
+        url: '/dictionary/getResourceType',
+    })
+}

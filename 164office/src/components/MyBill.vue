@@ -4,30 +4,20 @@
         <!-- 在累计计算时没有对不同货币金额进行拆分计算 -->
         <div class="container text-center mt-2">
             <div class="row justify-content-center">
-                <div class="col">
-                    <div class="alert hyld-bg-16" role="alert">
-                        <strong>本月已消费：</strong>{{billStatistics.thisMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">本月已消费：{{billStatistics.thisMonth}}</span></h5>
                 </div>
-                <div class="col">
-                    <div class="alert hyld-bg-30" role="alert">
-                        <strong>上月消费：</strong>{{billStatistics.lastMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">上月消费：{{billStatistics.lastMonth}}</span></h5>
                 </div>
-                <div class="col">
-                    <div class="alert hyld-bg-20" role="alert">
-                        <strong>历史最高月消费：</strong>{{billStatistics.maxMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">历史最高月消费：{{billStatistics.maxMonth}}</span></h5>
                 </div>
-                <div class="col">
-                    <div class="alert hyld-bg-26" role="alert">
-                        <strong>历史最低月消费：</strong>{{billStatistics.minMonth}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">历史最低月消费：{{billStatistics.minMonth}}</span></h5>
                 </div>
-                <div class="col">
-                    <div class="alert hyld-bg-8" role="alert">
-                        <strong>总消费：</strong>{{billStatistics.total}}
-                    </div>
+                <div class="col-auto">
+                    <h5><span class="badge rounded-pill text-bg-primary">总消费：{{billStatistics.total}}</span></h5>
                 </div>
             </div>
         </div>
@@ -35,7 +25,7 @@
 
         <!-- 搜索条件 -->
         <form class="row g-3 mt-1 mb-3">
-            <div class="col-auto">
+            <div class="col-2">
                 <input type="text" class="form-control" placeholder="名称" v-model="bill.name">
             </div>
             <div class="col-auto">
@@ -74,10 +64,10 @@
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#billModal" @click="addBillBtn()">添加</button>
             </div>
         </form>
-        <table class="table table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert">
-
-                <div class="container text-center">
+        <table class="table-group-divider table table-hover caption-top">
+            <caption>
+                <h6><span class="btn badge text-bg-primary" data-bs-toggle="modal" data-bs-target="#trendModal" @click="billTrend()">消费趋势</span></h6>
+                <!-- <div class="container text-center">
                     <div class="row">
                         <div class="col-md-2 offset-md-5">
                             <h4><span class="badge rounded-pill bg-primary">我的账单</span></h4>
@@ -86,7 +76,7 @@
                             <h6><span class="btn badge bg-light text-dark" data-bs-toggle="modal" data-bs-target="#trendModal" @click="billTrend()">消费趋势</span></h6>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </caption>
             <thead class="text-center">
                 <tr>
@@ -102,11 +92,11 @@
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody class="text-center">
+            <tbody class="text-center table-group-divider">
                 <tr v-for="(billInfo, index) in billInfoList" :key="billInfo.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>
-                        <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="billInfo.name==''?'无':billInfo.name" style="max-width: 240px;">
+                        <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content='billInfo.name == "" ? "无" : billInfo.name' style="max-width: 240px;">
                             {{billInfo.name}}
                         </span>
                     </td>
@@ -115,7 +105,7 @@
                     <td>{{ billInfo.type.name }}</td>
                     <td>{{ billInfo.weight.name }}</td>
                     <td>
-                        <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="billInfo.detail==''?'无':billInfo.detail" style="max-width: 240px;">
+                        <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="billInfo.detail==''?'无':''+billInfo.detail" style="max-width: 240px;">
                             {{billInfo.detail}}
                         </span>
                     </td>

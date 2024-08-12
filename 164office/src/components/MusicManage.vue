@@ -15,6 +15,15 @@
                 </select>
             </div>
             <div class="col-auto">
+                <select class="form-select" v-model="musicInfo.type">
+                    <option
+                        v-for="musicType in musicTypeList"
+                        v-bind:key="musicType.id"
+                        :value="musicType.id">
+                        {{ musicType.name }}</option>
+                </select>
+            </div>
+            <div class="col-auto">
                 <button type="button" class="btn btn-dark" @click="cleanSearchMusicBtn()">清空</button>
             </div>
             <div class="col-auto">
@@ -38,11 +47,12 @@
                                     <th scope="col">作曲</th>
                                     <th scope="col">编曲</th>
                                     <th scope="col">演唱</th>
+                                    <th scope="col">分类</th>
                                     <th scope="col">状态</th>
                                     <th scope="col">操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                             <tbody class="table-group-divider">
                                 <tr v-for="music in musicList" :key="music.id">
                                     <th scope="row">
                                         <span class="d-inline-block text-truncate" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" :data-bs-content="music.name" style="max-width: 200px;">
@@ -72,6 +82,7 @@
                                             {{music.singer}}
                                         </span>
                                     </td>
+                                    <td>{{ music.type.name }}</td>
                                     <td>{{ music.status.name }}</td>
                                     <td>
                                         <span class="btn badge rounded-pill bg-success"
@@ -153,24 +164,39 @@
                                     <label>编曲</label>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" v-model="musicVo.singer">
                                     <label>演唱</label>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" v-model="musicVo.album">
                                     <label>所属专辑</label>
                                 </div>
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="form-floating">
                                     <input step=1 type="datetime-local" class="form-control" v-model="musicVo.releaseTime">
                                     <label>发布时间</label>
                                 </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-floating">
+                                    <select class="form-select" v-model="musicVo.type">
+                                        <option v-for="musicType in musicTypeList"
+                                            :key="musicType.id" :value="musicType.id">
+                                            {{musicType.name}}</option>
+                                    </select>
+                                    <label>分类</label>
+                                </div>
+
+                                <!-- <div class="form-floating">
+                                    <input step=1 type="datetime-local" class="form-control" v-model="musicVo.releaseTime">
+                                    <label>分类</label>
+                                </div> -->
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
@@ -239,7 +265,7 @@
                                     <th scope="col">操作</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                             <tbody class="table-group-divider">
                                 <tr v-for="musicLyric in musicLyricList" :key="musicLyric.id">
                                     <th scope="row">{{ musicLyric.number }}</th>
                                     <td>
@@ -358,7 +384,7 @@
 <script>
 import Page from '@/components/Page.vue';
 import { Toast,Popover } from 'bootstrap';
-import { getMusicStatus,getMusicLyricStatus } from "../api/dictionary";
+import { getMusicStatus,getMusicLyricStatus,getMusicType } from "../api/dictionary";
 import { searchMusic, saveMusic, restoreMusic, deleteMusic } from "../api/music";
 import { getMusicLyric,saveMusicLyric } from "../api/musicLyric";
 import { getToday } from "../api/common";
@@ -390,6 +416,7 @@ export default {
                 status: '',
             },
             musicStatusList: [],
+            musicTypeList:[],
             musicVo: {
                 title: '',
                 name: '',
@@ -451,7 +478,7 @@ export default {
     methods: {
         commonPageChange(event) {
             this.page = event;
-            this.searchMymusic();
+            this.searchMusic();
         },
         musicLyricPageChange(event) {
             this.musicLyricPage = event;
@@ -470,6 +497,9 @@ export default {
             toast.show();
         },
         init() {
+            this.initMusicStatus();
+        },
+        initMusicStatus() {
             getMusicStatus().then(
                 response => {
                     this.musicStatusList = response.data.data;
@@ -478,6 +508,15 @@ export default {
                         name:'无限制',
                     });
                     this.musicInfo.status = '';
+                    this.initMusicType();
+                }
+            ); 
+        },
+        initMusicType() {
+            getMusicType().then(
+                response => {
+                    this.musicTypeList = response.data.data;
+                    this.musicInfo.type = this.musicTypeList[0].id;
                     this.searchMusicBtn();
                 }
             );
@@ -505,6 +544,7 @@ export default {
             this.musicVo.info = musicInfo.info;
             this.musicVo.note = musicInfo.note;
             this.musicVo.audioName = musicInfo.audioName;
+            this.musicVo.type = musicInfo.type.id;
 
             document.getElementById("cover").value = '';
             this.cover = {};
@@ -519,6 +559,7 @@ export default {
             this.musicVo.mvLink = "";
             this.musicVo.album = "";
             this.musicVo.releaseTime = getToday() + 'T17:00:00';
+            this.musicVo.type = this.musicTypeList[0].id;
             this.musicVo.note = "";
             document.getElementById("cover").value = '';
             this.cover = {};

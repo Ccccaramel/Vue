@@ -6,7 +6,7 @@
             <div class="row align-items-start" v-for="(reply, i) in topicList" :key="i">
                 <div class="col-1 text-center">
                     <div>
-                        <img :src="reply.userInfo.headPortrait.imageUrl" class="rounded-circle"
+                        <img :src="reply.userInfo.headPortrait.fileNameUrl" class="rounded-circle"
                             style="weight:36px;height:36px;" />
                     </div>
                     <div>
@@ -97,7 +97,6 @@
 <script>
 import Page from '@/components/Page.vue';
 import { Modal, Toast, Popover } from 'bootstrap';
-import { jsonp } from 'vue-jsonp';
 import { searchReplyMe, saveReplyTopicInfo } from "../api/topic";
 export default {
     name: "replyMe",

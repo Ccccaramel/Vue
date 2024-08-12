@@ -68,7 +68,7 @@
                         <th scope="col" v-if="uwtInfo.playerPositionType.id==1200||uwtInfo.playerPositionType.id==1201">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr v-if="teamMemberScoreboardList.length==0">
                         <td colspan="12">
                             <div class="container">

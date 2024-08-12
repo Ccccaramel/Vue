@@ -58,7 +58,10 @@
         </div>
         <div class="col-1" v-if="hasValue(musicInfo.mvLink)">
           <div class="btn">
-            <font-awesome-icon :icon="['fab', 'bilibili']" size="xl" style="color: #42AFEF;" data-bs-toggle="modal" data-bs-target="#videoModal"  @click="openVideoModal()"/><!-- bilibili-Link -->
+            <!-- 旧:将第三方视频嵌入自己项目 -->
+            <!-- <font-awesome-icon :icon="['fab', 'bilibili']" size="xl" style="color: #42AFEF;" data-bs-toggle="modal" data-bs-target="#videoModal"  @click="openVideoModal()"/> -->
+            <!-- 新:直接连接跳转至第三方平台,好处是简单通用无需额外去适配 -->
+            <a target="_blank" :href="musicInfo.mvLink"><font-awesome-icon :icon="['fab', 'bilibili']" size="xl" style="color: #42AFEF;"></font-awesome-icon></a>
           </div>
         </div>
         <div class="col-1">
@@ -118,7 +121,7 @@
     </div>
 
     <!-- 第三方视频播放窗口 -->
-    <div class="modal fade" id="videoModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <!-- <div class="modal fade" id="videoModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -136,7 +139,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -163,7 +166,7 @@ export default {
         currentPage: 1, // 偏移量,数据库从0开始
         totalPage: 0,
       },
-      musicId: 0,  // 当前播放音乐的id
+      musicId: 1,  // 当前播放音乐的id
       play: false,
       repeat: false,
       rangeVal: 50,
@@ -175,13 +178,16 @@ export default {
       durationValue: 0,
       autoRun: true,  // 自动运动
       loop: false,
-      musicInfo: {},
+      musicInfo: {
+        name:"♪~"
+      },
       musicLyricsList: [],
       currentMusicLyricsIndex: 0,  // 下一个C位
       playList: [],
       playIndex: 0,
       light: false,  // 当点击下一首或上一首,资源加载完后需要触发播放
-      zoomVal:0,  // 当前页面缩放比
+      zoomVal: 0,  // 当前页面缩放比
+      type:3700,
     }
   },
   created() {
@@ -192,19 +198,18 @@ export default {
       this.zoomVal = 1.25;
     }
     
-
     var id = this.$route.params.musicId;
-    console.log("id:" + id);
+    var type = this.$route.params.type;
     if (id != "undefined" &&id != null) {
       this.musicId = id;
     }
-    else {
-      this.musicId = 1;
+    if (type != "undefined" &&type != null) {
+      this.type = type;
     }
     this.playList.push(this.musicId);
   },
   mounted() {
-    saveVisitLog(Object.assign({ key: 26, data: this.musicId }));
+    saveVisitLog(Object.assign({ key: 26, data: this.musicId }));  // 访问日志
     this.initMusicData();
   },
   methods: {
@@ -287,9 +292,10 @@ export default {
       document.getElementById("audioUnit").volume = this.volume;
     },
     initMusicData(getNewMusic) {
-      getMusic(Object.assign({ id:this.musicId,show:true })).then(
+      getMusic(Object.assign({ id:this.musicId,show:true,type:this.type })).then(
         response => {
           this.musicInfo = response.data.data.data;
+          document.title =this.musicInfo.name;
           this.musicLyricsList = this.musicInfo.musicLyricInfoList;
           if (getNewMusic) {
             this.playList.push(this.musicInfo.id);
@@ -348,13 +354,13 @@ export default {
       this.playIndex++;
       this.initMusicData(getNewMusic);
     },
-    openVideoModal() {
-      this.playOrPause(false);
-    },
-    closeVideoModal() {
-      this.playOrPause(true);
-      this.$refs.mvVideo.contentWindow.postMessage('{"method":"pause"}', '*');  
-    },
+    // openVideoModal() {
+    //   this.playOrPause(false);
+    // },
+    // closeVideoModal() {
+    //   this.playOrPause(true);
+    //   this.$refs.mvVideo.contentWindow.postMessage('{"method":"pause"}', '*');  
+    // },
     hasValue(str) {
       if (str!=null&&str!='') {
         return true;

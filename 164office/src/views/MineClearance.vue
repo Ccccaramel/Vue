@@ -50,7 +50,7 @@ export default {
         }
     },
     mounted() {
-
+        document.title = "扫雷";
         saveVisitLog(Object.assign({ key: 23 }));
         
         this.width = (this.lv * 6) * this.size + 20;

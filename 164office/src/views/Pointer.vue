@@ -19,12 +19,12 @@
                 <div class="row align-items-start">
                   <div class="col-auto text-center">
                     <div class="vstack">
-                      <img :src="pointer.userInfo.headPortrait.imageUrl" class="rounded-circle" style="width: 3rem;" />
+                      <img :src="pointer.userInfo.headPortrait.fileNameUrl" class="rounded-circle" style="width: 3rem;" />
                       <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
                         :data-bs-content="pointer.userInfo.name" style="max-width: 3rem;">
                         {{pointer.userInfo.name}}
                       </span>
-                      <span :class="'badge hyld-bg-' + pointer.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ pointer.userInfo.grade }}</span>
+                      <span :class="'badge ding-bg-' + pointer.userInfo.grade + ' rounded-pill mx-auto text-center'">Lv{{ pointer.userInfo.grade }}</span>
                     </div>
                   </div>
                   <div class="col">
@@ -33,10 +33,10 @@
                       {{pointer.text}}
                     </span>
                     <br />
-                    <small>发表于:{{pointer.createTimeStr}}&emsp;{{pointer.address}}</small>
+                    <small>{{pointer.createTimeStr}}&emsp;{{pointer.address}}</small>
 
                     <!-- 回复 -->
-                    <div class="container list-group list-group-item-primary" v-if="pointer.replyText!=null">
+                    <div class="container list-group-item list-group-item-primary" v-if="pointer.replyText!=null">
                       <div class="row align-items-start">
                         <div class="col-auto text-center ms-2 mt-1 pe-0">
                           <span>
@@ -108,7 +108,6 @@ import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
 import { saveVisitLog } from "../api/welcome";
 import { searchPointer, savePointer } from "../api/pointer";
-import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
 export default {
   name: "pointer",
@@ -137,6 +136,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "反馈与建议";
     this.searchPointer();
     saveVisitLog(Object.assign({key:14}));
   },

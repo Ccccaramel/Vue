@@ -53,7 +53,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <div class="badge rounded-pill bg-primary" style="font-size:larger">{{uwtInfo.team.teamName}}</div>
+                                <div class="badge rounded-pill alert-primary" style="font-size:larger">{{uwtInfo.team.teamName}}</div>
                                 <h5 class="modal-title" id="batchCreditAddModalToggleLabel">批量队员积分录入</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
@@ -61,7 +61,7 @@
                                 <div class="col-md mb-2 text-center">
                                     <button class="btn btn-outline-dark" data-bs-target="#singleCreditAddModalToggle" data-bs-toggle="modal">切换至单个成员积分录入</button>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr/>
                                 <div class="col-md mb-2">
                                     <div class="container">
                                         <div class="row justify-content-center">
@@ -136,7 +136,7 @@
                                     <button class="btn btn btn-outline-dark" data-bs-target="#batchCreditAddModalToggle"
                                         data-bs-toggle="modal">切换至批量队员积分录入</button>
                                 </div>
-                                <div class="dropdown-divider"></div>
+                                <hr/>
                                 <div class="col-md mb-2">
                                     <div class="container">
                                         <div class="row justify-content-center">
@@ -208,9 +208,9 @@
                 </div>
             </div>
             <table class="table text-center table-hover caption-top">
-                <caption class="text-center alert-primary" role="alert">
+                <!-- <caption class="text-center alert-primary" role="alert">
                     <h4><span class="badge rounded-pill bg-primary ">{{creditImportInfo.teamName}}</span></h4>
-                </caption>
+                </caption> -->
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -224,7 +224,7 @@
                         <th scope="col" v-if="uwtInfo.playerPositionType.id==1200||uwtInfo.playerPositionType.id==1201">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr v-for="(teamMemberCredit, index) in teamMemberCreditList" :key="teamMemberCredit.creditId"
                         :class="Number(teamMemberCredit.creditTypeId) ==200 ? '': 'table-warning'">
                         <th scope="row">{{ index + 1 }}</th>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 社区 -->
     <Top ref="top" :commonResponse="commonResponseData"></Top>
     <div class="container">
 
@@ -20,12 +21,12 @@
 
                   <div class="col-auto text-center">
                     <div class="vstack text-center">
-                      <img :src="topic.userInfo.headPortrait.imageUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
+                      <img :src="topic.userInfo.headPortrait.fileNameUrl" class="rounded-circle text-center mx-auto d-block" style="max-width: 3rem;"/>
                       <span class="d-inline-block text-truncate" data-bs-toggle="popover" data-bs-trigger="hover focus"
                         :data-bs-content="topic.userInfo.name" style="max-width: 5rem;">
                         {{topic.userInfo.name}}
                       </span>
-                      <span :class="'badge hyld-bg-' + topic.userInfo.grade + ' rounded-pill mx-auto text-center'" style="max-width: 3rem;">Lv{{ topic.userInfo.grade }}</span>
+                      <span :class="'badge ding-bg-' + topic.userInfo.grade + ' rounded-pill mx-auto text-center'" style="max-width: 3rem;">Lv{{ topic.userInfo.grade }}</span>
                     </div>
                   </div>
 
@@ -125,7 +126,6 @@ import { Modal,Toast, Popover } from 'bootstrap';
 import { useRouter } from "vue-router"; //引入useRouter
 import Top from "@/components/Top.vue";
 import Page from '@/components/Page.vue';
-import { jsonp } from 'vue-jsonp';
 import { checkToken } from "@/api/user";
 import { searchTopic, saveTopic } from "@/api/topic";
 import { saveVisitLog } from "../api/welcome";
@@ -199,6 +199,7 @@ export default {
     };
   },
   mounted() {
+    document.title = "社区";
     this.refresh();
     getCommunityNotice().then(
       response => {

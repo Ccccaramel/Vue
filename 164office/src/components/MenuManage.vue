@@ -2,9 +2,13 @@
     <div class="tab-pane fade" id="list-menuManage" role="tabpanel" aria-labelledby="list-menuManage-list">
         <!-- 菜单树 与 编辑菜单 -->
         <form class="row g-3 mt-1 mb-3">
+
+            
+
             <div class="col-4 alert alert-primary">
+                <div class="overflow-y-auto" style="height: 520px">
                 <TreeMenu :list="menuTreeInfo" @menuOperation="menuOperation($event)"></TreeMenu>
-            </div>
+            </div></div>
             <div class="col-8">
                 <div class="mb-3 row">
                     <label class="col-2 col-form-label">节点名称</label>

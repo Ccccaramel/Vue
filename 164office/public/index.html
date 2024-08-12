@@ -9,30 +9,24 @@
   <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
   <meta http-equiv="<%= process.env.VUE_APP_CSP %>" content="<%= process.env.VUE_APP_UIR %>">
 
-  <meta name="description" content="ding!office!,164office,164office.cn,个人网站,包含博客区,音乐区,在线聊天,小游戏区,荒野乱斗社区等,内置简易账单模块,欢迎使用。">
-  <meta name="keywords" content="ding!office!,164office,164office.cn,个人网站,包含博客区,音乐区,在线聊天,小游戏区,荒野乱斗社区等,内置简易账单模块,欢迎使用。">
+  <meta name="description" content="ding!office!,164office,164office.cn,个人网站,包含博客区,音乐区,在线聊天,小游戏区,社区等,内置简易账单模块,欢迎使用。">
+  <meta name="keywords" content="ding!office!,164office,164office.cn,个人网站,包含博客区,音乐区,在线聊天,小游戏区,社区等,内置简易账单模块,欢迎使用。">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
-  <!-- <link href="<%= BASE_URL %>sidebars.css" rel="stylesheet"> -->
-  <!-- <script src="<%= BASE_URL %>bootstrap.bundle.min.js"></script> -->
   <script src="<%= BASE_URL %>feather.min.js"></script>
   <script src="<%= BASE_URL %>Chart.min.js"></script>
-  <!-- <script src="<%= BASE_URL %>cheatsheet.js"></script> -->
-  <!-- <link href="<%= BASE_URL %>cheatsheet.css" rel="stylesheet"> -->
-  <!-- <script src="<%= BASE_URL %>cheatsheet.css"></script> -->
-  <!-- <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script> --><!-- 弃用 -->
   <!-- 第三方登录-qq -->
   <script type="text/javascript" charset="utf-8" src="http://connect.qq.com/qc_jssdk.js" data-appid="102029041" data-redirecturi="https://www.164office.cn/qqLogin"></script>
 </head>
 
-<body class="h-100">
+<body class="h-100 bg">
   <noscript>
     <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>
   </noscript>
-  <div id="app" class="h-100">
+  <div id="app" style="height: 100%;">
   </div>
 </body>
 

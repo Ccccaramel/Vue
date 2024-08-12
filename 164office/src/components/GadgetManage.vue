@@ -16,21 +16,21 @@
             </div>
         </form>
         <table class="table text-center table-hover caption-top">
-            <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary "></span></h4></caption>
+            <!-- <caption class="text-center alert-primary" role="alert"><h4><span class="badge rounded-pill bg-primary "></span></h4></caption> -->
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">所属英雄</th>
+                    <th scope="col" style="width:10%">所属英雄</th>
                     <th scope="col">名称</th>
                     <th scope="col">标识图</th>
-                    <th scope="col">效果</th>
-                    <th scope="col">每场使用次数</th>
-                    <th scope="col">上线时间</th>
-                    <th scope="col">创建时间</th>
+                    <th scope="col" style="width:40%">效果</th>
+                    <th scope="col">可用次数</th>
+                    <th scope="col" style="width:10%">上线时间</th>
+                    <th scope="col" style="width:10%">创建时间</th>
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(gadget, index) in gadgetList" :key="gadget.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ gadget.gameRole.name }}</td>
@@ -38,11 +38,11 @@
                     <td>
                         <img class="rounded" :src="gadget.imageUrl" style="height:64px"/>
                     </td>
-                    <td style="width:40%">{{ gadget.details }}</td>
+                    <td>{{ gadget.details }}</td>
                     <td>{{ gadget.duraMax }}</td>
-                    <td style="width:10%">{{ gadget.launchTimeStr }}</td>
-                    <td style="width:10%">{{ gadget.createTimeStr }}</td>
-                    <td>{{ gadget.note }}</td>
+                    <td>{{ gadget.launchTimeStr }}</td>
+                    <td>{{ gadget.createTimeStr }}</td>
+                    <!-- <td>{{ gadget.note }}</td> -->
                     <td>
                         <span class="btn badge rounded-pill bg-primary" data-bs-toggle="modal" data-bs-target="#gadgetInfoModal" @click="editGadget(gadget)">编辑</span>
                     </td>

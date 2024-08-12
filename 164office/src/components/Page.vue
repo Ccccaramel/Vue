@@ -1,7 +1,8 @@
 <template>
   <div>
     <!-- 分页 -->
-    <div class="dropdown-divider"></div>
+    <hr/>
+
     <nav>
         <ul class="pagination justify-content-center">
             <li class="page-item me-1">

@@ -18,7 +18,7 @@
                     <th scope="col">操作</th>
                 </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
                 <tr v-for="(roleInfo, index) in roleInfoList" :key="roleInfo.id">
                     <th scope="row">{{ index + 1 }}</th>
                     <td>{{ roleInfo.id }}</td>

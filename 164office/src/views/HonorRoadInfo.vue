@@ -20,7 +20,7 @@
                 <th scope="col">奖励(2022/12/13 记录)</th>
               </tr>
             </thead>
-            <tbody>
+             <tbody class="table-group-divider">
               <tr>
                 <td rowspan="14">0-499</td>
                 <td rowspan="14"></td>
@@ -1889,6 +1889,7 @@ export default {
     }
   },
   mounted() {
+    document.title = "荒野乱斗-荣誉之路奖励一览";
     saveVisitLog(Object.assign({key:12}));
   },
   methods: {

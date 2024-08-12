@@ -66,7 +66,8 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.searchGear();
-    saveVisitLog(Object.assign({key:8}));
+    saveVisitLog(Object.assign({ key: 8 }));
+    document.title = "荒野乱斗-强化装备";
   },
   updated() { //更新之后.场景:获取更新真实DOM之后
     /**

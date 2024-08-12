@@ -54,8 +54,17 @@
       </div>
 
       <div class="row justify-content" id="blogLabelListDiv">
+
+
+
         <div class="col-auto" v-for="blogLabel,i in blogLabelList" v-bind:key="i">
-          <span class="badge bg-primary">{{blogLabel}} <span class="badge bg-secondary btn" @click="deleteBlogLabel(i)">X</span></span>
+
+          <span class="badge d-flex p-2 align-items-center text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+            <span class="px-1">{{blogLabel}}</span>
+            <a href="#">
+              <font-awesome-icon :icon="['far', 'circle-xmark']" @click="deleteBlogLabel(i)"/>
+            </a>
+          </span>
         </div>
       </div>
 
@@ -183,6 +192,7 @@ export default {
     );
   },
   mounted() {
+    document.title = "博客编辑";
     saveVisitLog(Object.assign({key:3}));
     this.$refs.editor.blogId = this.blogId;
 
